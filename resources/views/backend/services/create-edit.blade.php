@@ -109,15 +109,6 @@
 		                            	<input type="checkbox" name="status" value="1" checked> Hiển thị
 		                            @endif
 		                        </label>
-
-		                        <label class="custom-checkbox">
-		                        	@if(isUpdate(@$module['action']))
-		                            	<input type="checkbox" name="show_home" value="1" {{ @$data->show_home == 1 ? 'checked' : null }}> Hiển thị ngoài trang chủ
-		                            @else
-		                            	<input type="checkbox" name="show_home" value="1" checked> Hiển thị ngoài trang chủ
-		                            @endif
-		                        </label>
-
 							</div>
 							
 		                    <div class="form-group text-right">
@@ -125,7 +116,25 @@
 		                    </div>
 		                </div>
 					</div>
-                    
+                    <div class="box box-success">
+                        <div class="box-header with-border">
+		                    <h3 class="box-title">Danh mục dịch vụ</h3>
+		                </div>
+		                <div class="box-body checkboxlist">
+                           	@if(@$module['action'] =='update')
+			                    <?php  
+					      			if(old('category')){
+					      				$value = old('category');
+					      			}else{
+					      				$value  = $array_id;
+					      			}
+					      			menuMultiEditPost($categories,0,$str='',$value);
+					      		?>
+                           	@else
+                           		<?php menuMultiEditPost($categories,0,$str='',old('category')); ?>
+		                    @endif
+		                </div>
+		            </div>
 		            <div class="box box-success">
 		                <div class="box-header with-border">
 		                    <h3 class="box-title">Ảnh dịch vụ</h3>

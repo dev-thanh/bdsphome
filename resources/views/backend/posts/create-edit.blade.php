@@ -18,9 +18,7 @@
 		                    <li class="active">
 		                        <a href="#activity" data-toggle="tab" aria-expanded="true">Thông tin tin tức</a>
 		                    </li>
-							<li class="">
-		                        <a href="#activity2" data-toggle="tab" aria-expanded="true">Tag</a>
-		                    </li>
+							
 							<li class="">
 		                    	<a href="#setting" data-toggle="tab" aria-expanded="true">Cấu hình seo</a>
 		                    </li>
@@ -61,52 +59,6 @@
 		                    	</div>
 							</div>
 							
-							<div class="tab-pane active" id="activity2">
-		                    	<div class="row">
-									<div class="repeater" id="repeater">
-										<table class="table table-bordered table-hover tag">
-											<thead>
-												<tr>
-													<th style="width: 30px">STT</th>
-													<th style="width: 200px">Tiêu đề</th>
-													<th>Link</th>
-													<th></th>
-												</tr>
-											</thead>
-											<tbody id="sortable">
-												@if (!empty(@$data->tag))
-													@foreach (json_decode($data->tag) as $id => $val)
-														<tr>
-															<td class="index">{{ $index = $loop->index + 1  }}</td>
-															<td>
-																<div class="form-group">
-																	<input type="text" class="form-control" required="" name="tag[{{$id}}][title]" value="{{ @$val->title }}">
-																</div>
-															</td>
-															<td>
-																<div class="form-group">
-																	<input type="text" class="form-control" required="" name="tag[{{$id}}][link]" value="{{ @$val->link }}">
-																</div>
-															</td>
-															
-															<td style="text-align: center;">
-																<a href="javascript:void(0);" onclick="$(this).closest('tr').remove()" class="text-danger buttonremovetable" title="Xóa">
-																	<i class="fa fa-minus"></i>
-																</a>
-															</td>
-														</tr>
-													@endforeach
-												@endif
-											</tbody>
-										</table>
-										<div class="text-right">
-											<button class="btn btn-primary" 
-												onclick="repeater(event,this,'{{ route('get.layout') }}','.index', 'tag', '.tag')">Thêm
-											</button>
-										</div>
-									</div>
-								</div>
-							</div>
 
 							<div class="tab-pane" id="setting">
 		                    	<div class="form-group">
@@ -150,22 +102,15 @@
 		                        	@if(isUpdate(@$module['action']))
 		                            	<input type="checkbox" name="status" value="1" {{ @$data->status == 1 ? 'checked' : null }}> Hiển thị
 		                            	<br>
-		                            	<input type="checkbox" name="hot" value="1" {{ @$data->hot == 1 ? 'checked' : null }}> Bài viết nên đọc
+		                            	<input type="checkbox" name="hot" value="1" {{ @$data->hot == 1 ? 'checked' : null }}> Hiển thị ngoài trang chủ
 		                            @else
 		                            	<input type="checkbox" name="status" value="1" checked> Hiển thị
 		                            	<br>
-		                            	<input type="checkbox" name="hot" value="1"> Bài viết nên đọc
+		                            	<input type="checkbox" name="hot" value="1" checked> Hiển thị ngoài trang chủ
 		                            @endif
 		                        </label>
 							</div>
-							<div class="form-group">
-								<label for="">Số thứ tự hiển thị</label>
-								<input type="number" name="stt" value="" class="form-control">
-							</div>
-							<div class="form-group">
-								<label for="">Số phút đọc bài viết</label>
-								<input type="number" name="minute" value="{{ old('minute', @$data->minute) }}" class="form-control">
-							</div>
+							
 		                    <div class="form-group text-right">
 		                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Lưu lại tin tức</button>
 		                    </div>
@@ -203,29 +148,6 @@
 		                                <a href="javascript:void(0)" class="image__delete" onclick="urlFileDelete(this)">
 		                                    <i class="fa fa-times"></i></a>
 		                                <input type="hidden" value="{{ old('image', @$data->image) }}" name="image"/>
-		                                <div class="image__button" onclick="fileSelect(this)">
-		                                	<i class="fa fa-upload"></i>
-		                                    Upload
-		                                </div>
-		                            </div>
-		                        </div>
-		                    </div>
-		                </div>
-		            </div>
-
-					<div class="box box-success">
-		                <div class="box-header with-border">
-		                    <h3 class="box-title">Hình ảnh đầu bài viết</h3>
-		                </div>
-		                <div class="box-body">
-		                    <div class="form-group" style="text-align: center;">
-		                        <div class="image">
-		                            <div class="image__thumbnail">
-		                                <img src="{{ !empty(@$data->image_top) ? @$data->image_top : __IMAGE_DEFAULT__ }}"
-		                                     data-init="{{ __IMAGE_DEFAULT__ }}">
-		                                <a href="javascript:void(0)" class="image__delete" onclick="urlFileDelete(this)">
-		                                    <i class="fa fa-times"></i></a>
-		                                <input type="hidden" value="{{ old('image_top', @$data->image_top) }}" name="image_top"/>
 		                                <div class="image__button" onclick="fileSelect(this)">
 		                                	<i class="fa fa-upload"></i>
 		                                    Upload

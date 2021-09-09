@@ -13,11 +13,11 @@
     </a>
 </li>
 
-<li class="treeview {{ Request::segment(2) === 'category' || Request::segment(2) === 'products' ||  Request::segment(2) === 'product-attributes' || Request::segment(2) === 'brand' || Request::segment(2) === 'category-filter' || Request::segment(2) === 'filter' ? 'active' : null }}">
+<li class="treeview {{ Request::segment(2) === 'categories-projects' || Request::segment(2) === 'projects' ? 'active' : null }}">
 
     <a href="#">
 
-        <i class="fa fa-tags" aria-hidden="true"></i> <span>Sản phẩm</span>
+        <i class="fa fa-tags" aria-hidden="true"></i> <span>Dự án</span>
 
         <span class="pull-right-container">
 
@@ -31,32 +31,17 @@
 
 
 
-        <li class="{{ Request::segment(2) === 'products' ? 'active' : null }}">
+        <li class="{{ Request::segment(2) === 'projects' ? 'active' : null }}">
 
-            <a href="{{ route('products.index') }}"><i class="fa fa-circle-o"></i> Danh sách sản phẩm</a>
-
-        </li>
-
-
-
-        <li class="{{ Request::segment(2) === 'category' ? 'active' : null }}">
-
-            <a href="{{ route('category.index') }}"><i class="fa fa-circle-o"></i> Danh mục sản phẩm</a>
-
-        </li>
-
-
-        <li class="{{ Request::segment(2) === 'product-attributes' ? 'active' : null }}">
-
-            <a href="{{ route('product-attributes.index') }}"><i class="fa fa-circle-o"></i> Thuộc tính sản phẩm</a>
+            <a href="{{ route('projects.index') }}"><i class="fa fa-circle-o"></i> Danh sách dự án</a>
 
         </li>
 
 
 
-        <li class="{{ Request::segment(2) === 'category-filter' ? 'active' : null }}">
+        <li class="{{ Request::segment(2) === 'categories-projects' ? 'active' : null }}">
 
-            <a href="{{ route('list-category-filter') }}"><i class="fa fa-circle-o"></i> Bộ lọc</a>
+            <a href="{{ route('categories-projects.index') }}"><i class="fa fa-circle-o"></i> Danh mục dự án</a>
 
         </li>
 
@@ -64,13 +49,39 @@
 
 </li>
 
-<li class="{{ Request::segment(2) == 'orders' ? 'active' : null  }}">
+<li class="treeview {{ Request::segment(2) === 'category' || Request::segment(2) === 'services' ? 'active' : null }}">
 
-    <a href="{{ route('order.index') }}">
+    <a href="#">
 
-        <i class="fa fa-line-chart" aria-hidden="true"></i> <span>Đơn hàng</span>
+        <i class="fa fa-tags" aria-hidden="true"></i> <span>Dịch vụ</span>
+
+        <span class="pull-right-container">
+
+        <i class="fa fa-angle-left pull-right"></i>
+
+        </span>
 
     </a>
+
+    <ul class="treeview-menu">
+
+
+
+        <li class="{{ Request::segment(2) === 'services' ? 'active' : null }}">
+
+            <a href="{{ route('services.index') }}"><i class="fa fa-circle-o"></i> Danh sách dịch vụ</a>
+
+        </li>
+
+
+
+        <li class="{{ Request::segment(2) === 'category' ? 'active' : null }}">
+
+            <a href="{{ route('category.index') }}"><i class="fa fa-circle-o"></i> Danh mục dịch vụ</a>
+
+        </li>
+
+    </ul>
 
 </li>
 
@@ -111,16 +122,6 @@
         </span>
     </a>
 </li>
-
-<!-- <li class="{{ Request::segment(2) == 'banks' ? 'active' : null  }}">
-
-    <a href="{{ route('banks.index') }}">
-
-        <i class="fa fa-building" aria-hidden="true"></i> <span>Tài khoản ngân hàng</span>
-
-    </a>
-
-</li> -->
 
 <li class="header">Cấu hình hệ thống</li>
 <li class="treeview {{ Request::segment(2) === 'options' || Request::segment(2) === 'menu' || Request::segment(2) === 'policy' ? 'active' : null }}">

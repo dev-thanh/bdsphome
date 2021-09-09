@@ -9,7 +9,7 @@ class Services extends Model
     protected $table = 'services';
 
     protected $fillable = [ 
-        'name', 'slug' , 'desc' , 'content' , 'image' , 'more_image' , 'stt', 'view', 'status' , 'meta_title' , 'meta_description' , 'meta_keyword', 'is_new', 'type','show_home'
+        'name', 'slug' , 'desc' , 'content' , 'image' , 'status' , 'meta_title' , 'meta_description' , 'meta_keyword', 'type'
 	];
 
     public function category()

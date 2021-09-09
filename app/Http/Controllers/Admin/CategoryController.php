@@ -29,7 +29,7 @@ class CategoryController extends Controller
 
     protected function module(){
         return [
-            'name' => 'Danh mục sản phẩm',
+            'name' => 'Danh mục dịch vụ',
             'module' => 'category',
             'table' =>[
                 'name' => [
@@ -52,7 +52,7 @@ class CategoryController extends Controller
     public function index()
     {
         $data['module'] = $this->module();
-        $data['data'] = Categories::where('type', 'product_category')->get();
+        $data['data'] = Categories::where('type', 'service_category')->get();
         return view("backend.{$this->module()['module']}.list", $data);
     }
 
@@ -64,7 +64,7 @@ class CategoryController extends Controller
     public function create()
     {
         $data['module'] = $this->module();
-        $data['categories'] = Categories::where('type', 'product_category')->get();
+        $data['categories'] = Categories::where('type', 'service_category')->get();
         return view("backend.{$this->module()['module']}.create-edit", $data);
     }
 
@@ -78,16 +78,18 @@ class CategoryController extends Controller
     {
         $this->validate($request, $this->fields(), $this->messages());
 
-        $post_check_sulg = Categories::where('slug', $request->slug)->where('type', 'product_category')->first();
+        $post_check_sulg = Categories::where('slug', $request->slug)->where('type', 'service_category')->first();
         if (!empty($post_check_sulg)) {
             return redirect()->back()->withInput()->withErrors(['Đường đẫn tĩnh này đã tồn tại.']);
         }
 
         $input = $request->all();
 
-        $input['type'] = 'product_category';
+        $input['type'] = 'service_category';
 
         $input['teamplate'] = $request->teamplate == 1 ? 1 : null;
+
+        $input['show_home'] = $request->show_home == 1 ? 1 : null;
 
         $input['meta_banner'] = json_encode( $request->meta_orthers );
 
@@ -111,7 +113,7 @@ class CategoryController extends Controller
             'action' => 'update'
         ]);
 
-        $data['categories'] = Categories::where('id', '!=', $id)->where('type', 'product_category')->get();
+        $data['categories'] = Categories::where('id', '!=', $id)->where('type', 'service_category')->get();
 
         $data['data'] = Categories::findOrFail($id);
 
@@ -130,7 +132,7 @@ class CategoryController extends Controller
 
         $this->validate($request, $this->fields(), $this->messages());
 
-        $post_check_sulg = Categories::where('slug', $request->slug)->where('id', '!=', $id)->where('type', 'product_category')->first();
+        $post_check_sulg = Categories::where('slug', $request->slug)->where('id', '!=', $id)->where('type', 'service_category')->first();
         if (!empty($post_check_sulg)) {
             return redirect()->back()->withInput()->withErrors(['Đường đẫn tĩnh này đã tồn tại.']);
         }
@@ -139,6 +141,8 @@ class CategoryController extends Controller
         $input['meta_banner'] = json_encode( $request->meta_orthers );
 
         $input['teamplate'] = $request->teamplate == 1 ? 1 : null;
+
+        $input['show_home'] = $request->show_home == 1 ? 1 : null;
 
         Categories::findOrFail($id)->update($input);
 

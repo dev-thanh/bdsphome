@@ -30,10 +30,14 @@
 							
 						</div>
 					</div>
+					
 					<div class="nav-tabs-custom">
 				        <ul class="nav nav-tabs">
 				            <li class="active">
 				            	<a href="#seo" data-toggle="tab" aria-expanded="true">Cấu hình trang</a>
+				            </li>
+							<li class="">
+				            	<a href="#seo2" data-toggle="tab" aria-expanded="true">Mô tả đầu trang</a>
 				            </li>
 				        </ul>
 				    </div>
@@ -42,22 +46,7 @@
 							<div class="row">
 								<div class="col-sm-2">
 									<div class="form-group">
-			                           <label>Hình ảnh</label>
-			                           <div class="image">
-			                               <div class="image__thumbnail">
-			                                   <img src="{{ $data->image ?  url('/').$data->image : __IMAGE_DEFAULT__ }}"  
-			                                   data-init="{{ __IMAGE_DEFAULT__ }}">
-			                                   <a href="javascript:void(0)" class="image__delete" onclick="urlFileDelete(this)">
-			                                    <i class="fa fa-times"></i></a>
-			                                   <input type="hidden" value="{{ @$data->image }}" name="image"  />
-			                                   <div class="image__button" onclick="fileSelect(this)"><i class="fa fa-upload"></i> Upload</div>
-			                               </div>
-			                           </div>
-			                       </div>
-								</div>
-								<div class="col-sm-2">
-									<div class="form-group">
-			                           <label>Banner</label>
+			                           <label>Hình ảnh Banner</label>
 			                           <div class="image">
 			                               <div class="image__thumbnail">
 			                                   <img src="{{ $data->banner ?  url('/').$data->banner : __IMAGE_DEFAULT__ }}"  
@@ -70,6 +59,22 @@
 			                           </div>
 			                       </div>
 								</div>
+								<div class="col-sm-2">
+									<div class="form-group">
+			                           <label>Hình ảnh đại diện</label>
+			                           <div class="image">
+			                               <div class="image__thumbnail">
+			                                   <img src="{{ $data->image ?  url('/').$data->image : __IMAGE_DEFAULT__ }}"  
+			                                   data-init="{{ __IMAGE_DEFAULT__ }}">
+			                                   <a href="javascript:void(0)" class="image__delete" onclick="urlFileDelete(this)">
+			                                    <i class="fa fa-times"></i></a>
+			                                   <input type="hidden" value="{{ @$data->image }}" name="image"  />
+			                                   <div class="image__button" onclick="fileSelect(this)"><i class="fa fa-upload"></i> Upload</div>
+			                               </div>
+			                           </div>
+			                       </div>
+								</div>
+								
 								<div class="col-sm-8">
 									<div class="form-group">
 										<label for="">Tiêu đề trang</label>
@@ -78,7 +83,7 @@
 									<div class="form-group">
 										<label for="">Mô tả trang</label>
 										<textarea name="meta_description" 
-										class="form-control content" rows="5">{!! @$data->meta_description !!}</textarea>
+										class="form-control" rows="5">{!! @$data->meta_description !!}</textarea>
 									</div>
 									<div class="form-group">
 										<label for="">Từ khóa</label>
@@ -87,6 +92,18 @@
 								</div>
 							</div>
 			            </div>
+						<?php $content = json_decode($data->content); ?>
+						<div class="tab-pane" id="seo2">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<label for="">Nội dung</label>
+										<textarea class="content" name="content[header]" 
+										class="form-control" rows="5">{!! @$content->header !!}</textarea>
+									</div>
+								</div>
+							</div>
+						</div>
 			           <button type="submit" class="btn btn-primary">Lưu lại</button>
 			        </div>
 				</form>

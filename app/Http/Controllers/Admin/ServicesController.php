@@ -26,9 +26,7 @@ class ServicesController extends Controller
     {
         return [
             'name.required' => 'Tên dịch vụ không được bỏ trống.',
-            'image.required' => 'Bạn chưa chọn hình ảnh dịch vụ.',
-            // 'price.required' => 'Bạn chưa nhập giá cho sản phẩm.',
-            
+            'image.required' => 'Bạn chưa chọn hình ảnh dịch vụ.'
         ];
     }
 
@@ -45,7 +43,10 @@ class ServicesController extends Controller
                     'title' => 'Tên dịch vụ', 
                     'with' => '',
                 ],
-
+                'category' => [
+                    'title' => 'Danh mục sản phẩm', 
+                    'with' => '200px',
+                ],
                 'status' => [
                     'title' => 'Trạng thái', 
                     'with' => '100px',
@@ -80,6 +81,15 @@ class ServicesController extends Controller
 
                     .'<a href="'.url('').'/dich-vu/'.$data->slug.'" target="_blank">'.url('').'/dich-vu/'.$data->slug.'</a>';
                     
+                })->addColumn('category', function ($data) {
+                    $label = null;
+
+                    if(count($data->category)){
+                        foreach ($data->category as $item) {
+                            $label = $label. '<span class="label label-success">'.$item->name.'</span><br>';
+                        }
+                    }
+                    return $label;
                 })->addColumn('status', function ($data) {
                     $status = '';
                     if ($data->status == 1) {
@@ -87,22 +97,19 @@ class ServicesController extends Controller
                     } else {
                         $status = ' <span class="label label-danger">Không hiển thị</span>';
                     }
-                    if ($data->show_home == 1) {
-                        $status .= ' <br><span class="label label-success">Hiển thị trang chủ</span>';
-                    } else {
-                        $status .=' <br><span class="label label-danger">Không hiển thị trang chủ</span>';
-                    }
+                   
                     return $status;
                 })->addColumn('action', function ($data) {
                     return '<a href="' . route('services.edit', ['id' => $data->id]) . '" title="Sửa">
-                            <i class="fa fa-pencil fa-fw"></i> Sửa
-                        </a> &nbsp; &nbsp; &nbsp;
+                            <span class="label label-primary">Sửa <i class="fa fa-pencil fa-fw"></i></span>
+                        </a> &nbsp;
                             <a href="javascript:;" class="btn-destroy" 
                             data-href="' . route('services.destroy', $data->id) . '"
                             data-toggle="modal" data-target="#confim">
-                            <i class="fa fa-trash-o fa-fw"></i> Xóa</a>
+                            <span class="label label-danger">Xóa <i class="fa fa-trash-o fa-fw"></i></span>
+                        </a>
                         ';
-                })->rawColumns(['checkbox', 'image', 'status', 'action', 'name'])
+                })->rawColumns(['checkbox', 'image', 'status', 'action', 'name', 'category'])
                 ->addIndexColumn()
                 ->make(true);
         }
@@ -121,7 +128,7 @@ class ServicesController extends Controller
 
         $data['module'] = $this->module();
 
-        $data['categories'] = Categories::where('type', 'category_services')->get();
+        $data['categories'] = Categories::where('type', 'service_category')->get();
         
         return view("backend.{$this->module()['module']}.create-edit", $data);
     }
@@ -140,15 +147,18 @@ class ServicesController extends Controller
 
         $data['slug'] = $this->createSlug(str_slug($request->name));
 
-        $data['more_image'] = !empty($request->gallery) ? json_encode($request->gallery) : null;
-
         $data['status'] = $request->status == 1 ? 1 : null;
 
-        $input['show_home'] = $request->show_home == 1 ? 1 : null;
+        $service = Services::create($data);
 
-        $product = Services::create($data);
+        if(!empty($request->category)){
 
-        $this->updateOrder();
+            foreach ($request->category as $item) {
+
+                ServicesCategory::create(['id_category'=> $item, 'id_services'=> $service->id ]);
+
+            }
+        }
 
         flash('Thêm mới thành công.')->success();
 
@@ -167,9 +177,11 @@ class ServicesController extends Controller
             'action' => 'update'
         ]);
 
-        $data['categories'] = Categories::where('type','category_services')->get();
+        $data['categories'] = Categories::where('type','service_category')->get();
 
         $data['data'] = Services::findOrFail($id);
+
+        $data['array_id'] = ServicesCategory::where('id_services',$id)->pluck('id_category')->toArray();
 
         return view("backend.{$this->module()['module']}.create-edit", $data);
     }
@@ -183,15 +195,9 @@ class ServicesController extends Controller
 
         $input = $request->all();
 
-        $input['more_image'] = !empty($request->gallery) ? json_encode($request->gallery) : null;
-
         $input['status'] = $request->status == 1 ? 1 : null;
-
-        $input['show_home'] = $request->show_home == 1 ? 1 : null;
         
         $product = Services::findOrFail($id)->update($input);
-
-        $this->updateOrder();
 
         if(!empty($request->category)){
 
@@ -207,19 +213,6 @@ class ServicesController extends Controller
         flash('Cập nhật thành công.')->success();
 
         return redirect()->route($this->module()['module'].'.index',['type'=>$request->type]);
-
-    }
-
-    public function updateOrder()
-    {
-        $data = Services::orderBy('stt')->orderBy('updated_at', 'DESC')->get();
-        $index = 0;
-        foreach ($data as $cate) {
-            $index = $index + 1;
-            $update = Services::find($cate->id);
-            $update->stt = $index;
-            $update->save();
-        }
 
     }
 

@@ -1,176 +1,360 @@
+@section('css')
+	<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v11.0&appId=1472426692944496&autoLogAppEvents=1" nonce="cRcsDDJ3"></script>
+	<link rel="stylesheet" href="{{ __BASE_URL__ }}/css/pages/detail__news.css" />
+    <link rel="stylesheet" href="{{ __BASE_URL__ }}/css/pages/cm__new.css" />
+@endsection
 @extends('frontend.master')
 @section('main')
+<style>
+	.fb_iframe_widget_fluid_desktop, .fb_iframe_widget_fluid_desktop span, .fb_iframe_widget_fluid_desktop iframe {
+            max-width: 100% !important;
+            width: 100% !important;
+ }
+</style>
 	<main id="main">
-		<section class="container">
-			<ul class="breadcrumb__global">
-				<li>
-					<a href="{{route('home.index')}}" title="trang chủ">
-					Trang chủ
-					</a>
-				</li>
-				<li>
-					<a href="{{route('home.news')}}" title="Tin tức">
-					Tin tức
-					</a>
-				</li>
-			</ul>
+		<section class="page__banner" style="background-image: url('images/slide__1.jpg')">
+			<div class="container">
+				<div class="header__global">
+					<div class="item__global">
+						<h1 class="title__global">Tin tức</h1>
+					</div>
+					<ul class="breadcrumb">
+						<li>
+							<a href="{{route('home.index')}}" title="Trang chủ">
+								Trang chủ
+							</a>
+						</li>
+						<li>
+							<a href="{{route('home.news')}}" title="Tin tức">
+								Tin tức
+							</a>
+						</li>
+						<li>
+							<a title="Tin tức">
+								{{$data->name}}
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+		<section class="control__global">
+			<div class="container">
+				<div class="bs-tab">
+					<div class="tab-container">
+						<div class="tab-control">
+							<ul class="control-list">
+								<li class="control-list__item " tab-show="#real-estate">
+									Bất động sản
+								</li>
+								<li class="control-list__item " tab-show="#project">
+									Dự án
+								</li>
+								<li class="control-list__item active" tab-show="#news">
+									Tin tức
+								</li>
+							</ul>
+						</div>
+						<div class="tab-content">
+							<div class="tab-item " id="real-estate">
+								<form class="form__control">
+									<div class="form__header">
+										<div class="form__item">
+											<select class="select__control">
+												<option value="1">
+													Loại Bất động sản
+												</option>
+												<option value="">Nhà phố</option>
+												<option value="">Đất nền</option>
+												<option value="">
+													Căn hộ chung cư
+												</option>
+												<option value="">
+													Đất bất động sản nghỉ dưỡng
+												</option>
+												<option value="">
+													Đất xây nhà xưởng, khu công nghiệp.
+												</option>
+												<option value="">
+													Đất nghĩa trang.
+												</option>
+											</select>
+											<div class="form__checkout">
+												<label for="check__1">
+													<input type="radio" class="input__raido" checked="checked" id="check__1" name="name__radio" />
+													<span class="checked">
+														Bán
+													</span>
+												</label>
+												<label for="check__2">
+													<input type="radio" class="input__raido" id="check__2" name="name__radio" />
+													<span class="checked">
+														Cho thuê
+													</span>
+												</label>
+											</div>
+										</div>
+										<div class="form__item">
+											<div class="form__search">
+												<input type="text" class="input__search" placeholder="Nhập từ khoá cần tìm..." />
+												<button class="btn btn__search">
+													<img src="images/icons/icon__search.png" alt="icon__search.png" />
+													Tìm kiếm
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="form__body">
+										<div class="form__item">
+											<select class="select__control">
+												<option value="0">Tỉnh/Thành</option>
+												<option value="1">Hà Nội</option>
+												<option value="2">Hưng Yên</option>
+												<option value="3">Vĩnh Phúc</option>
+												<option value="4">Hòa Bình</option>
+												<option value="5">Mộc châu</option>
+											</select>
+										</div>
+										<div class="form__item">
+											<select class="select__control">
+												<option value="0">Quận/Huyện</option>
+												<option value="1">Thạch Thất</option>
+												<option value="2">Đan Phượng</option>
+												<option value="3">Sơn Tây</option>
+												<option value="4">Quốc Oai</option>
+											</select>
+										</div>
+										<div class="form__item">
+											<select class="select__control">
+												<option value="0">Phường/Xã</option>
+												<option value="1">Hương Ngải</option>
+												<option value="2">Kim Quan</option>
+											</select>
+										</div>
+										<div class="form__item">
+											<select class="select__control">
+												<option value="0">Khoảng Giá</option>
+												<option value="1">1 tỷ - 2 tỷ</option>
+												<option value="2">
+													3 tỷ - 4 tỷ/option>
+												</option>
+											</select>
+										</div>
+										<div class="form__item action ">
+											<button type="button" class="btn btn__click">
+												Thu gọn
+											</button>
+											<button type="reset" class="btn btn__reset">
+												<img src="images/icons/icon__reset.png" alt="icon__reset.png" />
+											</button>
+										</div>
+									</div>
+									<div class="form__footer active">
+										<div class="form__item">
+											<select class="select__control">
+												<option value="0">Diện tích</option>
+												<option value="1">67 m²</option>
+												<option value="2">67 m²</option>
+											</select>
+										</div>
+										<div class="form__item">
+											<select class="select__control">
+												<option value="0">Hướng</option>
+											</select>
+										</div>
+										<div class="form__item">
+											<select class="select__control">
+												<option value="0">Số phòng ngủ</option>
+											</select>
+										</div>
+										<div class="form__item">
+											<select class="select__control">
+												<option value="0">Dự án</option>
+											</select>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="tab-item " id="project">
+								<form class="form__control">
+									<div class="form__header">
+										<div class="form__item">
+											<select class="select__control">
+												<option value="1">
+													Đang khởi động
+												</option>
+												<option value="">Nhà phố</option>
+												<option value="">Đất nền</option>
+												<option value="">
+													Căn hộ chung cư
+												</option>
+												<option value="">
+													Đất bất động sản nghỉ dưỡng
+												</option>
+												<option value="">
+													Đất xây nhà xưởng, khu công nghiệp.
+												</option>
+												<option value="">
+													Đất nghĩa trang.
+												</option>
+											</select>
+										</div>
+										<div class="form__item">
+											<div class="form__search">
+												<input type="text" class="input__search" placeholder="Nhập từ khoá cần tìm..." />
+												<button class="btn btn__search">
+													<img src="images/icons/icon__search.png" alt="icon__search.png" />
+													Tìm kiếm
+												</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="tab-item active" id="news">
+								<form class="form__control">
+									<div class="form__header">
+										<div class="form__item">
+											<select class="select__control">
+												<option value="1">
+													Tin động sản
+												</option>
+												<option value="">Nhà phố</option>
+												<option value="">Đất nền</option>
+												<option value="">
+													Căn hộ chung cư
+												</option>
+												<option value="">
+													Đất bất động sản nghỉ dưỡng
+												</option>
+												<option value="">
+													Đất xây nhà xưởng, khu công nghiệp.
+												</option>
+												<option value="">
+													Đất nghĩa trang.
+												</option>
+											</select>
+										</div>
+										<div class="form__item">
+											<div class="form__search">
+												<input type="text" class="input__search" placeholder="Nhập từ khoá cần tìm..." />
+												<button class="btn btn__search">
+													<img src="images/icons/icon__search.png" alt="icon__search.png" />
+													Tìm kiếm
+												</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</section>
 		<section class="detail__new">
 			<div class="container">
-				<div class="module module-detail__new">
-					<div class="module__header">
-						<h2 class="title">
-							{{$data->name}}
-						</h2>
-						<ul class="info__tag">
-							@foreach($data->category as $item)
-							<li>{{$item->name}}</li>
-							@endforeach
-							@if(!empty($data->minute))
-							<li>{{$data->minute}} phút đọc</li>
-							@endif
-							<li>{{Carbon\Carbon::parse($data->created_at)->translatedFormat('d, M, Y')}}</li>
-						</ul>
+				<div class="detail">
+					<h1 class="detail__title">
+						{{$data->name}}
+					</h1>
+					<div class="detail__time">
+						<time class="item">
+							Ngày đăng: {{format_datetime($data->created_at,'d/m/Y')}}
+						</time>
 					</div>
-					<div class="module__content">
-						<div class="detail__main">
-							<div class="detail__main-avata">
-								<img src="{{url('/').$data->image_top}}" alt="{{$data->name}}"/>
-							</div>
-							<div class="detail__main-content">
-								<div class="detail__main-share">
-									<div class="share__box">
-										<h3 class="share__title">Chia sẻ:</h3>
-										<ul class="share__group">
-											<li>
-												<a target="_blank" href="http://www.facebook.com/sharer.php?s=100&amp;p[title]=<?php echo urlencode($data->name);?>&amp;p[summary]=<?php echo urlencode($data->desc) ?>&amp;p[url]=<?php echo urlencode(url()->current()); ?>&amp;p[images][0]=<?php echo urlencode($data->image); ?>" class="fa fa-facebook" aria-hidden="true"></a>
-											</li>
-											<li>
-												<a href="#" class="fa fa-instagram" aria-hidden="true"></a>
-											</li>
-											<li>
-												<a target="_blank" href="https://twitter.com/share?url={{urlencode(url()->current())}}&text={{$data->title}}" class="fa fa-twitter" aria-hidden="true">
-												<img src="" alt=""/>
-												</a>
-											</li>
-										</ul>
-									</div>
-								</div>
-								@if(!empty(@$data->tag))
-								<div class="detail__main-desc">
-									{!! $data->content !!}
-									<div class="detail__main-tage">
-										@foreach(json_decode($data->tag) as $item)
-										<a href="{{$item->link}}" class="tage__item">
-											{{$item->title}}
-										</a>
-										@endforeach
-									</div>
-								</div>
-								@endif
+					<div class="detail__share">
+						<a href="#" class="share__item">
+							<img src="{{url('/')}}/public/images/icons/share__1.png" alt="share__1.png" />
+						</a>
+						<a href="#" class="share__item">
+							<img src="{{url('/')}}/public/images/icons/share__2.png" alt="share__2.png" />
+						</a>
+						<a href="#" class="share__item">
+							<img src="{{url('/')}}/public/images/icons/share__3.png" alt="share__3.png" />
+						</a>
+					</div>
+					<div class="detail__desc">
+						{!! $data->content !!}
+						<div class="facebook__comment">
+							<div class="fb-box">
+								<div class="fb-comments" data-href="{{url()->current()}}#services" data-width="100%" data-numposts="3"></div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</section>
-		@if(count($posts_hot))
-		<section class="you-should__read">
+		@if(count($new_same_category))
+		<section class="new__same">
 			<div class="container">
-				<div class="module module-you-should__read">
-					<div class="module__header">
-						<h2 class="title">
-							Bạn nên đọc
+				<div class="header__global">
+					<div class="item__global">
+						<h2 class="title__global">
+							Bài viết tương tự
 						</h2>
 					</div>
-					<div class="module__content">
-						<div class="row">
-							@foreach($posts_hot as $item)
-							<div class="col-12 col-xs-6 col-sm-6 col-md-4">
-								<a href="{{route('home.news-single',['slug'=>$item->slug])}}" class="post" title="{{$item->name}}">
-									<div class="post__content">
-										<h3 class="post__title">
-											{{$item->name}}
-										</h3>
-										<ul class="post__tage">
-											@foreach($item->category as $val)
-											<li>
-												{{$val->name}}
-											</li>
-											@endforeach
-											<li>
-											{{ @$item->created_at->diffForHumans() }}
-											</li>
-										</ul>
-									</div>
-									<div class="post__avata">
-										<div class="frame">
-											<img src="{{url('/').$item->image}}" alt="{{$item->name}}">
-										</div>
-									</div>
+				</div>
+				<div class="module__content">
+					<div class="same__slide">
+						@foreach($new_same_category as $item)
+						<div class="same__item">
+							<div class="same__box">
+								<a href="{{route('home.news-single',['slug'=>$item->slug])}}" class="frame">
+									<img src="{{url('/').$item->image}}" alt="{{$item->name}}" />
 								</a>
-							</div>
-							@endforeach
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		@endif
-		@if(count($products_hot))
-		<section class="should__user">
-			<div class="container">
-				<div class="module module-should__user">
-					<div class="module__header">
-						<h2 class="title">
-							Sản phẩm bạn nên dùng
-						</h2>
-					</div>
-					<div class="module__content">
-						<div class="row">
-							@foreach($products_hot as $item)
-							<div class="col-12 col-xs-6 col-sm-6 col-md-3">
-								<div class="product__global">
-									<div class="product__avata-global">
-										<a href="{{route('home.single.product',['slug'=>$item->slug])}}" class="frame" title="Eye Rescue Stick">
-										<img class="img__global" src="{{url('/').$item->image}}" alt="{{$item->name}}"/>
-										<img class="img__hover-global" src="{{url('/').$item->image_hover}}" alt="{{$item->name}}"/>
+								<div class="same__content">
+									<time class="same__time">
+										{{format_datetime($item->created_at,'d/m/Y')}}
+									</time>
+									<h3 class="same__title">
+										<a href="{{route('home.news-single',['slug'=>$item->slug])}}" title="{{$item->name}}">
+											{{$item->name}}
 										</a>
-									</div>
-									<div class="product__content-global">
-										<div class="product__function-global">
-											<?php $cate = $item->category;
-												$string1 = '';
-												foreach($cate as $k => $val){
-													if($k!=0){
-														$string1=$string1.', '.$val->name;
-													}else{
-														$string1=$string1.$val->name;
-													}
-												}
-											?>
-											{{$string1}}
-										</div>
-										<h3 class="product__title-global">
-											<a href="{{route('home.single.product',['slug'=>$item->slug])}}" title="{{$item->name}}">
-												{{$item->name}}
-											</a>
-										</h3>
-										<div class="product__price-global">
-											<span class="global__price">
-											{{ number_format($item->regular_price, 0, '.', '.') }}VND
-											</span>
-										</div>
-									</div>
+									</h3>
 								</div>
 							</div>
-							@endforeach
 						</div>
+						@endforeach
 					</div>
 				</div>
 			</div>
 		</section>
 		@endif
 	</main>
-
+@endsection
+@section('script')
+	<script>
+		$(document).ready(function() {
+			sameNews = () => {
+				$(".same__slide").slick({
+					dots: false,
+					slidesToShow: 4,
+					slidesToScroll: 4,
+					arrows: false,
+					autoplay: true,
+					responsive: [{
+						breakpoint: 991.98,
+						settings: {
+							slidesToShow: 3,
+							slidesToScroll: 3
+						}
+					}, {
+						breakpoint: 600,
+						settings: {
+							slidesToShow: 2,
+							slidesToScroll: 2
+						}
+					}, {
+						breakpoint: 480,
+						settings: {
+							slidesToShow: 1,
+							slidesToScroll: 1
+						}
+					}, ]
+				});
+			};
+			sameNews();
+		});
+	</script>
 @endsection

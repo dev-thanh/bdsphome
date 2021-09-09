@@ -46,6 +46,7 @@
                             <th>STT</th>
                             <th>hình ảnh</th>
                             <th>Tên dịch vụ</th>
+                            <th>Danh mục dịch vụ</th>
                             <th>Trạng thái</th>
                             <th>Thao tác</th>
                             
@@ -97,6 +98,7 @@
                     // {data: 'DT_RowIndex',name: 'DT_RowIndex'},
                     {data: 'image', name: 'image'},
                     {data: 'name', name: 'name'},
+                    {data: 'category', name: 'category'},
                     {data: 'status', name: 'status'},
                     {data: 'action', name: 'action'},
 

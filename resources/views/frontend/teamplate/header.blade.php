@@ -4,150 +4,266 @@
     $search = request()->search !='' ? request()->search : '';
    //dd($site_info);
 ?>
+<style>
+    .modal__author .content-modal .body-modal .form__register .btn__captcha{
+        width: unset;
+    }
+</style>
 <header id="header">
-	<div class="container">
-		<div class="header__top">
-			<h1 class="logo">
-				<a href="{{route('home.index')}}" class="logo__link" title="beheshop">
-					<img src="{{ __BASE_URL__ }}/images/icons/icon__logo.png" alt="icon__logo.png"/>
-				</a>
-			</h1>
-			<div class="header__control">
-				<div class="header__control-item header__search">
-					<a href="{{route('home.search')}}" class="search">
-
-						<img src="{{ __BASE_URL__ }}/images/icons/icon__search.svg" alt="icon__search.svg"/>
-
-					</a>
-				</div>
-                @if(auth()->guard('customer')->check())
-                    <div class="header__control-item header__auth">
-                        <a href="{{route('home.profile')}}">
-                            <button class="btn" type="button">
-                                <img src="{{ __BASE_URL__ }}/images/icons/icons__user.svg" alt="icons__user.svg"/>
-                            </button>
-                        </a>
+    <div class="header-body @if(request()->route()->getName()=='home.about') header__active @endif">
+        <div class="container">
+            <div class="header__banner">
+                <a href="index.html" class="logo" title="gco Group">
+                    <img src="https://tpl.gco.vn/bds/images/icons/icon__logo.png" alt="icon__logo.png" />
+                </a>
+                <div class="header__contact">
+                    <a href="tel:+(84) 36 956 0246" title="+(84) 36 956 0246">
+                        +(84) 36 956 0246
+                    </a>
+                    <a href="mailto:info@dland.vn" title="info@dland.vn">info@dland.vn
+                    </a>
+                </div>
+                <div class="box__menu">
+                    <div class="box__container">
+                        <ul class="menu">
+                            <li class="menu__list active">
+                                <a href="index.html" class="menu__link" title="Trang chủ">
+                                    Trang chủ
+                                </a>
+                            </li>
+                            <li class="menu__list ">
+                                <a href="page__aboutUs.html" class="menu__link" title="Giới thiệu">
+                                    Giới thiệu
+                                </a>
+                            </li>
+                            <li class="menu__list ">
+                                <a href="page__realEstate.html" class="menu__link" title="Bất động sản">
+                                    Bất động sản
+                                </a>
+                            </li>
+                            <li class="menu__list ">
+                                <a href="page__service.html" class="menu__link" title="Dịch vụ">
+                                    Dịch vụ
+                                </a>
+                            </li>
+                            <li class="menu__list ">
+                                <a href="page__project.html" class="menu__link" title="Dự án">
+                                    Dự án
+                                </a>
+                            </li>
+                            <li class="menu__list ">
+                                <a href="page__news.html" class="menu__link" title="Tin tức">
+                                    Tin tức
+                                </a>
+                            </li>
+                            <li class="menu__list ">
+                                <a href="page__contact.html" class="menu__link" title="Liên hệ">
+                                    Liên hệ
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                @else
-                    <div class="header__control-item header__auth">
-                        <button class="btn" type="button" modal-show="show" modal-data="#auThModal">
-                            <img src="{{ __BASE_URL__ }}/images/icons/icons__user.svg" alt="icons__user.svg"/>
-                        </button>
-                    </div>
-                @endif
-				<div class="header__control-item header__cart">
-					<button class="btn header__cart-link" title="Giỏ hàng" type="button" modal-show="show" modal-data="#cartModal">
-						<img src="{{ __BASE_URL__ }}/images/icons/icon__cart.svg" alt="icon__cart.svg"/>
-						<span class="cart__total cart__count">
-							{{Cart::count()}}
-						</span>
-					</button>
-				</div>
-			</div>
-		</div>
-        @if(request()->route()->getName() !='home.register' && request()->route()->getName() !='home.login')
-            <div class="header__scroll">
-                <div class="container">
-                    <div class="header__group">
-                        <div class="addon-menu">
-                            <div class="addon-menu__container">
-                                <ul class="menu">
-                                    @foreach($menuHeader as $k =>$item)
-                                        @if ($item->parent_id == null)
-                                        <li class="menu__list @if($item->url=='/'.$routename) active @elseif($item->url=='/' && $routename=='/') active @endif">
-                                            <a href="{{url('/').$item->url}}" class="menu__item" title="{{$item->title}}">
-                                                {{$item->title}}
-                                            </a>
-                                        </li>
-                                        @endif
-                                    @endforeach
-                                </ul>
+                </div>
+                @if(Auth::guard('customer')->check())
+                    <div class="author">
+                        <div class="author__header" id="toggleAuthor">
+                            <span class="author__use">
+                                <img src="{{url('/').'/public/images/avatar/'.auth('customer')->user()->image}}" alt="user__1.png" />
+                            </span>
+                            <span class="__name"> {{auth('customer')->user()->name}} </span>
+                        </div>
+                        <div class="author__body" id="bodyAuthor">
+                            <div class="author__group">
+                                <div class="author__avatar">
+                                    <img src="{{url('/').'/public/images/avatar/'.auth('customer')->user()->image}}" alt="images/us__1.png" />
+                                </div>
+                                <div class="author__content">
+                                    <h3>{{auth('customer')->user()->name}}</h3>
+                                    <p>Nhà môi giới</p>
+                                </div>
                             </div>
+                            <ul>
+                                <li>
+                                    <a href="admin-post.html" title=" Quản lý tin đăng">Quản lý tin đăng</a>
+                                </li>
+                                <li>
+                                    <a href="admin-user.html" title="Quản lý tài khoảng">Quản lý tài khoản</a>
+                                </li>
+                                <li>
+                                    <a href="admin-change-password.html" title="Đổi mật khẩu">Đổi mật khẩu</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('home.logout')}}" title="Đăng xuất">Đăng xuất</a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                </div>
-            </div>
-        @endif
-	</div>
-</header>
-<div class="bs-modal" id="auThModal">
-    <div class="modal-frame">
-        <div class="content-modal">
-
-            <div class="body-modal">
-                <p>
-                    Tạo tài khoản hoặc đăng nhập để xem đơn đặt hàng hoặc điều chỉnh thông tin cá nhân của bạn.
-                </p>
-            </div>
-            <div class="footer-modal">
-                <div class="cart__control">
-                    <a href="{{route('home.register')}}" class="btn btn__view-cart">
-                        Tạo tài khoản
-                    </a>
-                    <a href="{{route('home.login')}}" class="btn btn__cart-play"> Đăng nhập </a>
-                </div>
+                @else
+                <a href="javascript:void(0)" class="btn btn__login" title="Đăng nhập" modal-show="show" modal-data="#author">
+                    Đăng nhập
+                </a>
+                @endif
+                <button type="button" class="btn btn__menu">&#9776;</button>
             </div>
         </div>
     </div>
-</div>
-<div class="bs-modal" id="cartModal">
-    <div class="modal-frame modal-left">
-        <form class="content-modal">
-            <div class="header-modal">
-                <h3 class="modal__title">Giỏ hàng của bạn</h3>
-                <button title="close" modal-show="close" class="btn close__modal">
-                    <img src="{{ __BASE_URL__ }}/images/icons/x.svg" alt="x.svg" />
-                </button>
-            </div>
-            <div class="body-modal">
-                @if (Cart::count())
-                <div class="card__body">
-                    @foreach (Cart::content() as $item)
-                    <div class="cart__group cart-group_{{$item->rowId}}">
-                        <div class="cart__avata">
-                            <a href="#" class="frame">
-                            <img src="{{url('/').@$item->options->image}}" alt="{{$item->name}}" />
+</header>
+
+<div class="bs-modal modal__author" id="author">
+    <div class="modal-frame">
+        <div class="content-modal">
+            <!-- login -->
+            <div id="logIn">
+                <div class="header-modal">
+                    <a href="index.html" class="modal__logo" title="trang chủ">
+                        <img src="https://tpl.gco.vn/bds/images/icons/icon__logo-2.png" alt="icon__logo-2.png" />
+                    </a>
+                    <span title="close" modal-show="close" class="close__modal">
+                        x
+                    </span>
+                </div>
+                <div class="body-modal">
+                    <form class="form__modal" action="{{route('home.post-login')}}" method="POST">
+                        @csrf
+                        <input type="tex" placeholder="Tên đăng nhập" name="email"/>
+                        <span class="fr-error fr-error_name"></span>
+                        <div class="form__group">
+                            <input id="inputPass" type="password" placeholder="Mật khẩu" name="password"/>
+                            <span class="fr-error fr-error_password"></span>
+                            <button type="button" class="btn icon" id="btnShowPass">
+                                <img src="https://tpl.gco.vn/bds/images/icons/icon__view.png" alt="icon__view.png" />
+                            </button>
+                        </div>
+                        <span class="fr-error fr-error_login_error"></span>
+                        <button type="button" class="btn btn__send btn_send_login">
+                            Đăng nhập
+                        </button>
+
+                        <div class="group__pas">
+                            <label class="memory__check" for="check__ps">
+                                <input type="checkbox" id="check__ps" />
+                                <span>
+                                    Nhớ tài khoản
+                                </span>
+                            </label>
+                            <a class="forgot__pass" href="#" class="#">
+                                Quên mật khẩu
                             </a>
                         </div>
-                        <div class="cart__content">
-                            <h2 class="cart__title">{{$item->name}}</h2>
-                            <div class="cart__size">{{@$item->options->volume}}</div>
-                            <div class="cart__price">
-                                <span class="price"> {{ number_format($item->price, 0, '.', '.') }}VND </span>
-                                @if(!empty(@$item->options->sale_price))
-                                <span class="sale"> Giảm {{@$item->options->sale_price}}% </span>
-                                @endif
-                            </div>
-                            <div class="cart__form">
-                                <input type="number" name="qty" data-id="{{$item->rowId}}" value="{{$item->qty}}" />
-                                <span class="pr__color" style="background-color:{{@$item->options->color}}" title="màu sắc"></span>
-                                <button class="btn btn__delete btn__delete_cart_item" data-rowid="{{$item->rowId}}" data-type="2">Xóa</button>
-                            </div>
+
+                        <div class="modal__action">
+                            <a href="#">
+                                <span class="icon">
+                                    <img src="https://tpl.gco.vn/bds/images/icons/icon__facebook-modal.png" alt="icon__facebook-modal.png" />
+                                </span>
+                                <span class="span__text">
+                                    Đăng nhập bằng
+                                    <br />Facebook
+                                </span>
+                            </a>
+                            <a href="#">
+                                <span class="icon">
+                                    <img src="https://tpl.gco.vn/bds/images/icons/icon__google-modal.png" alt="icon__google-modal.png" />
+                                </span>
+                                <span class="span__text">
+                                    Đăng nhập bằng
+                                    <br />
+                                    Google
+                                </span>
+                            </a>
                         </div>
-                    </div>
-                    @endforeach
+                    </form>
                 </div>
-                @endif
-            </div>
-            <div class="footer-modal">
-                @if (Cart::count())
-                <div class="cart__total cart_empty">
-                    <span class="cart__total-name"> Tạm tính </span>
-                    <span class="cart__total-number"> {{number_format(Cart::total(), 0, '.', '.')}}VND </span>
-                </div>
-                @else
-                <div class="cart__total">
-                    Chưa có sản phẩm nào trong giỏ hàng
-                </div>
-                @endif
-                <div class="cart__control">
-                    <a href="{{route('home.cart')}}" class="btn btn__view-cart">
-                        Xem giỏ hàng
+                <div class="footer-modal">
+                    <p>Bạn chưa có tài khoản?</p>
+                    <a href="javascript:void(0)" class="toggleAuthor">
+                        Đăng ký ngay
                     </a>
-                    <a href="{{route('home.check-out1')}}" class="btn btn__cart-play"> Thanh toán </a>
                 </div>
-                
             </div>
-        </form>
+            <!-- end login -->
+        
+            <!-- registration -->
+            <div id="registration">
+                <div class="header-modal">
+                    <a href="index.html" class="modal__logo" title="trang chủ">
+                        <img src="https://tpl.gco.vn/bds/images/icons/icon__logo-2.png" alt="icon__logo-2.png" />
+                    </a>
+                    <span title="close" modal-show="close" class="close__modal">
+                        x
+                    </span>
+                </div>
+                <div class="body-modal">
+                    <form class="form__modal form__res form__register" action="{{route('home.post-register')}}" method="POST">
+                        <div>
+                            <input type="tex" placeholder="Tên đăng nhập*" name="user_name"/>
+                            <span class="fr-error fr-error_user_name"></span>
+                        </div>
+                        <div>
+                            <input type="email" placeholder="Địa chỉ Email*" name="email"/>
+                            <span class="fr-error fr-error_email"></span>
+                        </div>
+                        <div>
+                            <input type="password" placeholder="Mật khẩu*" name="password"/>
+                            <span class="fr-error fr-error_password"></span>
+                        </div>
+                        <div>
+                            <input type="password" placeholder="Nhập lại mật khẩu*" name="password_confirmation"/>
+                            <span class="fr-error fr-error_password_confirmation"></span>
+                        </div>
+                        <div>
+                            <input type="text" placeholder="Họ và tên*" name="name"/>
+                            <span class="fr-error fr-error_name"></span>
+                        </div>
+                        <div>
+                            <input type="text" placeholder="Số điện thoại *" name="phone"/>
+                            <span class="fr-error fr-error_phone"></span>
+                        </div>
+                        
+                        <div class="captcha__group">
+                            <div style="padding-right: 5px">
+
+                                <input type="text" id="CaptchaCode" name="CaptchaCode" class="btn btn__captcha" placeholder="Mã xác nhận" name=""/>
+                                <span class="fr-error fr-error_CaptchaCode"></span>
+                            </div>
+                            {!! captcha_image_html('ExampleCaptcha') !!}
+                            
+                        </div>
+                        <div class="info">
+                            <p>
+                                * Bằng cách nhấn vào Đăng ký, bạn đồng ý với các
+                                <a href="#">
+                                    Điều khoản thỏa thuận, Quy chế hoạt động,
+                                    Chính sách bảo mật thông tin, Cơ chế giải
+                                    quyết khiếu nại, Quy định về báo giá và hỗ
+                                    trợ
+                                </a>
+                                và các quy định có liên quan khác được công khai
+                                trên dland.com.vn.
+                            </p>
+                            <p>
+                                *
+                                <span class="text__red">
+                                    Chú ý:
+                                </span>
+                                Thông
+                                tin Tên đăng nhập, email, số điện thoại di động
+                                không thể thay đổi sau khi đăng ký.
+                            </p>
+                        </div>
+                        <button type="button" class="btn btn__send btn_send_register_account">
+                            Đăng ký
+                        </button>
+                    </form>
+                </div>
+                <div class="footer-modal">
+                    <p>Bạn đã có tài khoản?</p>
+                    <a href="javascript:void(0)" class="toggleAuthor">
+                        Đăng nhập
+                    </a>
+                </div>
+            </div>
+            <!-- end registration -->
+        </div>
     </div>
 </div>

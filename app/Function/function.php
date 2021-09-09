@@ -119,15 +119,17 @@ function listCate($data, $parent_id = 0, $str = '')
 
                         </td>';
 
-            echo ' <td><a href="' . route('category.edit', $id) . '" title="Sửa"> <i class="fa fa-pencil fa-fw"></i> Sửa</a> &nbsp; &nbsp; &nbsp;
+            echo ' <td><a href="' . route('category.edit', $id) . '" title="Sửa">
+                            <span class="label label-primary">Sửa <i class="fa fa-pencil fa-fw"></i></span>
+                        </a> &nbsp;
 
-                                <a href="javascript:;" class="btn-destroy" data-href="' . route('category.destroy', $id) . '" data-toggle="modal" data-target="#confim">
+                        <a href="javascript:;" class="btn-destroy" data-href="' . route('category.destroy', $id) . '" data-toggle="modal" data-target="#confim">
 
-                                    <i class="fa fa-trash-o fa-fw"></i> Xóa
+                            <span class="label label-danger">Xóa <i class="fa fa-trash-o fa-fw"></i></span>
 
-                                </a>
+                        </a>
 
-                            </td>';
+                    </td>';
 
             echo '</tr>';
 
@@ -140,71 +142,6 @@ function listCate($data, $parent_id = 0, $str = '')
     }
 
 }
-
-// function listCate($data, $parent_id = 0, $str = '',$type)
-// {
-//     foreach ($data as $value) {
-//         $id   = $value->id;
-//         $name = $value->name;
-//         if ($value->parent_id == $parent_id) {
-//             if ($str == '') {
-//                 $strName = '<b>' . $str . $name . '</b>';
-//             } else {
-
-//                 $strName = $str . $name;
-//             }
-//             echo '<tr class="odd">';
-//             echo '<td><input type="checkbox" name="chkItem[]" value="' . $id . '"></td>';
-//             // echo "<td><img src='$value->image' class='img-responsive imglist'></td>";
-//             if($type=='category_quotes'){
-//                 echo '<td>
-//                     <a class="text-default" href="' . route('category.edit', $id) . '" title="Sửa">' . $strName . '</a></br>
-//                     <a href="' . asset('bao-gia-va-quy-trinh/' . $value->slug) . '" target="_blank"> <i class="fa fa-hand-o-right" aria-hidden="true"></i> Link: ' . asset('bao-gia-va-quy-trinh/' . $value->slug) . ' </a> 
-//                 </td>';
-//             }
-
-//             if($type=='category_services'){
-//                 echo '<td>
-//                     <a class="text-default" href="' . route('category.edit', $id) . '" title="Sửa">' . $strName . '</a></br>
-//                     <a href="' . asset('dich-vu/' . $value->slug) . '" target="_blank"> <i class="fa fa-hand-o-right" aria-hidden="true"></i> Link: ' . asset('dich-vu/' . $value->slug) . ' </a> 
-//                 </td>';
-//             }
-
-//             if($type=='category_utilities'){
-//                 echo '<td>
-//                     <a class="text-default" href="' . route('category.edit', $id) . '" title="Sửa">' . $strName . '</a></br>
-//                     <a href="' . asset('tien-ich/danh-muc/' . $value->slug) . '" target="_blank"> <i class="fa fa-hand-o-right" aria-hidden="true"></i> Link: ' . asset('tien-ich/danh-muc/' . $value->slug) . ' </a> 
-//                 </td>';
-//             }
-
-//             if($type=='category_projects'){
-//                 echo '<td>
-//                     <a class="text-default" href="' . route('category.edit', $id) . '" title="Sửa">' . $strName . '</a></br>
-//                     <a href="' . asset('du-an-hoan-thanh/danh-muc/' . $value->slug) . '" target="_blank"> <i class="fa fa-hand-o-right" aria-hidden="true"></i> Link: ' . asset('du-an-hoan-thanh/danh-muc/' . $value->slug) . ' </a> 
-//                 </td>';
-//             }
-
-//             if($type=='category_beautiful_house'){
-//                 echo '<td>
-//                     <a class="text-default" href="' . route('category.edit', $id) . '" title="Sửa">' . $strName . '</a></br>
-//                     <a href="' . asset('mau-nha-dep/danh-muc/' . $value->slug) . '" target="_blank"> <i class="fa fa-hand-o-right" aria-hidden="true"></i> Link: ' . asset('mau-nha-dep/danh-muc/' . $value->slug) . ' </a> 
-//                 </td>';
-//             }
-
-//             echo '<td><a class="text-default" href="' . route('category.edit', $id) . '" title="Sửa"> ' . count($value->get_child_cate()) ?: '_' . ' </a>
-//                         </td>';
-//             echo '<td>'. $value->order .'</td>';
-//             echo ' <td><a href="' . route('category.edit', ['id' => $id,'type' => request()->type]) . '" title="Sửa"> <i class="fa fa-pencil fa-fw"></i> Sửa</a> &nbsp; &nbsp; &nbsp;
-//                                 <a href="javascript:;" class="btn-destroy" data-href="' . route('category.destroy', $id) . '" data-toggle="modal" data-target="#confim">
-//                                     <i class="fa fa-trash-o fa-fw"></i> Xóa
-//                                 </a>
-//                             </td>';
-//             echo '</tr>';
-
-//             listCate($data, $id, $str . '---| ',$type);
-//         }
-//     }
-// }
 
 function checkBoxCategory($data, $id, $item, $list_id = null)
 {
@@ -394,14 +331,51 @@ function getOptions($key = null, $field = null)
             echo '<td><a class="text-default" href="' . route('categories-post.edit', $id) . '" title="Sửa"> ' . count($value->get_child_cate()) ?: '_' . ' </a>
                         </td>';
             
-            echo ' <td><a href="' . route('categories-post.edit', $id) . '" title="Sửa"> <i class="fa fa-pencil fa-fw"></i> Sửa</a> &nbsp; &nbsp; &nbsp;
-                                <a href="javascript:;" class="btn-destroy" data-href="' . route('categories-post.destroy', $id) . '" data-toggle="modal" data-target="#confim">
-                                    <i class="fa fa-trash-o fa-fw"></i> Xóa
-                                </a>
-                            </td>';
+            echo ' <td><a href="' . route('categories-post.edit', $id) . '" title="Sửa">
+                        <span class="label label-primary">Sửa <i class="fa fa-pencil fa-fw"></i></span>
+                    </a> &nbsp;
+                        <a href="javascript:;" class="btn-destroy" data-href="' . route('categories-post.destroy', $id) . '" data-toggle="modal" data-target="#confim">
+                            <span class="label label-danger">Xóa <i class="fa fa-trash-o fa-fw"></i></span>
+                        </a>
+                    </td>';
             echo '</tr>';
 
-            listCate($data, $id, $str . '---| ');
+            listCatePosts($data, $id, $str . '---| ');
+        }
+    }
+}
+    function listCateProjects($data, $parent_id = 0, $str = '')
+{
+    foreach ($data as $value) {
+        $id   = $value->id;
+        $name = $value->name;
+        $name_en = $value->name_en;
+        if ($value->parent_id == $parent_id) {
+            if ($str == '') {
+                $strName = '<b>' . $str . $name . '</b>';
+            } else {
+                $strName = '<p>' . $str . $name . '</p>';
+            }
+            echo '<tr class="odd">';
+            echo '<td><input type="checkbox" name="chkItem[]" value="' . $id . '"></td>';
+            // echo "<td><img src='$value->image' class='img-responsive imglist'></td>";
+            echo '<td>
+                        <a class="text-default" href="' . route('categories-projects.edit', $id) . '" title="Sửa">' . $strName . '</a>
+                    </td>';
+
+            echo '<td><a class="text-default" href="' . route('categories-projects.edit', $id) . '" title="Sửa"> ' . count($value->get_child_cate()) ?: '_' . ' </a>
+                        </td>';
+            
+            echo ' <td><a href="' . route('categories-projects.edit', $id) . '" title="Sửa">
+                    <span class="label label-primary">Sửa <i class="fa fa-pencil fa-fw"></i></span>
+                    </a> &nbsp;
+                        <a href="javascript:;" class="btn-destroy" data-href="' . route('categories-projects.destroy', $id) . '" data-toggle="modal" data-target="#confim">
+                            <span class="label label-danger">Xóa <i class="fa fa-trash-o fa-fw"></i></span>
+                        </a>
+                    </td>';
+            echo '</tr>';
+
+            listCateProjects($data, $id, $str . '---| ');
         }
     }
 }

@@ -32,15 +32,15 @@
 					</div>
 					<div class="nav-tabs-custom">
 				        <ul class="nav nav-tabs">
-				            <li class="active">
-				            	<a href="#seo" data-toggle="tab" aria-expanded="true">Cấu hình trang</a>
+							<li class="active">
+								<a href="#content" data-toggle="tab" aria-expanded="true">Khối form liên hệ</a>
 				            </li>
 				            <li class="">
-				            	<a href="#content" data-toggle="tab" aria-expanded="true">Khối form liên hệ</a>
+								<a href="#content2" data-toggle="tab" aria-expanded="true">Khối google map</a>
 				            </li>
-				            <li class="">
-				            	<a href="#content2" data-toggle="tab" aria-expanded="true">Khối google map</a>
-				            </li>
+							<li class="">
+								<a href="#seo" data-toggle="tab" aria-expanded="true">Cấu hình trang</a>
+							</li>
 				            
 				        </ul>
 				    </div>
@@ -49,7 +49,7 @@
 							//dd(@$content);
 						} ?>
 				    <div class="tab-content">
-			            <div class="tab-pane active" id="seo">
+			            <div class="tab-pane" id="seo">
 							<div class="row">
 								<div class="col-sm-2">
 									<div class="form-group">
@@ -99,7 +99,7 @@
 							</div>
 			            </div>
 			            
-			            <div class="tab-pane" id="content">
+			            <div class="tab-pane active" id="content">
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="form-group">

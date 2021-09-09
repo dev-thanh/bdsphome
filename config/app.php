@@ -160,6 +160,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        App\Providers\RepositoryServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -191,6 +192,10 @@ return [
         Proengsoft\JsValidation\JsValidationServiceProvider::class,
 
         Laravel\Socialite\SocialiteServiceProvider::class,
+
+        LaravelCaptcha\Providers\LaravelCaptchaServiceProvider::class,
+
+        Intervention\Image\ImageServiceProvider::class,
 
 
     ],
@@ -256,6 +261,8 @@ return [
         'JsValidator' => Proengsoft\JsValidation\Facades\JsValidatorFacade::class,
 
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+
+        'Image' => Intervention\Image\Facades\Image::class,
     ],
 
 ];

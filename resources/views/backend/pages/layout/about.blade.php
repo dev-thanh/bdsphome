@@ -32,13 +32,17 @@
 					</div>
 					<div class="nav-tabs-custom">
 				        <ul class="nav nav-tabs">
-				        	<li class="active">
-				            	<a href="#seo" data-toggle="tab" aria-expanded="true">Cấu hình trang</a>
+							<li class="active">
+								<a href="#introduce1" data-toggle="tab" aria-expanded="true">Khối giới thiệu</a>
 				            </li>
+							<li class="">
+								<a href="#introduce2" data-toggle="tab" aria-expanded="true">Khối tầm nhìn sứ mệnh</a>
+							</li>
 				        	<li class="">
-				            	<a href="#introduce" data-toggle="tab" aria-expanded="true">Nội dung</a>
+								<a href="#introduce3" data-toggle="tab" aria-expanded="true">Giá trị cốt lõi</a>
 				            </li>
-							
+							<li class="">
+								<a href="#seo" data-toggle="tab" aria-expanded="true">Cấu hình trang</a>
 							</li>
 							
 				        </ul>
@@ -47,24 +51,163 @@
 						$content = json_decode($data->content);
 					} ?>
 				    <div class="tab-content">
-						
-						<div class="tab-pane" id="introduce">
+
+						<div class="tab-pane active" id="introduce1">
 							<div class="row">
-								
-								<div class="col-sm-12">
+								<div class="col-sm-2">
 									<div class="form-group">
-										<label for="">Nội dung</label>
+			                           <label>Hình ảnh đại diện khối(bên phải)</label>
+			                           <div class="image">
+			                               <div class="image__thumbnail">
+			                                   <img src="{{ @$content->introduce->image ?  url('/').@$content->introduce->image : __IMAGE_DEFAULT__ }}"  
+			                                   data-init="{{ __IMAGE_DEFAULT__ }}">
+			                                   <a href="javascript:void(0)" class="image__delete" onclick="urlFileDelete(this)">
+			                                    <i class="fa fa-times"></i></a>
+			                                   <input type="hidden" value="{{ @$content->introduce->image }}" name="content[introduce][image]"  />
+			                                   <div class="image__button" onclick="fileSelect(this)"><i class="fa fa-upload"></i> Upload</div>
+			                               </div>
+			                           </div>
+			                       </div>
+								</div>
+								<div class="col-sm-10">
+									<div class="form-group">
+										<label for="">Tiêu đề khối</label>
+										<input class="form-control" name="content[introduce][title]" value="{{ @$content->introduce->title }}">
+									</div>
+									<div class="form-group">
+										<label for="">Mô tả khối</label>
 										<textarea class="content" name="content[introduce][content]">{!! @$content->introduce->content !!}</textarea>
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<h3 class="text-center" style="background: #62ff00;padding: 10px 0px">Thông số thống kê</h3>
+									<div class="form-group">
+										<div class="repeater" id="repeater">
+											<table class="table table-bordered table-hover statistical">
+												
+												<?php if(!empty($data->content)){
+													$contents = json_decode($data->content);
+													//dd(@$contents);
+												} ?>
+												<tbody id="sortable">
+													@if(!empty(@$contents->statistical->content))
+														@foreach (@$content->statistical->content as $key => $value)
+															<?php $index = $loop->index + 1; ?>
+															@include('backend.repeater.row-statistical')
+														@endforeach
+													@endif
+												</tbody>
+											</table>
+											<div class="text-right">
+												
+												<button class="btn btn-primary" 
+													onclick="repeater(event,this,'{{ route('get.layout') }}','.index', 'statistical', '.statistical')">Thêm
+												</button>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-12">
+									<h3 class="text-center" style="background: #ffd0d0;padding: 10px 0px">Danh sách logo đối tác</h3>
+									<div class="form-group">
+										<div class="repeater" id="repeater">
+											<table class="table table-bordered table-hover logo">
+												
+												<?php if(!empty($data->content)){
+													$contents = json_decode($data->content);
+													//dd(@$contents);
+												} ?>
+												<tbody id="sortable">
+													@if(!empty(@$contents->logo->content))
+														@foreach (@$content->logo->content as $key => $value)
+															<?php $index = $loop->index + 1; ?>
+															@include('backend.repeater.row-logo')
+														@endforeach
+													@endif
+												</tbody>
+											</table>
+											<div class="text-right">
+												
+												<button class="btn btn-primary" 
+													onclick="repeater(event,this,'{{ route('get.layout') }}','.index', 'logo', '.logo')">Thêm
+												</button>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="tab-pane" id="introduce2">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="repeater" id="repeater">
+										<table class="table table-bordered table-hover noidungbaihoc">
+											
+											<?php if(!empty($data->content)){
+												$contents = json_decode($data->content);
+												//dd(@$contents);
+											} ?>
+											<tbody id="sortable">
+												@if(!empty(@$contents->noidungbaihoc))
+													@foreach (@$content->noidungbaihoc->content as $key => $value)
+														<?php $index = $loop->index + 1; ?>
+														@include('backend.repeater.row-noidungbaihoc')
+													@endforeach
+												@endif
+											</tbody>
+										</table>
+										<div class="text-right">
+											
+											<button class="btn btn-primary" 
+												onclick="repeater(event,this,'{{ route('get.layout') }}','.index', 'noidungbaihoc', '.noidungbaihoc')">Thêm
+											</button>
+											
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 
-						
-						
+						<div class="tab-pane" id="introduce3">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<label for="">Tiêu đề khối</label>
+										<input class="form-control" name="content[core_value][title]" value="{{ @$content->core_value->title }}">
+									</div>
+									<div class="repeater" id="repeater">
+										<table class="table table-bordered table-hover core_value">
+											
+											<?php if(!empty($data->content)){
+												$contents = json_decode($data->content);
+												//dd(@$contents);
+											} ?>
+											<tbody id="sortable">
+												@if(!empty(@$contents->core_value))
+													@foreach (@$content->core_value->content as $key => $value)
+														<?php $index = $loop->index + 1; ?>
+														@include('backend.repeater.row-core_value')
+													@endforeach
+												@endif
+											</tbody>
+										</table>
+										<div class="text-right">
+											
+											<button class="btn btn-primary" 
+												onclick="repeater(event,this,'{{ route('get.layout') }}','.index', 'core_value', '.core_value')">Thêm
+											</button>
+											
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 
-
-						<div class="tab-pane active" id="seo">
+						<div class="tab-pane" id="seo">
 							<div class="row">
 								<div class="col-sm-2">
 									<div class="form-group">
@@ -83,7 +226,7 @@
 								</div>
 								<div class="col-sm-2">
 									<div class="form-group">
-			                           <label>Banner</label>
+			                           <label>Background trang</label>
 			                           <div class="image">
 			                               <div class="image__thumbnail">
 			                                   <img src="{{ $data->banner ?  url('/').$data->banner : __IMAGE_DEFAULT__ }}"  

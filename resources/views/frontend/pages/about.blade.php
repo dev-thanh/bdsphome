@@ -1,3 +1,6 @@
+@section('css')
+	<link rel="stylesheet" href="{{ __BASE_URL__ }}/css/pages/page__aboutUs.css" />
+@endsection
 @extends('frontend.master')
 @section('main')
 	<?php 
@@ -6,117 +9,115 @@
 		//dd($content);
 	} ?>
 
-	<main id="main" class="main-category">
-	    <section class="category__banner">
-	        <img class="category__banner--img" src="{{url('/')}}/{{@$dataSeo->banner}}" alt="{{@$dataSeo->name_page}}">
-	        <h2 class="category__banner--title">
-	            {{@$dataSeo->name_page}}
-	        </h2>
-	    </section>
-	    <section class="page__introduce">
-	        <div class="container">
-	            <div class="module module-page__introduce">
-	                <div class="module__content">
-	                    <div class="introduce">
-	                        {!! @$content->introduce->content !!}
-	                    </div>
-	                    <div class="addon__relateto">
-	                        <h2 class="addon__relateto--title">
-	                            SẢN PHẨM nổi bật
-	                        </h2>
-	                        <div class="addon__relateto--slide2">
-	                        	@foreach($products_hot as $item)
-	                            <div class="addon__relateto--item">
-	                                <div class="addon__relateto__box">
-	                                    <div class="product">
-	                                        <div class="box">
-	                                            <a href="{{route('home.single.product',['slug'=>$item->slug])}}" class="avata" title="{{$item->name}}">
-	                                            <img class="avata__image" src="{{url('/')}}/{{$item->image}}" alt="{{$item->name}}">
-	                                            </a>
-	                                            <div class="product__content">
-	                                                <h3 class="product__title">
-	                                                    <a href="{{route('home.single.product',['slug'=>$item->slug])}}" class="product__link"
-	                                                        title="{{$item->name}}">
-	                                                    	{{$item->name}}
-	                                                    </a>
-	                                                </h3>
-	                                                <div class="product__cost">
-	                                                    @if ($item->regular_price != 0)
-					                                        @if($item->sale_price !='')
-				                                                <span class="text__through">{{ number_format($item->regular_price,0, '.', '.') }}đ</span>
-						                                        <span class="price__red">
-						                                        {{ number_format($item->sale_price,0, '.', '.') }}đ
-						                                        </span>
-					                                        @else
-					                                        	<span class="price__red">{{ number_format($item->regular_price,0, '.', '.') }}đ</span>
-					                                        @endif
-		                                            	@else
-		                                            		<span class="price__red">Liên hệ</span>
-				                                        @endif
-	                                                </div>
-	                                                <div class="text__right">
-	                                                    <a href="{{route('home.single.product',['slug'=>$item->slug])}}" class="link__view"
-	                                                        title="XE ĐẠP ĐIỆN GIANT M133 S10">
-	                                                    Xem chi tiết
-	                                                    </a>
-	                                                </div>
-	                                            </div>
-	                                        </div>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                            @endforeach
-	                        </div>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-	    </section>
+	<main id="main">
+		<section class="page__aboutUs">
+			<div class="container">
+				<div class="about__header">
+					<div class="about__item">
+						<div class="about__box">
+							<div class="about__content">
+								<h1 class="title__global">
+									{{@$content->introduce->title}}
+								</h1>
+								<div class="about__desc">
+									{!! @$content->introduce->content !!}
+								</div>
+								<a href="page__realEstate.html" class="btn btn__global" title="Xem tất cả bất động sản">
+									Xem tất cả bất động sản
+								</a>
+							</div>
+							<div class="about__group">
+								@if(!empty(@$content->statistical))
+									@foreach(@$content->statistical->content as $item)
+									<div class="item">
+										<h3 class="item__title">
+											{{$item->title1}}
+										</h3>
+										<p class="item__info">
+											{{$item->title2}}
+										</p>
+									</div>
+									@endforeach
+								@endif
+							</div>
+						</div>
+						<div class="par__group">
+							@if(!empty(@$content->logo))
+								@foreach(@$content->logo->content as $logo)
+								<div class="par__item">
+									<img src="{{url('/').$logo->image}}" alt="{{$logo->title}}">
+								</div>
+								@endforeach
+							@endif
+						</div>
+					</div>
+					<div class="about__item">
+						<div class="frame">
+							<img src="{{url('/').@$content->introduce->image}}" alt="{{@$content->introduce->title}}">
+						</div>
+					</div>
+				</div>
+
+			</div>
+			@if(!empty($content->noidungbaihoc))
+			<div class="about__body" style="background-image: url('{{url('/').@$dataSeo->banner}}');">
+				<div class="container">
+					<div class="about__body-group">
+						@foreach($content->noidungbaihoc->content as $item)
+						<div class="about__body-item">
+							<div class="about__body-avatar">
+								<div class="frame">
+									<img src="{{url('/').@$item->image}}" alt="{{@$item->title}}">
+								</div>
+							</div>
+							<div class="about__body-content">
+								<h2 class="about__body-title">
+									{{@$item->title}}
+								</h2>
+								<div class="about__body-desc">
+									{!! @$item->desc !!}
+								</div>
+
+							</div>
+						</div>
+						@endforeach
+					</div>
+				</div>
+			</div>
+			@endif
+			@if(!empty($content->core_value))
+			<div class="core__values">
+				<div class="container">
+					<div class="header__global">
+						<div class="item__global">
+							<h2 class="title__global text__center">
+								{{@$content->core_value->title}}
+							</h2>
+						</div>
+
+					</div>
+					<div class="module__content">
+						<div class="core__values-group">
+							@foreach($content->core_value->content as $core)
+							<div class="core__values-item">
+								<div class="core__values-avatar">
+									<img src="{{url('/').$core->image}}" alt="{{$core->title}}">
+								</div>
+								<div class="core__values-content">
+									<h3 class="core__values-title">
+										{{$core->title}}
+									</h3>
+									<div class="core__values-desc">
+										{{$core->desc}}
+									</div>
+								</div>
+							</div>
+							@endforeach
+						</div>
+					</div>
+				</div>
+			</div>
+			@endif
+		</section>
 	</main>
-
-	@section('script')
-	<script>
-	    $(document).ready(function () {
-	        function slideRelateto() {
-	            $('.addon__relateto--slide2').slick({
-	                dots: false,
-	                infinite: true,
-	                speed: 300,
-	                slidesToShow: 4,
-	                slidesToScroll: 1,
-	                arrows: true,
-	                autoplay: true,
-
-	                responsive: [
-	                    {
-	                        breakpoint: 1024,
-	                        settings: {
-	                            slidesToShow: 3,
-	                            slidesToScroll: 3,
-	                            infinite: true,
-	                            dots: true
-	                        }
-	                    },
-	                    {
-	                        breakpoint: 600,
-	                        settings: {
-	                            slidesToShow: 2,
-	                            slidesToScroll: 2
-	                        }
-	                    },
-	                    {
-	                        breakpoint: 480,
-	                        settings: {
-	                            slidesToShow: 1,
-	                            slidesToScroll: 1
-	                        }
-	                    }
-	                ]
-	            });
-
-	        }
-	        slideRelateto();
-	    })
-	</script>
-	@endsection
 @endsection

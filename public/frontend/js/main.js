@@ -1,173 +1,147 @@
-$(document).ready(function () {
-    let closHTML = '<button class="btn btn__clos"></button>';
-let menuClass = $(".menu");
-let addonMenu = $(".addon-menu");
-function openMenu() {
-  let menuList = $(".menu__list");
-  for (let index = 6; index <= menuList.length; index++) {
-    menuList.eq(index).addClass("menu__list--right");
-  }
-
-  $(".btn__menu").on("click", function () {
-    addonMenu.toggleClass("active");
-    $("body").toggleClass("open__body");
-    menuClass.prepend(closHTML);
-    closMenu();
-  });
-}
-function closMenu() {
-  function removeMenu() {
-    addonMenu.removeClass("active");
-    $(".btn").removeClass("btn__clos");
-    $("body").removeClass("open__body");
-  }
-  $(".addon-menu__container").on("click", function (e) {
-    if (!menuClass.is(e.target) && menuClass.has(e.target).length === 0) {
-      removeMenu();
-    }
-  });
-  $(".btn__clos").on("click", function () {
-    removeMenu();
-  });
-}
-function dowMenu() {
-  $(".btn__toggle").on("click", function () {
-    let _ = $(this).parent("li").children("ul");
-    let _sub = $(this).parents(".menu__list").children("ul ");
-    let _togleSub = $(this).parents(".menu__list").children(".btn__toggle");
-    $(".menu .menu__list ul").not(_).not(_sub).slideUp();
-
-    $(".btn__toggle").not(this).not(_togleSub).removeClass("active");
-    _.slideToggle();
-    $(this).toggleClass("active");
-  });
-}
-function menu() {
-  var has = $('.menu li:has("ul")');
-  var hasSub = $('.menu li ul li:has("ul")');
-  if (has) {
-    has.addClass("menu__list--sub");
-    has.append('<button class="btn btn__toggle"></button>');
-  }
-  if (hasSub) {
-    hasSub.addClass("menu__list--sub");
-    hasSub.append('<button class="btn btn__toggle"></button>');
-  }
-  $('.menu .menu__list ul li:has("ul")').addClass("menu__list--sub");
-  dowMenu();
-  openMenu();
-}
-menu();
-
-$(window).on("scroll", function () {
-  var height = $("#header").height();
-
-  if ($(this).scrollTop() > height) {
-    $(".header__scroll").addClass("scroll");
-    $(".btn__backtop-home").addClass("active");
-  } else {
-    $(".header__scroll").removeClass("scroll");
-    $(".btn__backtop-home").removeClass("active");
-  }
-});
-$(".btn__backtop-home").on("click", function () {
-  $(".btn__backtop-home").removeClass("active");
-  $("html, body").animate(
-    {
-      scrollTop: 0,
-    },
-    1000
-  );
-});
-;
-    $(".banner__slide").slick({
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  arrows: true,
-  dots: false,
-  autoplay: false,
-});
-;
-    AOS.init({
-        once: true,
-        offset: 0,
-        easing: 'ease-in-out-cubic',
-        duration: "300",
-    });
-    $('.control__select2').select2({
-        language: {
-            noResults: function (params) {
-                return "Không có kết quả nào được tìm thấy";
-            }
-        }
-    });
-    /**
-     * @view desc detail product
-     */
-
-    function viewDesc() {
-        let height = $("#view__desc .desc").height();
-
-        if (height > 55) {
-            $("#view__desc .desc").css("height", "54.86px")
-            $("#view__desc").append('<button class="btn btn__view">Xem thêm</button>');
-            $('.btn__view').on("click", function () {
-
-                $("#view__desc .desc").toggleClass('height__auto');
-
-                let text = $(this).text();
-
-                if (text == "Xem thêm") {
-                    $(this).text('Thu gọn')
-                } else {
-                    $(this).text('Xem thêm')
-                }
-            })
-        }
-    }
-
-
-    viewDesc();
-    /**
-   * @ slide detail
-   */
-    function slideProductDetail() {
-        $('.product__slide').slick(
-            {
-                dots: false,
-                infinite: true,
-                speed: 500,
-                arrow: true,
-            }
-        );
-    }
-    slideProductDetail();
-    function date() {
-        $('#datepicker').datepicker({
-            uiLibrary: 'bootstrap4'
-        });
-        $('#datepicker2').datepicker({
-            uiLibrary: 'bootstrap4'
+$(document).ready(function() {
+    function addonTab() {
+        $(".control-list__item").click(function() {
+            $(this).addClass("active");
+            $(this).siblings().removeClass("active");
+            $($(this).attr("tab-show")).slideDown();
+            $($(this).attr("tab-show")).siblings().slideUp();
+            $(this).parent(".control-list").removeClass("active");
         });
     }
-    date();
-    function question() {
-        $('.question__header').on("click", function () {
-            let qeBody = $(this).next('.question__body');
-            $('.question__header').not(this).removeClass('active');
-            $('.question__body').not(qeBody).slideUp();
-            $(this).toggleClass('active');
-            $(this).next('.question__body').slideToggle();
+    addonTab();
+
+    $("body").on("click", "[modal-show='show']", function(e) {
+        $($(this).attr("modal-data")).addClass("show-modal");
+        $($(this).attr("modal-data")).find(".content-modal").addClass("show-modal");
+        $("body").addClass("active-modal");
+    });
+    $("body").on("click", "[modal-show='close']", function() {
+        setTimeout(function() {
+            $(".bs-modal").removeClass("show-modal");
+            $("body").removeClass("active-modal");
+        }, 500);
+        $(this)
+            .parents(".bs-modal")
+            .find(".content-modal")
+            .removeClass("show-modal");
+    });
+
+    appButton = () => {
+        let has = $('.menu li:has("ul")');
+        return has ?
+            has.append('<button class="btn btn__toggle"></button>') :
+            "";
+    };
+
+    appButton();
+
+    onMenu = () => {
+        let button = $(".btn__toggle");
+        let hasMenu = $(".menu .menu__list  ul");
+        button.on("click", function() {
+            let __ = $(this).parent(".menu__list").children("ul");
+            hasMenu.not(__).slideUp();
+            button.not($(this)).removeClass("active");
+            __.slideToggle();
+            $(this).toggleClass("active");
+        });
+    };
+    onMenu();
+
+    openMenu = () => {
+        $(".btn__menu").on("click", function() {
+            $("body").addClass("body__hidden");
+            $(".box__menu").toggleClass("active");
+        });
+    };
+    openMenu();
+
+    closeMenu = () => {
+        let menusClass = $(".box__container");
+        $(".box__menu").on("click", function(e) {
+            if (
+                !menusClass.is(e.target) &&
+                menusClass.has(e.target).length === 0
+            ) {
+                $("body").removeClass("body__hidden");
+                $(".box__menu").removeClass("active");
+            }
+        });
+    };
+    closeMenu();
+
+    $(window).on("scroll", function() {
+        var height = $("#header").height();
+        if ($(this).scrollTop() > height) {
+            $(".back-top").addClass("active");
+            $(".header-body").addClass("active");
+        } else {
+            $(".back-top").removeClass("active");
+            $(".header-body").removeClass("active");
+        }
+    });
+
+    controlFilter = () => {
+        let hasClass = $('.form__item.action').hasClass('active');
+        if (hasClass) {
+            $('.btn__click').text("Thu gọn")
+        } else {
+            $('.btn__click').text("Nâng cao")
+        }
+        $('.btn__click').on("click", function() {
+            let hasClass = $('.form__item.action').hasClass('active');
+
+            if (hasClass) {
+                $('.form__item.action').removeClass('active')
+                $(this).text("Nâng cao")
+                $('.form__footer').addClass('active');
+
+            } else {
+                $('.form__item.action').addClass('active')
+                $(this).text("Thu gọn")
+                $('.form__footer').removeClass('active');
+            }
+
         })
     }
-    question();
+    controlFilter();
 
-    function showAuth() {
-        $('.btn__show').on("click", function () {
-            $('.page__account  .tab-control .control-list').slideToggle();
+    showPassword = () => {
+        let isPass = false;
+        let buttonShowPass = $('#btnShowPass');
+        let inputPass = $('#inputPass');
+        checkViewPass = () => {
+            if (isPass) {
+                inputPass.attr('type', 'password');
+                isPass = false
+            } else {
+                inputPass.attr('type', 'text');
+                isPass = true
+            }
+        }
+        buttonShowPass.on("click", function() {
+            checkViewPass();
         })
     }
-    showAuth();
+    showPassword();
 
+    authorModal = () => {
+        let toggleAuthor = $('.toggleAuthor');
+        toggleAuthor.on("click", function() {
+            $('.content-modal').toggleClass('active');
+        })
+    }
+    authorModal();
 
-})
+    $('#toggleAuthor').on("click", function(e) {
+        $('#bodyAuthor').slideToggle();
+        $(document).click(function(e) {
+            var container = $(".author");
+            if (!container.is(e.target) && container.has(e.target).length === 0) {
+                $('#bodyAuthor').slideUp();
+            }
+        })
+
+    })
+
+});

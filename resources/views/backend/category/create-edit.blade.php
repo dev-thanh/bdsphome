@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('controller', 'Danh mục sản phẩm' )
+@section('controller', 'Danh mục dịch vụ' )
 @section('controller_route', route('category.index'))
 @section('action', renderAction(@$module['action']))
 @section('content')
@@ -15,7 +15,7 @@
 		    <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                     <li class="active">
-                        <a href="#activity" data-toggle="tab" aria-expanded="true">Danh mục sản phẩm</a>
+                        <a href="#activity" data-toggle="tab" aria-expanded="true">Danh mục dịch vụ</a>
                     </li>
                     <li class="">
                     	<a href="#setting" data-toggle="tab" aria-expanded="true">Cấu hình seo</a>
@@ -42,11 +42,32 @@
 							<label for="">Mô tả danh mục</label>
 							<textarea name="content" class="content">{{ old('content', @$data->content) }}</textarea>
 						</div>
-						<!-- <div class="form-group">
-							<input type="checkbox" name="teamplate" value="1" {{ @$data->teamplate == 1 ? 'checked' : null }}>
-							<label for="">Hiển thị danh mục ngoài trang chủ</label>
-							
-						</div> -->
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label for="">Hình ảnh đại diện danh mục</label>
+									<div class="image">
+									<div class="image__thumbnail" style="width: 150px;height: 150px">
+										<img src="{{ !empty(@$data->banner) ? @$data->banner : __IMAGE_DEFAULT__ }}"
+												data-init="{{ __IMAGE_DEFAULT__ }}">
+										<a href="javascript:void(0)" class="image__delete" onclick="urlFileDelete(this)">
+											<i class="fa fa-times"></i></a>
+										<input type="hidden" value="{{ old('banner', @$data->banner) }}" name="banner"/>
+										<div class="image__button" onclick="fileSelect(this)">
+											<i class="fa fa-upload"></i>
+											Upload
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							@if(isUpdate(@$module['action']))
+								
+								<input type="checkbox" name="show_home" value="1" {{ @$data->show_home == 1 ? 'checked' : null }}> Hiện thị danh mục ngoài trang chủ
+							@else
+								<input type="checkbox" name="show_home" value="1" checked> <label for="">Hiện thị danh mục ngoài trang chủ</label>
+							@endif
+						</div>
                     </div>
                     <div class="tab-pane" id="setting">
                     	<div class="row">

@@ -44,90 +44,32 @@ use App\Models\Wards;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Session;
+use App\Repositories\Products\ProductRepository;
+use App\Repositories\Menu\MenuRepository;
+use App\Repositories\General\GeneralRepository;
 
 
 class IndexController extends Controller
 {
 
-	public $config_info;
+	public $config_info,$menu,$general;
 
-    public function __construct()
+    public function __construct(MenuRepository $menu, GeneralRepository $general)
     {
-        $site_info = Options::where('type', 'general')->first();
-        if ($site_info) {
-            $site_info = json_decode($site_info->content);
-            $this->config_info = $site_info;
-            OpenGraph::setUrl(\URL::current());
-            OpenGraph::addProperty('locale', 'vi');
-            OpenGraph::addProperty('type', 'article');
-            OpenGraph::addProperty('author', 'GCO-GROUP');
-            SEOMeta::addKeyword($site_info->site_keyword);
+        $this->menu = $menu;
 
-            $menuHeader = Menu::where('id_group', 1)->orderBy('position')->get();
-            $menuFooter = Menu::where('id_group', 2)->orderBy('position')->get();
-            $menuFooter2 = Menu::where('id_group', 3)->orderBy('position')->get();
-            
-            $policy = Policy::where('status', 1)->orderBy('stt','ASC')->get();
-
-            view()->share(compact('site_info', 'menuHeader','menuFooter','menuFooter2', 'policy'));
-        }
+        $this->general = $general;
+        
+        $this->general->seoGeneral();
     }
 
-    public function createSeo($dataSeo = null)
-    {
-        $site_info = $this->config_info;
-        if (!empty($dataSeo->meta_title)) {
-            SEO::setTitle($dataSeo->meta_title);
-        } else {
-            SEO::setTitle($site_info->site_title);
-        }
-        if (!empty($dataSeo->meta_description)) {
-            SEOMeta::setDescription($dataSeo->meta_description);
-            OpenGraph::setDescription($dataSeo->meta_description);
-        } else {
-            SEOMeta::setDescription($site_info->site_description);
-            OpenGraph::setDescription($site_info->site_description);
-        }
-        if (!empty($dataSeo->image)) {
-            OpenGraph::addImage($dataSeo->image, ['height' => 400, 'width' => 400]);
-        } else {
-            OpenGraph::addImage($site_info->logo_share, ['height' => 400, 'width' => 400]);
-        }
-        if (!empty($dataSeo->meta_keyword)) {
-            SEOMeta::addKeyword($dataSeo->meta_keyword);
-        }
-    }
-
-    public function createSeoPost($data)
-    {
-        if(!empty($data->meta_title)){
-            SEO::setTitle($data->meta_title);
-        }else {
-            SEO::setTitle($data->name);
-        }
-        if(!empty($data->meta_description)){
-            SEOMeta::setDescription($data->meta_description);
-            OpenGraph::setDescription($data->meta_description);
-        }else {
-            SEOMeta::setDescription($this->config_info->site_description);
-            OpenGraph::setDescription($this->config_info->site_description);
-        }
-        if (!empty($data->image)) {
-            OpenGraph::addImage($data->image, ['height' => 400, 'width' => 400]);
-        } else {
-            OpenGraph::addImage($this->config_info->logo_share, ['height' => 400, 'width' => 400]);
-        }
-        if (!empty($data->meta_keyword)) {
-            SEOMeta::addKeyword($data->meta_keyword);
-        }
-    }
 
     public function getHome()
     { 
         
         $contentHome = Pages::where('type', 'home')->first();
 
-    	$this->createSeo($contentHome);
+    	$this->general->createSeo($contentHome);
 
         $slider = Image::where('status', 1)->where('type', 'slider')->get();
 
@@ -146,129 +88,6 @@ class IndexController extends Controller
     	return view('frontend.pages.home', compact('contentHome','slider','product_selling','product_hot'));
     }
 
-    public function getProducts(){
-
-        $dataSeo = Pages::where('type', 'products')->first();
-
-        $this->createSeo($dataSeo);
-
-        $data    = Products::active()->filter()->sort()->take(16)->get();
-
-        $filters = Filter::where('category_id', 0)->orderBy('position', 'ASC')->get();
-
-        return view('frontend.pages.archive-products', compact('data', 'dataSeo', 'filters'));
-
-    }
-
-    public function getSearch(Request $request)
-    {
-        $key = $request->search;
-
-        $dataSeo = Pages::where('type', 'product')->first();
-
-        $this->createSeo($dataSeo);
-
-        SEO::setTitle('Tìm kiếm từ khóa: '.$key);
-
-        $products = null;
-        
-        $posts = null;
-
-        if(!empty($request->search)){
-            
-            $products = Products::where(function ($query) use ($request) {
-                $query->where('name', 'like', '%' . $request->search . '%');
-            })->orderBy('created_at', 'DESC')->paginate(9);
-
-            $posts = Posts::where(function ($query) use ($request) {
-                $query->where('name', 'like', '%' . $request->search . '%');
-            })->orderBy('created_at', 'DESC')->paginate(9);
-        }
-
-
-        return view('frontend.pages.get-search', compact('dataSeo', 'products','posts'));
-    }
-
-    public function getCart()
-    {
-        $dataSeo = Pages::where('type', 'cart')->first();
-
-        $this->createSeo($dataSeo);
-
-        $dataProducts = Products::orderBy('created_at','DESC')->take(12)->get();
-
-        $banks = Banks::where('status',1)->get();
-
-        return view('frontend.pages.cart', compact('dataProducts','dataSeo','banks'));
-    }
-
-    public function policy($slug){
-
-        $data = Policy::where([
-            'slug' =>$slug,
-            'status' => 1
-        ])->first();
-
-        if(!isset($data)){
-            return abort(404);
-        }
-
-        $this->createSeoPost($data);
-
-        if($data){
-            return view('frontend.pages.policy',compact('data'));
-        }
-
-    }
-
-    public function sendSale(Request $request){
-        $result = [];
-        
-        if($request->email ==''){
-            $result['message_error'] = 'Bạn chưa nhập email';
-        }else{
-            if(filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
-            }else{
-                $result['message_error'] = 'Vui lòng nhập email hợp lệ';
-            }
-        }
-
-        if($result != []){
-            return json_encode($result);
-        }
-
-        $model = new PromotionalNews();
-
-        $model->email = $request->email;
-
-        $model->status = 0;
-
-        $model->save();
-
-        $content_email = [
-            'email' => $request->email,
-        ]; 
-
-        $email_admin = getOptions('general', 'email_admin');
-
-        Mail::send('frontend.mail.mail-sale', $content_email, function ($msg) use($email_admin) {
-
-            $msg->from(config('mail.mail_from'), 'Website - Xe đạp điện Phong Lý');
-
-            $msg->to($email_admin, 'Website - Xe đạp điện Phong Lý')->subject('Đăng ký nhận tin khuyến mại');
-
-        });
-
-        $result['success'] = 'Gửi đăng ký nhận tin khuyến mại thành công, chúng tôi sẽ liên lạc với bạn trong thời gian sớm nhất. Xin cảm ơn !';
-
-        return json_encode($result);
-
-    }
-
-
-
-
-    
     public function login(){
 
         if(Auth::guard('customer')->check()){
@@ -646,6 +465,174 @@ class IndexController extends Controller
         
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function getProducts(){
+
+        $dataSeo = Pages::where('type', 'products')->first();
+
+        $this->general->createSeo($dataSeo);
+
+        $data    = Products::active()->filter()->sort()->take(16)->get();
+
+        $filters = Filter::where('category_id', 0)->orderBy('position', 'ASC')->get();
+
+        return view('frontend.pages.archive-products', compact('data', 'dataSeo', 'filters'));
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function getSearch(Request $request)
+    {
+        $key = $request->search;
+
+        $dataSeo = Pages::where('type', 'product')->first();
+
+        $this->general->createSeo($dataSeo);
+
+        SEO::setTitle('Tìm kiếm từ khóa: '.$key);
+
+        $products = null;
+        
+        $posts = null;
+
+        if(!empty($request->search)){
+            
+            $products = Products::where(function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request->search . '%');
+            })->orderBy('created_at', 'DESC')->paginate(9);
+
+            $posts = Posts::where(function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request->search . '%');
+            })->orderBy('created_at', 'DESC')->paginate(9);
+        }
+
+
+        return view('frontend.pages.get-search', compact('dataSeo', 'products','posts'));
+    }
+
+    public function getCart()
+    {
+        $dataSeo = Pages::where('type', 'cart')->first();
+
+        $this->general->createSeo($dataSeo);
+
+        $dataProducts = Products::orderBy('created_at','DESC')->take(12)->get();
+
+        $banks = Banks::where('status',1)->get();
+
+        return view('frontend.pages.cart', compact('dataProducts','dataSeo','banks'));
+    }
+
+    public function policy($slug){
+
+        $data = Policy::where([
+            'slug' =>$slug,
+            'status' => 1
+        ])->first();
+
+        if(!isset($data)){
+            return abort(404);
+        }
+
+        $this->general->createSeoPost($data);
+
+        if($data){
+            return view('frontend.pages.policy',compact('data'));
+        }
+
+    }
+
+    public function sendSale(Request $request){
+        $result = [];
+        
+        if($request->email ==''){
+            $result['message_error'] = 'Bạn chưa nhập email';
+        }else{
+            if(filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
+            }else{
+                $result['message_error'] = 'Vui lòng nhập email hợp lệ';
+            }
+        }
+
+        if($result != []){
+            return json_encode($result);
+        }
+
+        $model = new PromotionalNews();
+
+        $model->email = $request->email;
+
+        $model->status = 0;
+
+        $model->save();
+
+        $content_email = [
+            'email' => $request->email,
+        ]; 
+
+        $email_admin = getOptions('general', 'email_admin');
+
+        Mail::send('frontend.mail.mail-sale', $content_email, function ($msg) use($email_admin) {
+
+            $msg->from(config('mail.mail_from'), 'Website - Xe đạp điện Phong Lý');
+
+            $msg->to($email_admin, 'Website - Xe đạp điện Phong Lý')->subject('Đăng ký nhận tin khuyến mại');
+
+        });
+
+        $result['success'] = 'Gửi đăng ký nhận tin khuyến mại thành công, chúng tôi sẽ liên lạc với bạn trong thời gian sớm nhất. Xin cảm ơn !';
+
+        return json_encode($result);
+
+    }
+
+
+
+
+    
+    
+
     public function categoryProduct(Request $request, $slug){
         $dataSeo = Pages::where('type', 'product')->first();
 
@@ -655,7 +642,7 @@ class IndexController extends Controller
             return abort(404);
         }
 
-        $this->createSeoPost($category);
+        $this->general->createSeoPost($category);
 
         $data = Products::select('products.*')
             ->join('product_category','products.id','=','product_category.id_product')
@@ -786,7 +773,7 @@ class IndexController extends Controller
 
         }
 
-        $this->createSeoPost($data);
+        $this->general->createSeoPost($data);
 
         return view('frontend.pages.single-product', compact('data', 'dataSeo', 'product_combined'));
     }
@@ -941,7 +928,7 @@ class IndexController extends Controller
 
         $dataSeo = Pages::where('type', 'cart')->first();
 
-        $this->createSeo($dataSeo);
+        $this->general->createSeo($dataSeo);
 
         return view('frontend.pages.checkout.checkout2', compact('dataSeo'));
     }
@@ -1123,7 +1110,7 @@ class IndexController extends Controller
 
         $dataSeo = Pages::where('type', 'news')->first();
 
-        $this->createSeo($dataSeo);
+        $this->general->createSeo($dataSeo);
 
         $posts = Posts::where('status',1)->orderBy('stt','DESC')->get();
 
@@ -1155,7 +1142,7 @@ class IndexController extends Controller
 
         $dataSeo = Pages::where('type', 'faq')->first();
 
-        $this->createSeo($dataSeo);
+        $this->general->createSeo($dataSeo);
 
         return view('frontend.pages.faq',compact('dataSeo'));
 

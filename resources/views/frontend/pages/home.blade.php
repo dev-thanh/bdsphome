@@ -1,3 +1,8 @@
+@section('css')
+	<link rel="stylesheet" href="{{ __BASE_URL__ }}/css/pages/index.css" />
+    <link rel="stylesheet" href="{{ __BASE_URL__ }}/css/pages/cm__product.css" />
+    <link rel="stylesheet" href="{{ __BASE_URL__ }}/css/pages/cm__new.css" />
+@endsection
 @extends('frontend.master')
 @section('main')
 
@@ -6,209 +11,1330 @@
 	} ?>
 	
 	<main id="main">
-		@if(count($slider))
-		<section class="section__banner">
-			<div class="banner__slide" data-aos="fade-up"
-				data-aos-duration="3000">
-				@foreach($slider as $item)
-				<div class="banner__item">
-					<a href="{{$item->link}}" target="_blank" class="banner__item--link">
-					<img src="{{url('/').$item->image}}" alt="{{$item->name}}"/>
+		<section class="home-banner">
+			@foreach($slider as $item)
+			<div class="banner__item">
+				<div class="banner__box">
+					<div class="frame">
+						<img src="{{url('/').$item->image}}" alt="{{$item->title}}" />
+					</div>
+				</div>
+			</div>
+			@endforeach
+		</section>
+		<section class="control__global">
+			<div class="container">
+				<div class="bs-tab">
+					<div class="tab-container">
+						<div class="tab-control">
+							<ul class="control-list">
+								<li class="control-list__item active" tab-show="#real-estate">
+									Bất động sản
+								</li>
+								<li class="control-list__item " tab-show="#project">
+									Dự án
+								</li>
+								<li class="control-list__item " tab-show="#news">
+									Tin tức
+								</li>
+							</ul>
+						</div>
+						<div class="tab-content">
+							<div class="tab-item  active" id="real-estate">
+								<form class="form__control">
+									<div class="form__header">
+										<div class="form__item">
+											<select class="select__control">
+												<option value="1">
+													Loại Bất động sản
+												</option>
+												<option value="">Nhà phố</option>
+												<option value="">Đất nền</option>
+												<option value="">
+													Căn hộ chung cư
+												</option>
+												<option value="">
+													Đất bất động sản nghỉ dưỡng
+												</option>
+												<option value="">
+													Đất xây nhà xưởng, khu công nghiệp.
+												</option>
+												<option value="">
+													Đất nghĩa trang.
+												</option>
+											</select>
+											<div class="form__checkout">
+												<label for="check__1">
+													<input type="radio" class="input__raido" checked="checked" id="check__1" name="name__radio" />
+													<span class="checked">
+														Bán
+													</span>
+												</label>
+												<label for="check__2">
+													<input type="radio" class="input__raido" id="check__2" name="name__radio" />
+													<span class="checked">
+														Cho thuê
+													</span>
+												</label>
+											</div>
+										</div>
+										<div class="form__item">
+											<div class="form__search">
+												<input type="text" class="input__search" placeholder="Nhập từ khoá cần tìm..." />
+												<button class="btn btn__search">
+													<img src="https://tpl.gco.vn/bds/images/icons/icon__search.png" alt="icon__search.png" />
+													Tìm kiếm
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="form__body">
+										<div class="form__item">
+											<select class="select__control">
+												<option value="0">Tỉnh/Thành</option>
+												<option value="1">Hà Nội</option>
+												<option value="2">Hưng Yên</option>
+												<option value="3">Vĩnh Phúc</option>
+												<option value="4">Hòa Bình</option>
+												<option value="5">Mộc châu</option>
+											</select>
+										</div>
+										<div class="form__item">
+											<select class="select__control">
+												<option value="0">Quận/Huyện</option>
+												<option value="1">Thạch Thất</option>
+												<option value="2">Đan Phượng</option>
+												<option value="3">Sơn Tây</option>
+												<option value="4">Quốc Oai</option>
+											</select>
+										</div>
+										<div class="form__item">
+											<select class="select__control">
+												<option value="0">Phường/Xã</option>
+												<option value="1">Hương Ngải</option>
+												<option value="2">Kim Quan</option>
+											</select>
+										</div>
+										<div class="form__item">
+											<select class="select__control">
+												<option value="0">Khoảng Giá</option>
+												<option value="1">1 tỷ - 2 tỷ</option>
+												<option value="2">
+													3 tỷ - 4 tỷ/option>
+												</option>
+											</select>
+										</div>
+										<div class="form__item action active">
+											<button type="button" class="btn btn__click">
+												Thu gọn
+											</button>
+											<button type="reset" class="btn btn__reset">
+												<img src="https://tpl.gco.vn/bds/images/icons/icon__reset.png" alt="icon__reset.png" />
+											</button>
+										</div>
+									</div>
+									<div class="form__footer ">
+										<div class="form__item">
+											<select class="select__control">
+												<option value="0">Diện tích</option>
+												<option value="1">67 m²</option>
+												<option value="2">67 m²</option>
+											</select>
+										</div>
+										<div class="form__item">
+											<select class="select__control">
+												<option value="0">Hướng</option>
+											</select>
+										</div>
+										<div class="form__item">
+											<select class="select__control">
+												<option value="0">Số phòng ngủ</option>
+											</select>
+										</div>
+										<div class="form__item">
+											<select class="select__control">
+												<option value="0">Dự án</option>
+											</select>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="tab-item " id="project">
+								<form class="form__control">
+									<div class="form__header">
+										<div class="form__item">
+											<select class="select__control">
+												<option value="1">
+													Đang khởi động
+												</option>
+												<option value="">Nhà phố</option>
+												<option value="">Đất nền</option>
+												<option value="">
+													Căn hộ chung cư
+												</option>
+												<option value="">
+													Đất bất động sản nghỉ dưỡng
+												</option>
+												<option value="">
+													Đất xây nhà xưởng, khu công nghiệp.
+												</option>
+												<option value="">
+													Đất nghĩa trang.
+												</option>
+											</select>
+										</div>
+										<div class="form__item">
+											<div class="form__search">
+												<input type="text" class="input__search" placeholder="Nhập từ khoá cần tìm..." />
+												<button class="btn btn__search">
+													<img src="https://tpl.gco.vn/bds/images/icons/icon__search.png" alt="icon__search.png" />
+													Tìm kiếm
+												</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="tab-item " id="news">
+								<form class="form__control">
+									<div class="form__header">
+										<div class="form__item">
+											<select class="select__control">
+												<option value="1">
+													Tin động sản
+												</option>
+												<option value="">Nhà phố</option>
+												<option value="">Đất nền</option>
+												<option value="">
+													Căn hộ chung cư
+												</option>
+												<option value="">
+													Đất bất động sản nghỉ dưỡng
+												</option>
+												<option value="">
+													Đất xây nhà xưởng, khu công nghiệp.
+												</option>
+												<option value="">
+													Đất nghĩa trang.
+												</option>
+											</select>
+										</div>
+										<div class="form__item">
+											<div class="form__search">
+												<input type="text" class="input__search" placeholder="Nhập từ khoá cần tìm..." />
+												<button class="btn btn__search">
+													<img src="https://tpl.gco.vn/bds/images/icons/icon__search.png" alt="icon__search.png" />
+													Tìm kiếm
+												</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="home-product">
+			<div class="container">
+				<div class="header__global">
+					<div class="item__global">
+						<h1 class="title__global">Bất động sản</h1>
+					</div>
+					<div class="item__global">
+						<a href="page__realEstate.html" class="btn btn__global" title="Xem tất cả">
+							Xem tất cả
+						</a>
+					</div>
+				</div>
+				<div class="module__content">
+					<div class="slide__product">
+						<div class="slide__item">
+							<div class="slide__box">
+								<div class="product__global">
+									<a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
+										<div class="frame">
+											<img src="https://tpl.gco.vn/bds/images/product__1.jpg" alt="product__1.jpg" />
+										</div>
+										<span class="price__global">
+											2.15 Tỷ
+										</span>
+									</a>
+									<div class="content__global">
+										<a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
+											Quận Tân Bình, TP. Hồ Chí Minh
+										</a>
+										<h3 class="title__global">
+											<a href="detail__real-estate.html" title="Căn hộ Officetel Sky Center Phổ Quang">
+												Căn hộ Officetel Sky Center Phổ Quang
+											</a>
+										</h3>
+										<div class="tags__group">
+											<span class="tags__item">
+												67 m²
+											</span>
+											<span class="tags__item">
+												Ngõ 1 ô tô
+											</span>
+											<span class="tags__item">
+												2 Phòng ngủ
+											</span>
+										</div>
+										<div class="tags__group">
+											<span class="tags__item">Đông nam
+											</span>
+											<span class="tags__item">Chính chủ
+											</span>
+											<span class="tags__item">
+												Đã có sổ
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="slide__item">
+							<div class="slide__box">
+								<div class="product__global">
+									<a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
+										<div class="frame">
+											<img src="https://tpl.gco.vn/bds/images/product__1.jpg" alt="product__1.jpg" />
+										</div>
+										<span class="price__global">
+											2.15 Tỷ
+										</span>
+									</a>
+									<div class="content__global">
+										<a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
+											Quận Tân Bình, TP. Hồ Chí Minh
+										</a>
+										<h3 class="title__global">
+											<a href="detail__real-estate.html" title="Căn hộ Officetel Sky Center Phổ Quang">
+												Căn hộ Officetel Sky Center Phổ Quang
+											</a>
+										</h3>
+										<div class="tags__group">
+											<span class="tags__item">
+												67 m²
+											</span>
+											<span class="tags__item">
+												Ngõ 1 ô tô
+											</span>
+											<span class="tags__item">
+												2 Phòng ngủ
+											</span>
+										</div>
+										<div class="tags__group">
+											<span class="tags__item">Đông nam
+											</span>
+											<span class="tags__item">Chính chủ
+											</span>
+											<span class="tags__item">
+												Đã có sổ
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="slide__item">
+							<div class="slide__box">
+								<div class="product__global">
+									<a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
+										<div class="frame">
+											<img src="https://tpl.gco.vn/bds/images/product__1.jpg" alt="product__1.jpg" />
+										</div>
+										<span class="price__global">
+											2.15 Tỷ
+										</span>
+									</a>
+									<div class="content__global">
+										<a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
+											Quận Tân Bình, TP. Hồ Chí Minh
+										</a>
+										<h3 class="title__global">
+											<a href="detail__real-estate.html" title="Căn hộ Officetel Sky Center Phổ Quang">
+												Căn hộ Officetel Sky Center Phổ Quang
+											</a>
+										</h3>
+										<div class="tags__group">
+											<span class="tags__item">
+												67 m²
+											</span>
+											<span class="tags__item">
+												Ngõ 1 ô tô
+											</span>
+											<span class="tags__item">
+												2 Phòng ngủ
+											</span>
+										</div>
+										<div class="tags__group">
+											<span class="tags__item">Đông nam
+											</span>
+											<span class="tags__item">Chính chủ
+											</span>
+											<span class="tags__item">
+												Đã có sổ
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="slide__item">
+							<div class="slide__box">
+								<div class="product__global">
+									<a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
+										<div class="frame">
+											<img src="https://tpl.gco.vn/bds/images/product__1.jpg" alt="product__1.jpg" />
+										</div>
+										<span class="price__global">
+											2.15 Tỷ
+										</span>
+									</a>
+									<div class="content__global">
+										<a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
+											Quận Tân Bình, TP. Hồ Chí Minh
+										</a>
+										<h3 class="title__global">
+											<a href="detail__real-estate.html" title="Căn hộ Officetel Sky Center Phổ Quang">
+												Căn hộ Officetel Sky Center Phổ Quang
+											</a>
+										</h3>
+										<div class="tags__group">
+											<span class="tags__item">
+												67 m²
+											</span>
+											<span class="tags__item">
+												Ngõ 1 ô tô
+											</span>
+											<span class="tags__item">
+												2 Phòng ngủ
+											</span>
+										</div>
+										<div class="tags__group">
+											<span class="tags__item">Đông nam
+											</span>
+											<span class="tags__item">Chính chủ
+											</span>
+											<span class="tags__item">
+												Đã có sổ
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="slide__item">
+							<div class="slide__box">
+								<div class="product__global">
+									<a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
+										<div class="frame">
+											<img src="https://tpl.gco.vn/bds/images/product__1.jpg" alt="product__1.jpg" />
+										</div>
+										<span class="price__global">
+											2.15 Tỷ
+										</span>
+									</a>
+									<div class="content__global">
+										<a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
+											Quận Tân Bình, TP. Hồ Chí Minh
+										</a>
+										<h3 class="title__global">
+											<a href="detail__real-estate.html" title="Căn hộ Officetel Sky Center Phổ Quang">
+												Căn hộ Officetel Sky Center Phổ Quang
+											</a>
+										</h3>
+										<div class="tags__group">
+											<span class="tags__item">
+												67 m²
+											</span>
+											<span class="tags__item">
+												Ngõ 1 ô tô
+											</span>
+											<span class="tags__item">
+												2 Phòng ngủ
+											</span>
+										</div>
+										<div class="tags__group">
+											<span class="tags__item">Đông nam
+											</span>
+											<span class="tags__item">Chính chủ
+											</span>
+											<span class="tags__item">
+												Đã có sổ
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="slide__item">
+							<div class="slide__box">
+								<div class="product__global">
+									<a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
+										<div class="frame">
+											<img src="https://tpl.gco.vn/bds/images/product__1.jpg" alt="product__1.jpg" />
+										</div>
+										<span class="price__global">
+											2.15 Tỷ
+										</span>
+									</a>
+									<div class="content__global">
+										<a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
+											Quận Tân Bình, TP. Hồ Chí Minh
+										</a>
+										<h3 class="title__global">
+											<a href="detail__real-estate.html" title="Căn hộ Officetel Sky Center Phổ Quang">
+												Căn hộ Officetel Sky Center Phổ Quang
+											</a>
+										</h3>
+										<div class="tags__group">
+											<span class="tags__item">
+												67 m²
+											</span>
+											<span class="tags__item">
+												Ngõ 1 ô tô
+											</span>
+											<span class="tags__item">
+												2 Phòng ngủ
+											</span>
+										</div>
+										<div class="tags__group">
+											<span class="tags__item">Đông nam
+											</span>
+											<span class="tags__item">Chính chủ
+											</span>
+											<span class="tags__item">
+												Đã có sổ
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="slide__item">
+							<div class="slide__box">
+								<div class="product__global">
+									<a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
+										<div class="frame">
+											<img src="https://tpl.gco.vn/bds/images/product__1.jpg" alt="product__1.jpg" />
+										</div>
+										<span class="price__global">
+											2.15 Tỷ
+										</span>
+									</a>
+									<div class="content__global">
+										<a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
+											Quận Tân Bình, TP. Hồ Chí Minh
+										</a>
+										<h3 class="title__global">
+											<a href="detail__real-estate.html" title="Căn hộ Officetel Sky Center Phổ Quang">
+												Căn hộ Officetel Sky Center Phổ Quang
+											</a>
+										</h3>
+										<div class="tags__group">
+											<span class="tags__item">
+												67 m²
+											</span>
+											<span class="tags__item">
+												Ngõ 1 ô tô
+											</span>
+											<span class="tags__item">
+												2 Phòng ngủ
+											</span>
+										</div>
+										<div class="tags__group">
+											<span class="tags__item">Đông nam
+											</span>
+											<span class="tags__item">Chính chủ
+											</span>
+											<span class="tags__item">
+												Đã có sổ
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="slide__item">
+							<div class="slide__box">
+								<div class="product__global">
+									<a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
+										<div class="frame">
+											<img src="https://tpl.gco.vn/bds/images/product__1.jpg" alt="product__1.jpg" />
+										</div>
+										<span class="price__global">
+											2.15 Tỷ
+										</span>
+									</a>
+									<div class="content__global">
+										<a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
+											Quận Tân Bình, TP. Hồ Chí Minh
+										</a>
+										<h3 class="title__global">
+											<a href="detail__real-estate.html" title="Căn hộ Officetel Sky Center Phổ Quang">
+												Căn hộ Officetel Sky Center Phổ Quang
+											</a>
+										</h3>
+										<div class="tags__group">
+											<span class="tags__item">
+												67 m²
+											</span>
+											<span class="tags__item">
+												Ngõ 1 ô tô
+											</span>
+											<span class="tags__item">
+												2 Phòng ngủ
+											</span>
+										</div>
+										<div class="tags__group">
+											<span class="tags__item">Đông nam
+											</span>
+											<span class="tags__item">Chính chủ
+											</span>
+											<span class="tags__item">
+												Đã có sổ
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="slide__item">
+							<div class="slide__box">
+								<div class="product__global">
+									<a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
+										<div class="frame">
+											<img src="https://tpl.gco.vn/bds/images/product__1.jpg" alt="product__1.jpg" />
+										</div>
+										<span class="price__global">
+											2.15 Tỷ
+										</span>
+									</a>
+									<div class="content__global">
+										<a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
+											Quận Tân Bình, TP. Hồ Chí Minh
+										</a>
+										<h3 class="title__global">
+											<a href="detail__real-estate.html" title="Căn hộ Officetel Sky Center Phổ Quang">
+												Căn hộ Officetel Sky Center Phổ Quang
+											</a>
+										</h3>
+										<div class="tags__group">
+											<span class="tags__item">
+												67 m²
+											</span>
+											<span class="tags__item">
+												Ngõ 1 ô tô
+											</span>
+											<span class="tags__item">
+												2 Phòng ngủ
+											</span>
+										</div>
+										<div class="tags__group">
+											<span class="tags__item">Đông nam
+											</span>
+											<span class="tags__item">Chính chủ
+											</span>
+											<span class="tags__item">
+												Đã có sổ
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="slide__item">
+							<div class="slide__box">
+								<div class="product__global">
+									<a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
+										<div class="frame">
+											<img src="https://tpl.gco.vn/bds/images/product__1.jpg" alt="product__1.jpg" />
+										</div>
+										<span class="price__global">
+											2.15 Tỷ
+										</span>
+									</a>
+									<div class="content__global">
+										<a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
+											Quận Tân Bình, TP. Hồ Chí Minh
+										</a>
+										<h3 class="title__global">
+											<a href="detail__real-estate.html" title="Căn hộ Officetel Sky Center Phổ Quang">
+												Căn hộ Officetel Sky Center Phổ Quang
+											</a>
+										</h3>
+										<div class="tags__group">
+											<span class="tags__item">
+												67 m²
+											</span>
+											<span class="tags__item">
+												Ngõ 1 ô tô
+											</span>
+											<span class="tags__item">
+												2 Phòng ngủ
+											</span>
+										</div>
+										<div class="tags__group">
+											<span class="tags__item">Đông nam
+											</span>
+											<span class="tags__item">Chính chủ
+											</span>
+											<span class="tags__item">
+												Đã có sổ
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="slide__item">
+							<div class="slide__box">
+								<div class="product__global">
+									<a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
+										<div class="frame">
+											<img src="https://tpl.gco.vn/bds/images/product__1.jpg" alt="product__1.jpg" />
+										</div>
+										<span class="price__global">
+											2.15 Tỷ
+										</span>
+									</a>
+									<div class="content__global">
+										<a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
+											Quận Tân Bình, TP. Hồ Chí Minh
+										</a>
+										<h3 class="title__global">
+											<a href="detail__real-estate.html" title="Căn hộ Officetel Sky Center Phổ Quang">
+												Căn hộ Officetel Sky Center Phổ Quang
+											</a>
+										</h3>
+										<div class="tags__group">
+											<span class="tags__item">
+												67 m²
+											</span>
+											<span class="tags__item">
+												Ngõ 1 ô tô
+											</span>
+											<span class="tags__item">
+												2 Phòng ngủ
+											</span>
+										</div>
+										<div class="tags__group">
+											<span class="tags__item">Đông nam
+											</span>
+											<span class="tags__item">Chính chủ
+											</span>
+											<span class="tags__item">
+												Đã có sổ
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="slide__item">
+							<div class="slide__box">
+								<div class="product__global">
+									<a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
+										<div class="frame">
+											<img src="https://tpl.gco.vn/bds/images/product__1.jpg" alt="product__1.jpg" />
+										</div>
+										<span class="price__global">
+											2.15 Tỷ
+										</span>
+									</a>
+									<div class="content__global">
+										<a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
+											Quận Tân Bình, TP. Hồ Chí Minh
+										</a>
+										<h3 class="title__global">
+											<a href="detail__real-estate.html" title="Căn hộ Officetel Sky Center Phổ Quang">
+												Căn hộ Officetel Sky Center Phổ Quang
+											</a>
+										</h3>
+										<div class="tags__group">
+											<span class="tags__item">
+												67 m²
+											</span>
+											<span class="tags__item">
+												Ngõ 1 ô tô
+											</span>
+											<span class="tags__item">
+												2 Phòng ngủ
+											</span>
+										</div>
+										<div class="tags__group">
+											<span class="tags__item">Đông nam
+											</span>
+											<span class="tags__item">Chính chủ
+											</span>
+											<span class="tags__item">
+												Đã có sổ
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="slide__item">
+							<div class="slide__box">
+								<div class="product__global">
+									<a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
+										<div class="frame">
+											<img src="https://tpl.gco.vn/bds/images/product__1.jpg" alt="product__1.jpg" />
+										</div>
+										<span class="price__global">
+											2.15 Tỷ
+										</span>
+									</a>
+									<div class="content__global">
+										<a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
+											Quận Tân Bình, TP. Hồ Chí Minh
+										</a>
+										<h3 class="title__global">
+											<a href="detail__real-estate.html" title="Căn hộ Officetel Sky Center Phổ Quang">
+												Căn hộ Officetel Sky Center Phổ Quang
+											</a>
+										</h3>
+										<div class="tags__group">
+											<span class="tags__item">
+												67 m²
+											</span>
+											<span class="tags__item">
+												Ngõ 1 ô tô
+											</span>
+											<span class="tags__item">
+												2 Phòng ngủ
+											</span>
+										</div>
+										<div class="tags__group">
+											<span class="tags__item">Đông nam
+											</span>
+											<span class="tags__item">Chính chủ
+											</span>
+											<span class="tags__item">
+												Đã có sổ
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="slide__item">
+							<div class="slide__box">
+								<div class="product__global">
+									<a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
+										<div class="frame">
+											<img src="https://tpl.gco.vn/bds/images/product__1.jpg" alt="product__1.jpg" />
+										</div>
+										<span class="price__global">
+											2.15 Tỷ
+										</span>
+									</a>
+									<div class="content__global">
+										<a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
+											Quận Tân Bình, TP. Hồ Chí Minh
+										</a>
+										<h3 class="title__global">
+											<a href="detail__real-estate.html" title="Căn hộ Officetel Sky Center Phổ Quang">
+												Căn hộ Officetel Sky Center Phổ Quang
+											</a>
+										</h3>
+										<div class="tags__group">
+											<span class="tags__item">
+												67 m²
+											</span>
+											<span class="tags__item">
+												Ngõ 1 ô tô
+											</span>
+											<span class="tags__item">
+												2 Phòng ngủ
+											</span>
+										</div>
+										<div class="tags__group">
+											<span class="tags__item">Đông nam
+											</span>
+											<span class="tags__item">Chính chủ
+											</span>
+											<span class="tags__item">
+												Đã có sổ
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="slide__item">
+							<div class="slide__box">
+								<div class="product__global">
+									<a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
+										<div class="frame">
+											<img src="https://tpl.gco.vn/bds/images/product__1.jpg" alt="product__1.jpg" />
+										</div>
+										<span class="price__global">
+											2.15 Tỷ
+										</span>
+									</a>
+									<div class="content__global">
+										<a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
+											Quận Tân Bình, TP. Hồ Chí Minh
+										</a>
+										<h3 class="title__global">
+											<a href="detail__real-estate.html" title="Căn hộ Officetel Sky Center Phổ Quang">
+												Căn hộ Officetel Sky Center Phổ Quang
+											</a>
+										</h3>
+										<div class="tags__group">
+											<span class="tags__item">
+												67 m²
+											</span>
+											<span class="tags__item">
+												Ngõ 1 ô tô
+											</span>
+											<span class="tags__item">
+												2 Phòng ngủ
+											</span>
+										</div>
+										<div class="tags__group">
+											<span class="tags__item">Đông nam
+											</span>
+											<span class="tags__item">Chính chủ
+											</span>
+											<span class="tags__item">
+												Đã có sổ
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="slide__item">
+							<div class="slide__box">
+								<div class="product__global">
+									<a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
+										<div class="frame">
+											<img src="https://tpl.gco.vn/bds/images/product__1.jpg" alt="product__1.jpg" />
+										</div>
+										<span class="price__global">
+											2.15 Tỷ
+										</span>
+									</a>
+									<div class="content__global">
+										<a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
+											Quận Tân Bình, TP. Hồ Chí Minh
+										</a>
+										<h3 class="title__global">
+											<a href="detail__real-estate.html" title="Căn hộ Officetel Sky Center Phổ Quang">
+												Căn hộ Officetel Sky Center Phổ Quang
+											</a>
+										</h3>
+										<div class="tags__group">
+											<span class="tags__item">
+												67 m²
+											</span>
+											<span class="tags__item">
+												Ngõ 1 ô tô
+											</span>
+											<span class="tags__item">
+												2 Phòng ngủ
+											</span>
+										</div>
+										<div class="tags__group">
+											<span class="tags__item">Đông nam
+											</span>
+											<span class="tags__item">Chính chủ
+											</span>
+											<span class="tags__item">
+												Đã có sổ
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="slide__item">
+							<div class="slide__box">
+								<div class="product__global">
+									<a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
+										<div class="frame">
+											<img src="https://tpl.gco.vn/bds/images/product__1.jpg" alt="product__1.jpg" />
+										</div>
+										<span class="price__global">
+											2.15 Tỷ
+										</span>
+									</a>
+									<div class="content__global">
+										<a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
+											Quận Tân Bình, TP. Hồ Chí Minh
+										</a>
+										<h3 class="title__global">
+											<a href="detail__real-estate.html" title="Căn hộ Officetel Sky Center Phổ Quang">
+												Căn hộ Officetel Sky Center Phổ Quang
+											</a>
+										</h3>
+										<div class="tags__group">
+											<span class="tags__item">
+												67 m²
+											</span>
+											<span class="tags__item">
+												Ngõ 1 ô tô
+											</span>
+											<span class="tags__item">
+												2 Phòng ngủ
+											</span>
+										</div>
+										<div class="tags__group">
+											<span class="tags__item">Đông nam
+											</span>
+											<span class="tags__item">Chính chủ
+											</span>
+											<span class="tags__item">
+												Đã có sổ
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="home-bsd">
+			<div class="container">
+				<div class="header__global">
+					<div class="item__global">
+						<h2 class="title__global">Bất động sản theo khu vực</h2>
+					</div>
+				</div>
+				<div class="module__content">
+					<div class="bsd__group">
+						<a href="#" class="bsd__item" title="">
+							<div class="frame">
+								<img src="https://tpl.gco.vn/bds/images/bsd__1.png" alt="bsd__1.png" />
+							</div>
+							<div class="bsd__content">
+								<h3 class="bsd__address">Hà nội</h3>
+								<span class="bsd__total">
+									246 tin
+								</span>
+							</div>
+						</a>
+						<a href="#" class="bsd__item" title="">
+							<div class="frame">
+								<img src="https://tpl.gco.vn/bds/images/bsd__1.png" alt="bsd__1.png" />
+							</div>
+							<div class="bsd__content">
+								<h3 class="bsd__address">Hà nội</h3>
+								<span class="bsd__total">
+									246 tin
+								</span>
+							</div>
+						</a>
+						<a href="#" class="bsd__item" title="">
+							<div class="frame">
+								<img src="https://tpl.gco.vn/bds/images/bsd__1.png" alt="bsd__1.png" />
+							</div>
+							<div class="bsd__content">
+								<h3 class="bsd__address">Hà nội</h3>
+								<span class="bsd__total">
+									246 tin
+								</span>
+							</div>
+						</a>
+						<a href="#" class="bsd__item" title="">
+							<div class="frame">
+								<img src="https://tpl.gco.vn/bds/images/bsd__1.png" alt="bsd__1.png" />
+							</div>
+							<div class="bsd__content">
+								<h3 class="bsd__address">Hà nội</h3>
+								<span class="bsd__total">
+									246 tin
+								</span>
+							</div>
+						</a>
+						<a href="#" class="bsd__item" title="">
+							<div class="frame">
+								<img src="https://tpl.gco.vn/bds/images/bsd__1.png" alt="bsd__1.png" />
+							</div>
+							<div class="bsd__content">
+								<h3 class="bsd__address">Hà nội</h3>
+								<span class="bsd__total">
+									246 tin
+								</span>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="home-about" style="background-image: url('{{url('/').@$content->home->background}}')">
+			<div class="container">
+				<div class="header__global">
+					<div class="item__global">
+						<h2 class="title__global">{{@$content->home->title}}</h2>
+						<div class="about__desc">
+							{!! @$content->home->content !!}
+						</div>
+					</div>
+
+					<div class="item__global">
+						<a href="{{route('home.about')}}" class="btn btn__global" title="Xem chi tiết">
+							Xem chi tiết
+						</a>
+					</div>
+				</div>
+				<div class="module__content">
+					<div class="about__group">
+						<div class="about__item">
+							<img src="{{url('/').@$content->home->logo}}" alt="icon__logo.png" />
+						</div>
+						<div class="about__item">
+							<h3 class="about__number">700</h3>
+							<div class="about__note">Sản phẩm đã được bán</div>
+						</div>
+						<div class="about__item">
+							<h3 class="about__number">120+</h3>
+							<div class="about__note">Dự án đã hoàn thành</div>
+						</div>
+						<div class="about__item">
+							<h3 class="about__number">3</h3>
+							<div class="about__note">Văn phòng đại diện</div>
+						</div>
+						<div class="about__item">
+							<h3 class="about__number">100+</h3>
+							<div class="about__note">Đội ngũ nhân viên</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="banner__right">
+				<img src="{{url('/').@$content->home->image}}" alt="banner__right.png" />
+			</div>
+		</section>
+		@if(!empty($cateServices))
+		<section class="home-service">
+			<div class="container">
+				<div class="header__global">
+					<div class="item__global">
+						<h2 class="title__global">Dịch vụ</h2>
+					</div>
+				</div>
+				<div class="module__content">
+					<div class="service__group">
+						@foreach($cateServices as $item)
+						<div class="service__item">
+							<div class="service__icon">
+								<img src="{{url('/').$item->banner}}" alt="{{$item->name}}" />
+							</div>
+							<div class="service__content">
+								<h3 class="service__title">
+									<a href="#" title="">
+										{{$item->name}}
+									</a>
+								</h3>
+								<div class="service__desc">
+									{!! $item->content !!}
+								</div>
+								<a href="#" class="btn btn__global" title="Chi tiết">
+									Chi tiết
+								</a>
+							</div>
+						</div>
+						@endforeach
+					</div>
+				</div>
+			</div>
+		</section>
+		@endif
+		<section class="home__project">
+			<div class="container">
+				<div class="header__global">
+					<div class="item__global">
+						<h2 class="title__global">Dự án nổi bật</h2>
+					</div>
+					<div class="item__global">
+						<a href="#" class="btn btn__global" title="Xem tất cả">
+							Xem tất cả
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="module__content">
+				<div class="project__group" style="background-image: url('https://tpl.gco.vn/bds/images/bg__hot.png')">
+					<a href="#" class="project__item" title="Aqua City">
+						<div class="project__content">
+							<div class="project__address">
+								Xã Long Hưng, Thành phố Biên Hòa
+							</div>
+							<h3 class="project__title">Aqua City</h3>
+						</div>
+					</a>
+					<a href="#" class="project__item" title="Vinhomes Grand Park">
+						<div class="project__content">
+							<div class="project__address">
+								Long Thạnh Mỹ, Quận 9, Hồ Chí Minh
+							</div>
+							<h3 class="project__title">Vinhomes Grand Park</h3>
+						</div>
+					</a>
+					<a href="#" class="project__item" title="The Lotus Center">
+						<div class="project__content">
+							<div class="project__address">
+								Võ Chí Công, P. Phú Thượng, Q. Tây Hồ, Hà Nội
+							</div>
+							<h3 class="project__title">The Lotus Center</h3>
+						</div>
+					</a>
+					<a href="#" class="project__item" title="The Stars Village">
+						<div class="project__content">
+							<div class="project__address">
+								Xã Nhơn Đức, Nhà Bè, Hồ Chí Minh
+							</div>
+							<h3 class="project__title">The Stars Village</h3>
+						</div>
 					</a>
 				</div>
-				@endforeach
 			</div>
 		</section>
-		@endif
-		@if(count($product_selling))
-		<section class="home__product">
+		<section class="home-news">
 			<div class="container">
-				<div class="module module-home__product">
-					<div class="module__header header__global" data-aos="fade-up" data-aos-duration="3000">
-						<h2 class="title">hàng bán chạy</h2>
-						<a href="{{route('home.list.product')}}" class="btn btn__all">
-						Tất cả
+				<div class="header__global">
+					<div class="item__global">
+						<h2 class="title__global">Tin tức</h2>
+					</div>
+					<div class="item__global">
+						<a href="{{route('home.news')}}" class="btn btn__global" title="Xem tất cả">
+							Xem tất cả
 						</a>
 					</div>
-					<div class="module__content">
-						<div class="row">
-							@foreach($product_selling as $item)
-							
-							<div class="col-12 col-xs-6 col-sm-6 col-md-4 col-lg-3" data-aos="fade-up" data-aos-duration="3000">
-								<div class="product__global">
-									<div class="product__avata-global">
-										<a href="{{route('home.single.product',['slug'=>$item->slug])}}" class="frame" title="{{$item->name}}">
-										<img class="img__global" src="{{url('/').$item->image}}" alt="{{$item->name}}"/>
-										<img class="img__hover-global" src="{{url('/').$item->image_hover}}" alt="{{$item->name}}"/>
-										</a>
-									</div>
-									<div class="product__content-global">
-										<div class="product__function-global">
-											<?php $cate = $item->category;
-												$string1 = '';
-												foreach($cate as $k => $val){
-													if($k!=0){
-														$string1=$string1.', '.$val->name;
-													}else{
-														$string1=$string1.$val->name;
-													}
-												}
-											?>
-											{{$string1}}
-										</div>
-										<h3 class="product__title-global">
-											<a href="{{route('home.single.product',['slug'=>$item->slug])}}" title="{{$item->name}}">
+				</div>
+				<div class="module__content">
+					<div class="new__slide">
+						@foreach($posts as $item)
+						<div class="slide__item">
+							<div class="new">
+								<a href="{{route('home.news-single',['slug'=>$item->slug])}}" class="frame">
+									<img src="{{url('/').$item->image}}" alt="{{$item->name}}" />
+								</a>
+								<div class="new__content">
+									<time class="new__time">
+										{{format_datetime($item->created_at,'d/m/Y')}}
+									</time>
+									<h3 class="new__title">
+										<a href="{{route('home.news-single',['slug'=>$item->slug])}}" title="Top 5 kinh nghiệm đầu tư bất động sản siêu hay không nên bỏ lỡ">
 											{{$item->name}}
-											</a>
-										</h3>
-										<div class="product__price-global">
-											<span class="global__price">
-											{{ number_format($item->regular_price,0, '.', '.') }}VND
-											</span>
-										</div>
-									</div>
-								</div>
-							</div>
-							@endforeach
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		@endif
-		@if(!empty($content->aboutus) || !empty($content->fashion))
-		<section class="home__store">
-			<div class="container">
-				<div class="module module-home__store">
-					<div class="module__content">
-						<div class="store__group">
-							<div class="store__item">
-								<div class="store__content">
-									<h3 class="store__title" data-aos="fade-up" data-aos-duration="3000">{{$content->aboutus->title}}</h3>
-									<div class="store__desc" data-aos="fade-up" data-aos-duration="3000">
-										{!! $content->aboutus->desc !!}
-									</div>
-									<a href="{{@$content->aboutus->link}}" title="{{$content->aboutus->title}}" class="btn btn__store" data-aos="fade-up" data-aos-duration="3000">
-									Cửa hàng
-									</a>
-								</div>
-							</div>
-							<div class="store__item">
-								<div class="store__thumbnail">
-									<div class="frame" data-aos="fade-up" data-aos-duration="3000">
-										<img src="{{url('/').$content->aboutus->iamge}}" alt="{{$content->aboutus->title}}"/>
-									</div>
-								</div>
-							</div>
-						</div>
-						@if(!empty($content->fashion))
-						<div class="store__group">
-							<div class="store__item">
-								<div class="store__content">
-									<h3 class="store__title" data-aos="fade-up" data-aos-duration="3000">{{$content->fashion->title}}</h3>
-									<div class="store__desc" data-aos="fade-up" data-aos-duration="3000">
-										{!! $content->fashion->desc !!}
-									</div>
-									<a href="{{$content->fashion->link}}" class="btn btn__store" data-aos="fade-up" data-aos-duration="3000">
-									Cửa hàng
-									</a>
-								</div>
-							</div>
-							<div class="store__item">
-								<div class="store__thumbnail">
-									<div class="frame" data-aos="fade-up" data-aos-duration="3000">
-										<img src="{{url('/').$content->fashion->iamge}}" alt="{{$content->aboutus->title}}"/>
-									</div>
-								</div>
-							</div>
-						</div>
-						@endif
-					</div>
-				</div>
-			</div>
-		</section>
-		@endif
-		@if(count($product_hot))
-		<section class="home__product">
-			<div class="container">
-				<div class="module module-home__product">
-					<div class="module__header header__global" data-aos="fade-up" data-aos-duration="3000">
-						<h2 class="title">hàng nổi bật</h2>
-						<a href="{{route('home.list.product')}}" class="btn btn__all">
-						Tất cả
-						</a>
-					</div>
-					<div class="module__content">
-						<div class="row">
-							@foreach($product_hot as $item)
-							<div class="col-12 col-xs-6 col-sm-6 col-md-4 col-lg-3" data-aos="fade-up" data-aos-duration="3000">
-								<div class="product__global">
-									<div class="product__avata-global">
-										<a href="{{route('home.single.product',['slug'=>$item->slug])}}" class="frame" title="{{ $item->name }}">
-										<img class="img__global img--bc" src="{{ url('/').$item->image }}" alt="{{ $item->name }}"/>
-										<img class="img__hover-global" src="{{ url('/').$item->image_hover }}" alt="{{ $item->name }}"/>
 										</a>
+									</h3>
+									<div class="new__desc">
+										{{$item->desc}}
 									</div>
-									<div class="product__content-global pcg--t">
-										<div class="product__function-global">
-										<?php $cate = $item->category;
-												$string = '';
-												foreach($cate as $k => $val){
-													if($k!=0){
-														$string=$string.', '.$val->name;
-													}else{
-														$string=$string.$val->name;
-													}
-												}
-											?>
-											{{$string}}
-										</div>
-										<h3 class="product__title-global">
-											<a href="{{route('home.single.product',['slug'=>$item->slug])}}" title="{{ $item->name }}">
-											{{ $item->name }}
-											</a>
-										</h3>
-										<div class="product__price-global">
-											<span class="global__price">
-											{{ number_format($item->regular_price,0, '.', '.') }}VND
-											</span>
-										</div>
-									</div>
-								</div>
-							</div>
-							@endforeach
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		@endif
-		@if(!empty($content->partner))
-		<section class="home__beheshop">
-			<div class="container">
-				<div class="module module-home__beheshop">
-					<div class="module__header header__global" data-aos="fade-up" data-aos-duration="3000">
-						<h2 class="title">{{$content->partner->name}}</h2>
-						<a href="{{$content->partner->link}}" target="_blank" class="btn btn__follow" title="Theo dõi Instagram">
-							Theo dõi Instagram
-						</a>
-					</div>
-					<div class="module__content">
-						<div class="beheshop__group">
-							@foreach($content->partner->content as $item)
-							<div class="beheshop__item" data-aos="fade-up" data-aos-duration="3000">
-								<div class="beheshop__box">
-									<a href="{{$item->link}}" class="frame" title="{{$item->link}}">
-										<img src="{{url('/').$item->image}}" alt="{{$item->link}}"/>
+									<a href="{{route('home.news-single',['slug'=>$item->slug])}}" class="btn btn__global" title="Chi tiết">
+										Chi tiết
 									</a>
 								</div>
 							</div>
-							@endforeach
 						</div>
+						@endforeach
 					</div>
 				</div>
 			</div>
 		</section>
-		@endif
+		<section class="partner">
+			<div class="container">
+				<div class="partner__slide">
+					@foreach(@$content->logo->content as $item)
+					<div class="partner__item">
+						<div class="partner__box">
+							<a href="{{@$item->link}}" class="frame">
+								<img src="{{url('/').$item->image}}" alt="{{@$item->title}}" />
+							</a>
+						</div>
+					</div>
+					@endforeach
+				</div>
+			</div>
+		</section>
 	</main>
 @endsection
+@section('script')
+<script>
+	$(document).ready(function() {
+		homeBanner = () => {
+			$(".home-banner").slick({
+				dost: false,
+				arrows: true,
+				autoplay: true
+			});
+		};
+		homeBanner();
+		homeProduct = () => {
+			$(".slide__product").slick({
+				dots: false,
+				slidesToShow: 4,
+				rows: 2,
+				slidesToScroll: 4,
+				responsive: [{
+					breakpoint: 991.98,
+					settings: {
+						slidesToShow: 3,
+						slidesToScroll: 3
+					}
+				}, {
+					breakpoint: 600,
+					settings: {
+						slidesToShow: 2,
+						slidesToScroll: 2
+					}
+				}, {
+					breakpoint: 480,
+					settings: {
+						slidesToShow: 1,
+						slidesToScroll: 1
+					}
+				}, ]
+			});
+		};
+		homeProduct();
+		homeNew = () => {
+			$(".new__slide").slick({
+				dots: false,
+				autoplay: true
+			});
+		};
+		homeNew();
+		homeParter = () => {
+			$(".partner__slide").slick({
+				dots: false,
+				arrows: false,
+				slidesToShow: 5,
+				slidesToScroll: 1,
+				autoplay: true,
+				responsive: [{
+					breakpoint: 991.98,
+					settings: {
+						slidesToShow: 4,
+						slidesToScroll: 1
+					}
+				}, {
+					breakpoint: 600,
+					settings: {
+						slidesToShow: 3,
+						slidesToScroll: 2
+					}
+				}, {
+					breakpoint: 479.98,
+					settings: {
+						slidesToShow: 2,
+						slidesToScroll: 1
+					}
+				}, ]
+			});
+		};
+		homeParter();
+	});
+</script>
+@stop

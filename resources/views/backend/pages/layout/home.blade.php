@@ -33,16 +33,13 @@
 					<div class="nav-tabs-custom">
 				        <ul class="nav nav-tabs">
 				            <li class="active">
-				            	<a href="#content-2" data-toggle="tab" aria-expanded="true">Khối chăm sóc da</a>
+				            	<a href="#content-2" data-toggle="tab" aria-expanded="true">Khối về chúng tôi</a>
 				            </li>
 
 				            <li class="">
-				            	<a href="#content-3" data-toggle="tab" aria-expanded="true">Khối thời trang</a>
+				            	<a href="#content-3" data-toggle="tab" aria-expanded="true">Khối đối tác</a>
 				            </li>
-				            
-							<li class="">
-				            	<a href="#content-4" data-toggle="tab" aria-expanded="true">Khối hình ảnh instagram</a>
-				            </li>
+				           
 				        </ul>
 				    </div>
 				    <?php if(!empty($data->content)){
@@ -52,145 +49,116 @@
 				    <div class="tab-content">
 						<div class="tab-pane active" id="content-2">
 							<div class="row">
-								<div class="col-sm-12">
-									
-									<div class="col-sm-9">
-										<div class="repeater">
-											<div class="form-group">
-												<label for="">Tiêu đề khối</label>
-												<input type="text" name="content[aboutus][title]" class="form-control" value="{{ @$content->aboutus->title }}">
+								<div class="col-sm-2">
+									<div class="form-group">
+										<label>Hình ảnh background khối</label>
+										<div class="image">
+											<div class="image__thumbnail" style="max-width: 150px;max-height: 150px">
+												<img src="{{ @$content->home->background ?  url('/').@$content->home->background : __IMAGE_DEFAULT__ }}"  
+												data-init="{{ __IMAGE_DEFAULT__ }}">
+												<a href="javascript:void(0)" class="image__delete" onclick="urlFileDelete(this)">
+													<i class="fa fa-times"></i></a>
+												<input type="hidden" value="{{ @$content->home->background }}" name="content[home][background]"  />
+												<div class="image__button" onclick="fileSelect(this)"><i class="fa fa-upload"></i> Upload</div>
 											</div>
-										</div>
-
-										<div class="repeater">
-											<div class="form-group">
-												<label for="">Mô tả ngắn khối</label>
-												<textarea name="content[aboutus][desc]" class="form-control content" style="min-height: 150px">{{ @$content->aboutus->desc }}</textarea>
-											</div>
-										</div>
-
-										<div class="repeater">
-											<div class="form-group">
-												<label for="">Liên kết</label>
-												<input type="text" name="content[aboutus][link]" class="form-control" value="{{ @$content->aboutus->link }}">
-											</div>
-										</div>
-										
-										<div class="col-sm-2">
-											<div class="form-group">
-					                           <label>Hình ảnh đại diện khối</label>
-					                           <div class="image">
-					                               <div class="image__thumbnail">
-					                                   <img src="{{ @$content->aboutus->iamge ?  url('/').@$content->aboutus->iamge : __IMAGE_DEFAULT__ }}"  
-					                                   data-init="{{ __IMAGE_DEFAULT__ }}">
-					                                   <a href="javascript:void(0)" class="image__delete" onclick="urlFileDelete(this)">
-					                                    <i class="fa fa-times"></i></a>
-					                                   <input type="hidden" value="{{ @$content->aboutus->iamge }}" name="content[aboutus][iamge]"  />
-					                                   <div class="image__button" onclick="fileSelect(this)"><i class="fa fa-upload"></i> Upload</div>
-					                               </div>
-					                           </div>
-					                       </div>
 										</div>
 									</div>
-									
-								</div>
-							</div>
-						</div>
-						<div class="tab-pane active" id="content-3">
-							<div class="row">
-								<div class="col-sm-12">
-									
-									<div class="col-sm-9">
-										<div class="repeater">
-											<div class="form-group">
-												<label for="">Tiêu đề khối</label>
-												<input type="text" name="content[fashion][title]" class="form-control" value="{{ @$content->fashion->title }}">
+									<div class="form-group">
+										<label>Hình ảnh đại diện khối(bên phải)</label>
+										<div class="image">
+											<div class="image__thumbnail" style="max-width: 150px;max-height: 150px">
+												<img src="{{ @$content->home->image ?  url('/').@$content->home->image : __IMAGE_DEFAULT__ }}"  
+												data-init="{{ __IMAGE_DEFAULT__ }}">
+												<a href="javascript:void(0)" class="image__delete" onclick="urlFileDelete(this)">
+													<i class="fa fa-times"></i></a>
+												<input type="hidden" value="{{ @$content->home->image }}" name="content[home][image]"  />
+												<div class="image__button" onclick="fileSelect(this)"><i class="fa fa-upload"></i> Upload</div>
 											</div>
-										</div>
-
-										<div class="repeater">
-											<div class="form-group">
-												<label for="">Mô tả ngắn khối</label>
-												<textarea name="content[fashion][desc]" class="form-control content" style="min-height: 150px">{{ @$content->fashion->desc }}</textarea>
-											</div>
-										</div>
-
-										<div class="repeater">
-											<div class="form-group">
-												<label for="">Liên kết</label>
-												<input type="text" name="content[fashion][link]" class="form-control" value="{{ @$content->fashion->link }}">
-											</div>
-										</div>
-										
-										<div class="col-sm-2">
-											<div class="form-group">
-					                           <label>Hình ảnh đại diện khối</label>
-					                           <div class="image">
-					                               <div class="image__thumbnail">
-					                                   <img src="{{ @$content->fashion->iamge ?  url('/').@$content->fashion->iamge : __IMAGE_DEFAULT__ }}"  
-					                                   data-init="{{ __IMAGE_DEFAULT__ }}">
-					                                   <a href="javascript:void(0)" class="image__delete" onclick="urlFileDelete(this)">
-					                                    <i class="fa fa-times"></i></a>
-					                                   <input type="hidden" value="{{ @$content->fashion->iamge }}" name="content[fashion][iamge]"  />
-					                                   <div class="image__button" onclick="fileSelect(this)"><i class="fa fa-upload"></i> Upload</div>
-					                               </div>
-					                           </div>
-					                       </div>
 										</div>
 									</div>
-									
-								</div>
-							</div>
-						</div>
-
-						<div class="tab-pane" id="content-4">
-							<div class="row">
-								<div class="col-sm-12">
-									
-									
-									<div class="col-sm-9">
-										<div class="repeater">
-											<div class="form-group">
-												<label for="">Tên tài khoản instagram</label>
-												<input type="text" name="content[partner][name]" class="form-control" value="{{ @$content->partner->name }}">
+									<div class="form-group">
+										<label>Hình ảnh logo</label>
+										<div class="image">
+											<div class="image__thumbnail" style="max-width: 150px;max-height: 150px">
+												<img src="{{ @$content->home->logo ?  url('/').@$content->home->logo : __IMAGE_DEFAULT__ }}"  
+												data-init="{{ __IMAGE_DEFAULT__ }}">
+												<a href="javascript:void(0)" class="image__delete" onclick="urlFileDelete(this)">
+													<i class="fa fa-times"></i></a>
+												<input type="hidden" value="{{ @$content->home->logo }}" name="content[home][logo]"  />
+												<div class="image__button" onclick="fileSelect(this)"><i class="fa fa-upload"></i> Upload</div>
 											</div>
 										</div>
-										<div class="repeater">
+									</div>
+									</div>
+									<div class="col-sm-10">
 										<div class="form-group">
-												<label for="">Link tài khoản instagram</label>
-												<input type="text" name="content[partner][link]" class="form-control" value="{{ @$content->partner->link }}">
-											</div>
+											<label for="">Tiêu đề khối</label>
+											<input class="form-control" name="content[home][title]" value="{{ @$content->home->title }}">
 										</div>
-										<div class="repeater" id="repeater">
-											<div class="form-group">
-												<label for="">Nội dung khối</label>	
-											</div>
-											<table class="table table-bordered table-hover partner">
-												<thead>
-													<tr>
-														<th style="width: 30px;">STT</th>
-														<th style="width: 200px">Hình ảnh instagram</th>
-														<th>Tiêu đề hình ảnh</th>
-														<th>Liên kết</th>
-														<th></th>
-													</tr>
-												</thead>
-												<tbody id="sortable">
-													@if (!empty($content->partner->content))
-														@foreach ($content->partner->content as $key => $value)
-															<?php $index = $loop->index + 1; ?>
-															@include('backend.repeater.row-partner')
-														@endforeach
-													@endif
-												</tbody>
-											</table>
-											<div class="text-right">
-												<button class="btn btn-primary" 
-													onclick="repeater(event,this,'{{ route('get.layout') }}','.index', 'partner', '.partner')">Thêm
-												</button>
+										<div class="form-group">
+											<label for="">Mô tả khối</label>
+											<textarea class="content" name="content[home][content]">{!! @$content->home->content !!}</textarea>
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<h3 class="text-center" style="background: #62ff00;padding: 10px 0px">Thông số thống kê</h3>
+										<div class="form-group">
+											<div class="repeater" id="repeater">
+												<table class="table table-bordered table-hover statistical">
+													
+													<?php if(!empty($data->content)){
+														$contents = json_decode($data->content);
+														//dd(@$contents);
+													} ?>
+													<tbody id="sortable">
+														@if(!empty(@$contents->statistical->content))
+															@foreach (@$content->statistical->content as $key => $value)
+																<?php $index = $loop->index + 1; ?>
+																@include('backend.repeater.row-statistical')
+															@endforeach
+														@endif
+													</tbody>
+												</table>
+												<div class="text-right">
+													
+													<button class="btn btn-primary" 
+														onclick="repeater(event,this,'{{ route('get.layout') }}','.index', 'statistical', '.statistical')">Thêm
+													</button>
+													
+												</div>
 											</div>
 										</div>
 									</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="content-3">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="repeater" id="repeater">
+										<table class="table table-bordered table-hover logo">
+											
+											<?php if(!empty($data->content)){
+												$contents = json_decode($data->content);
+												//dd(@$contents);
+											} ?>
+											<tbody id="sortable">
+												@if(!empty(@$contents->logo->content))
+													@foreach (@$content->logo->content as $key => $value)
+														<?php $index = $loop->index + 1; ?>
+														@include('backend.repeater.row-logo')
+													@endforeach
+												@endif
+											</tbody>
+										</table>
+										<div class="text-right">
+											
+											<button class="btn btn-primary" 
+												onclick="repeater(event,this,'{{ route('get.layout') }}','.index', 'logo', '.logo')">Thêm
+											</button>
+											
+										</div>
+									</div>
+									
 								</div>
 							</div>
 						</div>

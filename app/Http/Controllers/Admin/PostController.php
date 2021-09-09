@@ -104,12 +104,13 @@ class PostController extends Controller
                     return $status;
                 })->addColumn('action', function ($data) {
                     return '<a href="' . route('posts.edit', ['id' => $data->id ]) . '" title="Sửa">
-                            <i class="fa fa-pencil fa-fw"></i> Sửa
-                        </a> &nbsp; &nbsp; &nbsp;
+                            <span class="label label-primary">Sửa <i class="fa fa-pencil fa-fw"></i></span>
+                        </a> &nbsp;
                             <a href="javascript:;" class="btn-destroy" 
                             data-href="' . route('posts.destroy', $data->id) . '"
                             data-toggle="modal" data-target="#confim">
-                            <i class="fa fa-trash-o fa-fw"></i> Xóa</a>
+                            <span class="label label-danger">Xóa <i class="fa fa-trash-o fa-fw"></i></span>
+                        </a>
                         ';
                 })->rawColumns(['checkbox', 'image', 'status', 'action', 'name', 'category'])
                 ->addIndexColumn()

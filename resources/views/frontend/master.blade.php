@@ -17,15 +17,17 @@
 	    <meta name="geo.placename" content="Hà Nội" />
 		<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	 	<meta name="_token" content="{{csrf_token()}}" />
-	 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+	 	<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 	 	<link rel="canonical" href="{{ \Request::fullUrl() }}">
 		 <!--link css-->
-
-		<link rel="stylesheet" href="{{ __BASE_URL__ }}/css/tool.min.css" />
-        <link rel="stylesheet" href="{{ __BASE_URL__ }}/css/main.min.css" />
+		 <link rel="stylesheet" href="{{ __BASE_URL__ }}/css/tool.css">
+		<link rel="stylesheet" href="{{ __BASE_URL__ }}/css/main.css" />
         <link rel="stylesheet" type="text/css" href="{{ __BASE_URL__ }}/css/toastr.min.css" />
 		<link rel="stylesheet" type="text/css" href="{{ __BASE_URL__ }}/css/tdt.css" />
-
+		<link href="{{ captcha_layout_stylesheet_url() }}" type="text/css" rel="stylesheet">
+		@yield('css')
 	 	@if (!empty($site_info->ticktok))
 		<!-- Ticktok -->
 			<script>
@@ -115,27 +117,19 @@
 				</p>
 			</div>
 
-			<h1 class="h1_seo d-none" style="display: none">Xe đạp điện phong lý</h1>
-			<?php $routeName = request()->route()->getName(); ?>
-			@if($routeName != 'home.check-out1' && $routeName != 'home.check-out2' && $routeName != 'home.check-out3' && $routeName != 'home.get-check-out3')
-				@include('frontend.teamplate.header')
-			@endif
-
-				@yield('main')
-
-			@if($routeName != 'home.register' && $routeName != 'home.login' && $routeName != 'home.quen-mat-khau' && $routeName != 'home.resetPassword' && $routeName != 'home.check-out1' && $routeName != 'home.check-out2' && $routeName != 'home.check-out3' && $routeName != 'home.get-check-out3')
-				@include('frontend.teamplate.footer')
-			@endif
+			@include('frontend.teamplate.header')
+			@yield('main')
+			@include('frontend.teamplate.footer')
 
 			<button class="btn btn__backtop-home"></button>
 
-			<script src="{{ __BASE_URL__ }}/js/tool.min.js"></script>
+			<script type="text/javascript" src="{{ __BASE_URL__ }}/js/tool.js"></script>
 
-			<script src="{{ __BASE_URL__ }}/js/main.js"></script>
+			<script type="text/javascript" src="{{ __BASE_URL__ }}/js/main.js"></script>
 
 			<script type="text/javascript" src="{{ __BASE_URL__ }}/js/toastr.min.js"></script>
 
-			<script type="text/javascript" src="{{ __BASE_URL__ }}/js/tdt.js"></script>
+			<script type="text/javascript" src="{{ __BASE_URL__ }}/js/custom.js"></script>
         
 		@yield('script')
 

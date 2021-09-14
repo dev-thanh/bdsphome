@@ -126,7 +126,6 @@ class BdsRepositoryEloquent extends BaseRepository implements BdsRepository
 
         $data = $this->model->where(
             [
-                'customer_id' => auth('customer')->user()->id,
                 'slug' => $slug,
                 'status' => 1
             ]

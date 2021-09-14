@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Session;
 use Validator;
+use View;
 use App\Models\Pages;
 use App\Models\Image;
 use App\Models\Categories;
@@ -18,16 +19,20 @@ use App\Repositories\Menu\MenuRepository;
 use App\Repositories\General\GeneralRepository;
 use App\Repositories\Customer\CustomerRepository;
 use App\Repositories\Profile\ProfileRepository;
+use App\Repositories\Projects\ProjectsRepository;
+use App\Repositories\Categories\CategoriesRepository;
+use App\Repositories\Bds\BdsRepository;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateAccountRequest;
 use App\Http\Requests\ChangePasswordRequest;
+use App\Http\Requests\AddPost;
 
 class ProfileController extends Controller
 {
-    public $profile,$menu,$general,$customer,$auth;
+    public $profile,$menu,$general,$customer,$auth,$projects,$cate,$bds;
 
-    public function __construct(ProfileRepository $profile, MenuRepository $menu, GeneralRepository $general,CustomerRepository $customer)
+    public function __construct(ProfileRepository $profile, MenuRepository $menu, GeneralRepository $general,CustomerRepository $customer,ProjectsRepository $projects, CategoriesRepository $cate,BdsRepository $bds)
     {
         $this->profile = $profile;
 
@@ -37,14 +42,56 @@ class ProfileController extends Controller
 
         $this->customer = $customer;
 
+        $this->projects = $projects;
+        $this->cate = $cate;
+        $this->bds = $bds;
+
     }
 
     public function adminPostManagement()
     {
         $auth = Auth::guard('customer')->user();
 
-        return view('frontend.profile.admin-post',compact('auth'));
+        $bds = $this->bds->getAllBds();
 
+        return view('frontend.profile.admin-post',compact('auth','bds'));
+
+    }
+
+    public function draftNews()
+    {
+        $auth = Auth::guard('customer')->user();
+        
+        $bds = $this->bds->getBdsType(2);
+
+        return view('frontend.profile.admin-post',compact('auth','bds'));
+    }
+
+    public function newsDown()
+    {
+        $auth = Auth::guard('customer')->user();
+
+        $bds = $this->bds->getBdsType(3);
+
+        return view('frontend.profile.admin-post',compact('auth','bds'));
+    }
+
+    public function newsPosting()
+    {
+        $auth = Auth::guard('customer')->user();
+
+        $bds = $this->bds->getBdsType(1);
+
+        return view('frontend.profile.admin-post',compact('auth','bds'));
+    }
+
+    public function newsExpired()
+    {
+        $auth = Auth::guard('customer')->user();
+
+        $bds = $this->bds->getBdsType(1);
+
+        return view('frontend.profile.admin-post',compact('auth','bds'));
     }
 
     public function adminAccountManagement()
@@ -124,13 +171,37 @@ class ProfileController extends Controller
 
         $city = $this->profile->getCity();
 
-        return view('frontend.profile.add-post',compact('auth','city'));
+        $projects = $this->projects->getProjects();
 
+        $cateParent = $this->cate->getParentCate('bds_category');
+
+        $cateBds = $this->cate->getChildCate('bds_category',$cateParent[0]->id);
+
+        return view('frontend.profile.add-post',compact('auth','city','projects','cateParent','cateBds'));
+
+    }
+
+    public function adminSaveAddPost(AddPost $request)
+    {
+        //dd($request->all());
+
+        $data = $this->bds->createBds($request);
+
+        return $data;
     }
 
     public function adminAddPostTest()
     {
         $auth = Auth::guard('customer')->user();
         return  view('frontend.profile.add-post-test',compact('auth'));
+    }
+
+    public function getTeamplateBds($id)
+    {
+        $cateBds = $this->cate->find($id);
+
+        $data =  View::make('frontend.profile.ajax-template-bds',compact('cateBds'))->render();
+
+        return $data;
     }
 }

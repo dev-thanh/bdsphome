@@ -9,7 +9,7 @@ class Projects extends Model
     protected $table = 'projects';
 
     protected $fillable = [ 
-        'name', 'slug' , 'desc' , 'content' , 'image' , 'more_image' , 'stt', 'view', 'status' , 'meta_title' , 'meta_description' , 'meta_keyword', 'is_new', 'type','hot'
+        'name', 'slug' ,'address','company_id','price','price2', 'desc' , 'content' , 'image' , 'more_image' , 'type','status','hot' , 'meta_title' , 'meta_description' , 'meta_keyword'
 	];
 
     public function category()

@@ -17,10 +17,14 @@ class ProjectTable extends Migration
             $table->bigIncrements('id');
             $table->text('name')->nullable();
             $table->text('slug')->nullable();
+            $table->text('address')->nullable();
+            $table->text('company_id')->nullable();
+            $table->text('price')->nullable();
+            $table->text('price2')->nullable();
             $table->text('desc')->nullable();
             $table->text('content')->nullable();
+            $table->text('more_image')->nullable();
             $table->text('image')->nullable();
-            $table->integer('view')->nullable()->default('0');
             $table->integer('hot')->nullable();
             $table->integer('status')->nullable();
             $table->text('meta_title')->nullable();

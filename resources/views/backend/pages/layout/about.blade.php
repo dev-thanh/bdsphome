@@ -187,7 +187,7 @@
 												//dd(@$contents);
 											} ?>
 											<tbody id="sortable">
-												@if(!empty(@$contents->core_value))
+												@if(!empty(@$contents->core_value->content))
 													@foreach (@$content->core_value->content as $key => $value)
 														<?php $index = $loop->index + 1; ?>
 														@include('backend.repeater.row-core_value')

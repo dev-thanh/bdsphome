@@ -57,9 +57,7 @@ class GeneralRepositoryEloquent extends BaseRepository implements GeneralReposit
 
             $menuFooter = $this->menu->getMenuFooter();
 
-            $menuFooter2 = $this->menu->getMenuFooter2();
-
-            view()->share(compact('site_info', 'menuHeader', 'menuFooter', 'menuFooter2'));
+            view()->share(compact('site_info', 'menuHeader', 'menuFooter'));
 
         }
     }

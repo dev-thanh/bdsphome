@@ -32,4 +32,9 @@ class Categories extends Model implements Transformable
         return $this->belongsToMany('App\Models\Services', 'services_category', 'id_category', 'id_services');
     }
 
+    public function Projects()
+    {
+        return $this->belongsToMany('App\Models\Projects', 'projects_category', 'id_category', 'id_projects');
+    }
+
 }

@@ -3,6 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
+use Auth;
 
 class ContactRequest extends FormRequest
 {
@@ -27,7 +31,7 @@ class ContactRequest extends FormRequest
             'name'      => 'required|min:5|max:50',
             'phone'     => 'required|min:10',
             'email'     => 'required|email:rfc,dns,filter',
-            'paddresshone' => 'required',
+            'address' => 'required',
             'content'   => 'max:500',
         ];
     }
@@ -44,8 +48,19 @@ class ContactRequest extends FormRequest
             'email.filter' => 'Email phải là một địa chỉ email hợp lệ.',
             'phone.required' => 'Bạn chưa nhập số điện thoại.',
             'phone.min' => 'Số điện thoại sai.',
-            'paddresshone.required' => 'Bạn chưa nhập địa chỉ.',
+            'address.required' => 'Bạn chưa nhập địa chỉ.',
             'content.max' => 'Nội dung không được lớn hơn 500 ký tự.',
         ];
     }
+
+    protected function failedValidation(Validator $validator) { 
+        
+        throw new HttpResponseException(response()->json(
+             [
+                 'success' => false,
+                 'errorMessage'=>$validator->messages()
+             ]
+             )
+         ); 
+     }
 }

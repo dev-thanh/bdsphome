@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 @section('controller', 'Tin tức' )
-@section('controller_route', route('category.index'))
+@section('controller_route', route('categories-post.index'))
 @section('action', 'Danh sách')
 @section('content')
     <div class="content">

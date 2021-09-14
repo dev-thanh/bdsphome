@@ -13,6 +13,47 @@
     </a>
 </li>
 
+<li class="treeview {{ Request::segment(2) === 'categories-bds' || Request::segment(2) === 'projects' ? 'active' : null }}">
+
+    <a href="#">
+
+        <i class="fa fa-tags" aria-hidden="true"></i> <span>Bất động sản</span>
+
+        <span class="pull-right-container">
+
+        <i class="fa fa-angle-left pull-right"></i>
+
+        </span>
+
+    </a>
+
+    <ul class="treeview-menu">
+
+
+
+        <li class="{{ Request::segment(2) === 'bds' ? 'active' : null }}">
+
+            <a href="{{ route('bds.index') }}"><i class="fa fa-circle-o"></i> Danh sách bất động sản</a>
+
+        </li>
+
+
+
+        <li class="{{ Request::segment(2) === 'categories-bds' ? 'active' : null }}">
+
+            <a href="{{ route('categories-bds.index') }}"><i class="fa fa-circle-o"></i> Danh mục bất động sản</a>
+
+        </li>
+        <li class="{{ Request::segment(2) === 'categories-nd' ? 'active' : null }}">
+
+            <a href="{{ route('categories-nd.index') }}"><i class="fa fa-circle-o"></i> Loại nhà đất</a>
+
+        </li>
+
+    </ul>
+
+</li>
+
 <li class="treeview {{ Request::segment(2) === 'categories-projects' || Request::segment(2) === 'projects' ? 'active' : null }}">
 
     <a href="#">
@@ -42,6 +83,12 @@
         <li class="{{ Request::segment(2) === 'categories-projects' ? 'active' : null }}">
 
             <a href="{{ route('categories-projects.index') }}"><i class="fa fa-circle-o"></i> Danh mục dự án</a>
+
+        </li>
+
+        <li class="{{ Request::segment(2) === 'company' ? 'active' : null }}">
+
+            <a href="{{ route('company.index') }}"><i class="fa fa-circle-o"></i>Chủ đầu tư</a>
 
         </li>
 

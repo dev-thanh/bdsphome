@@ -250,7 +250,67 @@
 				</div>
 				<div class="module__content">
 					<div class="slide__product">
+						@foreach($bds as $item)
 						<div class="slide__item">
+							<div class="slide__box">
+								<div class="product__global">
+									<a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
+										<div class="frame">
+											<img src="https://tpl.gco.vn/bds/images/product__1.jpg" alt="product__1.jpg" />
+										</div>
+										<span class="price__global">
+											2.15 Tỷ
+										</span>
+									</a>
+									<div class="content__global">
+										<a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
+											Quận Tân Bình, TP. Hồ Chí Minh
+										</a>
+										<h3 class="title__global">
+											<a href="detail__real-estate.html" title="{{$item->title}}">
+												{{$item->title}}
+											</a>
+										</h3>
+										<div class="tags__group">
+											<span class="tags__item">
+												{{$item->land_area}} m²
+											</span>
+											@if($item->frontispiece)
+											<span class="tags__item">
+												{{$item->frontispiece}}
+											</span>
+											@endif
+											@if($item->bedroom)
+											<span class="tags__item">
+												{{$item->bedroom}} Phòng ngủ
+											</span>
+											@endif
+											@if($item->number_floors)
+											<span class="tags__item">
+												{{$item->number_floors}} tầng
+											</span>
+											@endif
+										</div>
+										<div class="tags__group">
+											@if(!empty($item->direction_house))
+											<span class="tags__item">
+												{{huongNha($item->direction_house)}}
+											</span>
+											@endif
+											@if(!empty($item->legal_papers))
+											<span class="tags__item">{{$item->legal_papers}}
+											</span>
+											@endif
+											<!-- <span class="tags__item">
+												Đã có sổ
+											</span> -->
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						@endforeach
+						<!-- <div class="slide__item">
 							<div class="slide__box">
 								<div class="product__global">
 									<a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
@@ -953,51 +1013,7 @@
 									</div>
 								</div>
 							</div>
-						</div>
-						<div class="slide__item">
-							<div class="slide__box">
-								<div class="product__global">
-									<a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
-										<div class="frame">
-											<img src="https://tpl.gco.vn/bds/images/product__1.jpg" alt="product__1.jpg" />
-										</div>
-										<span class="price__global">
-											2.15 Tỷ
-										</span>
-									</a>
-									<div class="content__global">
-										<a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
-											Quận Tân Bình, TP. Hồ Chí Minh
-										</a>
-										<h3 class="title__global">
-											<a href="detail__real-estate.html" title="Căn hộ Officetel Sky Center Phổ Quang">
-												Căn hộ Officetel Sky Center Phổ Quang
-											</a>
-										</h3>
-										<div class="tags__group">
-											<span class="tags__item">
-												67 m²
-											</span>
-											<span class="tags__item">
-												Ngõ 1 ô tô
-											</span>
-											<span class="tags__item">
-												2 Phòng ngủ
-											</span>
-										</div>
-										<div class="tags__group">
-											<span class="tags__item">Đông nam
-											</span>
-											<span class="tags__item">Chính chủ
-											</span>
-											<span class="tags__item">
-												Đã có sổ
-											</span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>
@@ -1164,39 +1180,17 @@
 			</div>
 
 			<div class="module__content">
-				<div class="project__group" style="background-image: url('https://tpl.gco.vn/bds/images/bg__hot.png')">
+				<div class="project__group" style="background-image: url('{{url('/').@$content->hot->background}}')">
+				@foreach($projectsHot as $item)
 					<a href="#" class="project__item" title="Aqua City">
 						<div class="project__content">
 							<div class="project__address">
-								Xã Long Hưng, Thành phố Biên Hòa
+								{{$item->address}}
 							</div>
-							<h3 class="project__title">Aqua City</h3>
+							<h3 class="project__title">{{$item->name}}</h3>
 						</div>
 					</a>
-					<a href="#" class="project__item" title="Vinhomes Grand Park">
-						<div class="project__content">
-							<div class="project__address">
-								Long Thạnh Mỹ, Quận 9, Hồ Chí Minh
-							</div>
-							<h3 class="project__title">Vinhomes Grand Park</h3>
-						</div>
-					</a>
-					<a href="#" class="project__item" title="The Lotus Center">
-						<div class="project__content">
-							<div class="project__address">
-								Võ Chí Công, P. Phú Thượng, Q. Tây Hồ, Hà Nội
-							</div>
-							<h3 class="project__title">The Lotus Center</h3>
-						</div>
-					</a>
-					<a href="#" class="project__item" title="The Stars Village">
-						<div class="project__content">
-							<div class="project__address">
-								Xã Nhơn Đức, Nhà Bè, Hồ Chí Minh
-							</div>
-							<h3 class="project__title">The Stars Village</h3>
-						</div>
-					</a>
+					@endforeach
 				</div>
 			</div>
 		</section>
@@ -1243,6 +1237,7 @@
 				</div>
 			</div>
 		</section>
+		@if(@$content->logo)
 		<section class="partner">
 			<div class="container">
 				<div class="partner__slide">
@@ -1258,6 +1253,7 @@
 				</div>
 			</div>
 		</section>
+		@endif
 	</main>
 @endsection
 @section('script')

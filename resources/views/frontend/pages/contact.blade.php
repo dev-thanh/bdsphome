@@ -244,18 +244,18 @@
 			<div class="container">
 				<div class="contact__header">
 					<div class="header__logo">
-						<img src="images/icons/icon__logo-2.png" alt="icon__logo-2.png" />
+						<img src="{{url('/').@$content->header->image}}" alt="icon__logo-2.png" />
 					</div>
-					<h2 class="contact__title">Công ty Cổ phần D LAND</h2>
+					<h2 class="contact__title">{{@$content->header->title}}</h2>
 					<div class="contact__share">
-						<a href="https://www.facebook.com/" target="_bank" title="facebook">
-							<img src="images/icons/icon__f.png" alt="icon__f.png" />
+						<a href="{{@$content->header->link1}}" target="_bank" title="facebook">
+							<img src="{{url('/')}}/public/images/icons/icon__f.png" alt="icon__f.png" />
 						</a>
-						<a href="https://www.instagram.com/" target="_bank" title="instagram">
-							<img src="images/icons/icon__i.png" alt="i.png" />
+						<a href="{{@$content->header->link2}}" target="_bank" title="instagram">
+							<img src="{{url('/')}}/public/images/icons/icon__i.png" alt="i.png" />
 						</a>
-						<a href="https://www.youtube.com/" target="_bank" title="youtube">
-							<img src="images/icons/icon__y.png" alt="y.png" />
+						<a href="{{@$content->header->link3}}" target="_bank" title="youtube">
+							<img src="{{url('/')}}/public/images/icons/icon__y.png" alt="y.png" />
 						</a>
 					</div>
 				</div>
@@ -263,30 +263,108 @@
 					<div class="contact__item">
 						<h3 class="contact__name">Liên hệ</h3>
 						<a href="https://goo.gl/maps/Z3uytgiAACutmkYZ8" target="_bank" class="contact__addr" title="click xem bản đồ">
-							162 Võ Nguyên Giáp, Ngũ Hành Sơn, Đà Nẵng
+							{{@$content->form->address}}
 						</a>
-						<a href="tel:+(84) 36 956 0246" target="_bank" class="contact__phone" title="số điện thoại">
-							+(84) 36 956 0246
+						<a href="tel:{{@$content->form->phone}}" target="_bank" class="contact__phone" title="{{@$content->form->phone}}">
+							{{@$content->form->phone}}
 						</a>
-						<a href="maiTo:info@dland.vn" target="_bank" class="contact__email" title="email">
-							info@dland.vn
+						<a href="maiTo:{{@$content->form->email}}" target="_bank" class="contact__email" title="email">
+							{{@$content->form->email}}
 						</a>
 
-						<form class="contact__form">
-							<input type="text" placeholder="Họ và tên *" />
-							<input type="text" placeholder="Số điện thoại*" />
-							<input type="text" placeholder="Địa chỉ" />
-							<input type="email" placeholder="Email" />
-							<textarea placeholder="Ghi chú"></textarea>
-							<button class="btn btn__send">Gửi</button>
+						<form class="contact__form" action="{{route('home.post-contact')}}">
+							@csrf
+							<div>
+								<input type="text" placeholder="Họ và tên *" name="name" />
+								<span class="fr-error fr-error_name"></span>
+							</div>
+							<div>
+								<input type="text" placeholder="Số điện thoại*" name="phone" />
+								<span class="fr-error fr-error_phone"></span>
+							</div>
+							<div>
+								<input type="text" placeholder="Địa chỉ" name="address" />
+								<span class="fr-error fr-error_address"></span>
+							</div>
+							<div>
+								<input type="email" placeholder="Email" name="email" />
+								<span class="fr-error fr-error_email"></span>
+							</div>
+							<textarea placeholder="Ghi chú" name="content"></textarea>
+							<span class="fr-error fr-error_content"></span>
+							<button class="btn btn__send btn__send__contact">Gửi</button>
 						</form>
 					</div>
 					<div class="contact__item">
-						<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3833.824448252617!2d108.24244441460944!3d16.07459708887758!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3142178f470c24ad%3A0x288b1c7477f844fa!2zMTYyIFbDtSBOZ3V5w6puIEdpw6FwLCBQaMaw4bubYyBN4bu5LCBTxqFuIFRyw6AsIMSQw6AgTuG6tW5nIDU1MDAwMCwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1627660739528!5m2!1svi!2s" width="600" height="450" style="border: 0" allowfullscreen="" loading="lazy"></iframe>
+						{!! @$content->code_google_map !!}
 					</div>
 				</div>
 			</div>
 		</section>
 	</main>
+	@section('script')
+		<script>
+			$('.btn__send__contact:not(".disabled")').click(function(e){
 
+				e.preventDefault();
+
+				$('.loadingcover').show();
+
+				const el = $(this);
+
+				const UrlContact =el.parents('form').attr('action');
+
+				const data = el.parents('form').serialize();
+
+				el.addClass('disabled');
+
+				$('.fr-error').html('');
+
+				$.ajax({
+
+					type: 'POST',
+
+					url: UrlContact,
+
+					dataType: "json",
+
+					data: data,
+
+					success:function(data){
+
+						el.removeClass('disabled');
+
+						if(data.success==false)
+						{
+							if(data.errorMessage){
+
+								$.each(data.errorMessage, function(field, item) {
+	
+									$('.fr-error_'+field).html(item);
+									
+								});
+							}else{
+								toastr["error"](data.message, "Thông báo");
+							}
+						}
+
+						if (data.success==true) {
+
+							toastr["success"](data.message, "Thông báo");
+							
+							el.parents('form')[0].reset();
+
+						}
+
+						$('.loadingcover').hide();
+
+					},error:function(){
+						$('.loadingcover').hide();
+					}
+
+				});
+
+				});
+		</script>
+	@endsection
 @endsection

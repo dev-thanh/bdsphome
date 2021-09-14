@@ -19,6 +19,12 @@ use App\Repositories\Posts\PostsRepository;
 use App\Repositories\Posts\PostsRepositoryEloquent;
 use App\Repositories\Categories\CategoriesRepository;
 use App\Repositories\Categories\CategoriesRepositoryEloquent;
+use App\Repositories\Contact\ContactRepository;
+use App\Repositories\Contact\ContactRepositoryEloquent;
+use App\Repositories\Projects\ProjectsRepository;
+use App\Repositories\Projects\ProjectsRepositoryEloquent;
+use App\Repositories\Bds\BdsRepository;
+use App\Repositories\Bds\BdsRepositoryEloquent;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -37,6 +43,9 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ServicesRepository::class, ServicesRepositoryEloquent::class);
         $this->app->bind(PostsRepository::class, PostsRepositoryEloquent::class);
         $this->app->bind(CategoriesRepository::class, CategoriesRepositoryEloquent::class);
+        $this->app->bind(ContactRepository::class, ContactRepositoryEloquent::class);
+        $this->app->bind(ProjectsRepository::class, ProjectsRepositoryEloquent::class);
+        $this->app->bind(BdsRepository::class, BdsRepositoryEloquent::class);
     }
 
     /**

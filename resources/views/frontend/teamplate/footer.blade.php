@@ -8,9 +8,10 @@
                     Tortor, pulvinar volutpat lorem at quis.
                 </div>
             </div>
-            <form class="res__form">
-                <input type="email" placeholder="Email của bạn" />
-                <button class="btn btn__res">
+            <form class="res__form" action="{{route('home.send-sale')}}" id="form-send-sale" method="POST">
+                @csrf
+                <input type="email" name="email" placeholder="Email của bạn" />
+                <button type="button" class="btn btn__res btn-send-sale">
                     <img src="{{ __BASE_URL__ }}/images/icons/icon__send.png" alt="icon__send.png" />
                     <span> Đăng ký </span>
                 </button>

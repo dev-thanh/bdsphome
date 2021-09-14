@@ -4,48 +4,62 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Categories;
+use App\Models\Company;
+use App\Models\Projects;
+use App\Models\ProjectsCategory;
+use DataTables;
+use Carbon\Carbon;
 
 class ProjectsController extends Controller
 {
-    protected function fields()
-    {
-        return [
-            'name' => 'required',
-            'image' => 'required',
-            
-        ];
-    }
-   
-    protected function messages()
-    {
-        return [
-            'name.required' => 'Tên dịch vụ không được bỏ trống.',
-            'image.required' => 'Bạn chưa chọn hình ảnh dịch vụ.'
-        ];
-    }
-
     protected function module(){
         return [
-            'name' => 'Danh sách dịch vụ',
-            'module' => 'services',
+            'name' => 'Dự án',
+            'module' => 'projects',
             'table' =>[
                 'image' => [
                     'title' => 'Hình ảnh', 
                     'with' => '70px',
                 ],
                 'name' => [
-                    'title' => 'Tên dịch vụ', 
+                    'title' => 'Tên dự án', 
                     'with' => '',
                 ],
                 'category' => [
-                    'title' => 'Danh mục sản phẩm', 
+                    'title' => 'Danh mục dự án', 
                     'with' => '200px',
                 ],
+                
                 'status' => [
                     'title' => 'Trạng thái', 
                     'with' => '100px',
                 ],
             ]
+        ];
+    }
+
+
+    protected function fields()
+    {
+        return [
+            'name' => 'required',
+            'image' => 'required',
+            'category' => 'required',
+            'address' => 'required',
+            'company_id' => 'required',
+        ];
+    }
+
+
+    protected function messages()
+    {
+        return [
+            'name.required' => 'Tên dự án không được bỏ trống.',
+            'address.required' => 'Địa chỉ không được bỏ trống.',
+            'image.required' => 'Bạn chưa chọn hình ảnh cho dự án.',
+            'category.required' => 'Bạn chưa chọn danh mục dự án.',
+            'company_id.required' => 'Bạn chưa chọn chủ đầu tư',
         ];
     }
 
@@ -57,48 +71,41 @@ class ProjectsController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-
-            $type = $request->type;
-
-            $list_products = Services::orderBy('created_at', 'DESC')->get();
-
+         if ($request->ajax()) {
+            $list_products = Projects::orderBy('created_at', 'DESC')->get();
             return Datatables::of($list_products)
                 ->addColumn('checkbox', function ($data) {
                     return '<input type="checkbox" name="chkItem[]" value="' . $data->id . '">';
                 })->addColumn('image', function ($data) {
-                    return '<img src="' .url('').'/'.$data->image . '" class="img-thumbnail" width="50px" height="50px">';
+                    return '<img src="' . url('/').$data->image . '" class="img-thumbnail" width="50px" height="50px">';
+                })->addColumn('code', function ($data) {
+                    return $data->code;
                 })->addColumn('name', function ($data) {
-                    
-
-                    return '<p>' . $data->name . '</p>'
-
-                    .'<a href="'.url('').'/dich-vu/'.$data->slug.'" target="_blank">'.url('').'/dich-vu/'.$data->slug.'</a>';
-                    
+                        return $data->name.'<br><a href="'.route('home.single-project', $data->slug).'" target="_blank">'.route('home.single-project', $data->slug).'</a>';
                 })->addColumn('category', function ($data) {
-                    $label = null;
-
-                    if(count($data->category)){
-                        foreach ($data->category as $item) {
-                            $label = $label. '<span class="label label-success">'.$item->name.'</span><br>';
+                        $label = null;
+                        if(count($data->category)){
+                            foreach ($data->category as $item) {
+                                $label = $label. '<span class="label label-success">'.$item->name.'</span><br>';
+                            }
                         }
-                    }
-                    return $label;
+                        return $label;
                 })->addColumn('status', function ($data) {
-                    $status = '';
                     if ($data->status == 1) {
-                        $status = ' <span class="label label-success">Hiển thị</span>';
+                        $status = ' <span class="label label-success">Hiển thị</span>&nbsp;';
                     } else {
-                        $status = ' <span class="label label-danger">Không hiển thị</span>';
+                        $status = ' <span class="label label-danger">Không hiển thị</span>&nbsp;';
                     }
-                   
+                    if ($data->hot) {
+                        $status = $status . ' <span class="label label-primary">Dự án nổi bật</span>&nbsp;';
+                    }
+                    
                     return $status;
                 })->addColumn('action', function ($data) {
-                    return '<a href="' . route('services.edit', ['id' => $data->id]) . '" title="Sửa">
+                    return '<a href="' . route('projects.edit', ['id' => $data->id ]) . '" title="Sửa">
                             <span class="label label-primary">Sửa <i class="fa fa-pencil fa-fw"></i></span>
                         </a> &nbsp;
-                            <a href="javascript:;" class="btn-destroy" 
-                            data-href="' . route('services.destroy', $data->id) . '"
+                            <a href="javascript:;" class="btn-destroy" data-href="' . route('projects.destroy', $data->id) . '"
                             data-toggle="modal" data-target="#confim">
                             <span class="label label-danger">Xóa <i class="fa fa-trash-o fa-fw"></i></span>
                         </a>
@@ -109,48 +116,41 @@ class ProjectsController extends Controller
         }
         $data['module'] = $this->module();
         return view("backend.{$this->module()['module']}.list", $data);
-
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
+    public function create()
     {
-
         $data['module'] = $this->module();
-
-        $data['categories'] = Categories::where('type', 'service_category')->get();
-        
+        $data['categories'] = Categories::where('type', 'project_category')->get();
+        $data['company'] = Company::orderBy('created_at', 'desc')->get();
         return view("backend.{$this->module()['module']}.create-edit", $data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $this->validate($request, $this->fields(), $this->messages());
-        
-        $data = $request->all();
 
-        $data['slug'] = $this->createSlug(str_slug($request->name));
+        $input = $request->all();
 
-        $data['status'] = $request->status == 1 ? 1 : null;
+        $input['slug'] = $this->createSlug(str_slug($request->name),$id = null,$type='slug');
 
-        $service = Services::create($data);
+        $input['desc'] = !empty($request->desc) ? json_encode($request->desc) : null;
+
+        $input['content'] = !empty($request->content) ? json_encode($request->content) : null;
+
+        $input['more_image'] = !empty($request->gallery) ? json_encode($request->gallery) : null;
+
+        $input['status'] = $request->status == 1 ? 1 : null;
+
+        $input['show'] = $request->show == 1 ? 1 : null;
+
+        $input['hot'] = $request->hot == 1 ? 1 : null;
+
+        $product = Projects::create($input);
 
         if(!empty($request->category)){
-
             foreach ($request->category as $item) {
-
-                ServicesCategory::create(['id_category'=> $item, 'id_services'=> $service->id ]);
-
+                ProjectsCategory::create(['id_category'=> $item, 'id_projects'=> $product->id]);
             }
         }
 
@@ -158,81 +158,78 @@ class ProjectsController extends Controller
 
         return redirect()->route($this->module()['module'].'.index');
     }
+    
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id,Request $request)
+    public function edit($id)
     {
+        $data['module'] = $this->module();
+
         $data['module'] = array_merge($this->module(),[
             'action' => 'update'
         ]);
+        
+        $data['data'] = Projects::findOrFail($id);
 
-        $data['categories'] = Categories::where('type','service_category')->get();
+        $data['categories'] = Categories::where('type', 'project_category')->get();
 
-        $data['data'] = Services::findOrFail($id);
-
-        $data['array_id'] = ServicesCategory::where('id_services',$id)->pluck('id_category')->toArray();
+        $data['company'] = Company::orderBy('created_at', 'desc')->get();
 
         return view("backend.{$this->module()['module']}.create-edit", $data);
     }
 
-    
     public function update(Request $request, $id)
     {
-    	$fields        = $this->fields();
-
-        $this->validate($request, $fields, $this->messages());
+        
+        $this->validate($request,  $this->fields(), $this->messages());
 
         $input = $request->all();
 
+        $input['desc'] = !empty($request->desc) ? json_encode($request->desc) : null;
+
+        $input['content'] = !empty($request->content) ? json_encode($request->content) : null;
+
+        $input['more_image'] = !empty($request->gallery) ? json_encode($request->gallery) : null;
+
         $input['status'] = $request->status == 1 ? 1 : null;
+
+        $input['show'] = $request->show == 1 ? 1 : null;
+
+        $input['hot'] = $request->hot == 1 ? 1 : null;
+
         
-        $product = Services::findOrFail($id)->update($input);
+        $project = Projects::findOrFail($id)->update($input);
 
         if(!empty($request->category)){
-
-            ServicesCategory::where('id_services', $id )->delete();
-
+            ProjectsCategory::where('id_projects', $id )->delete();
             foreach ($request->category as $item) {
-
-                ServicesCategory::create(['id_category'=> $item, 'id_services'=> $id ]);
-
+                ProjectsCategory::create(['id_category'=> $item, 'id_projects'=> $id ]);
             }
         }
 
         flash('Cập nhật thành công.')->success();
 
-        return redirect()->route($this->module()['module'].'.index',['type'=>$request->type]);
+        return back();
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         flash('Xóa thành công.')->success();
 
-        Services::destroy($id);
-
-        ServicesCategory::where('id_services', $id )->delete();
+        Projects::destroy($id);
+        
+        ProjectsCategory::where('id_Projects',$id)->delete();
 
         return redirect()->back();
     }
 
     public function deleteMuti(Request $request)
     {
-
         if(!empty($request->chkItem)){
             foreach ($request->chkItem as $id) {
-                Services::destroy($id);
+                Projects::destroy($id);
+
+                ProjectsCategory::where('id_product',$id)->delete();
             }
             flash('Xóa thành công.')->success();
             return back();
@@ -241,23 +238,23 @@ class ProjectsController extends Controller
         return back();
     }
 
-
     public function getAjaxSlug(Request $request)
     {
         $slug = str_slug($request->slug);
         $id = $request->id;
-        $post = Services::find($id);
-        $post->slug = $this->createSlug($slug, $id);
+        $type = 'slug';
+        $post = Projects::find($id);
+        $post->$type = $this->createSlug($slug, $id,$type);
         $post->save();
-        return $this->createSlug($slug, $id);
+        return $this->createSlug($slug, $id,$type);
     }
 
-    public function createSlug($slugPost, $id = null)
+    public function createSlug($slugPost, $id = null,$type)
     {
         $slug = $slugPost;
         $index = 1;
         $baseSlug = $slug;
-        while ($this->checkIfExistedSlug($slug, $id)) {
+        while ($this->checkIfExistedSlug($slug, $id,$type)) {
             $slug = $baseSlug . '-' . $index++;
         }
 
@@ -269,14 +266,15 @@ class ProjectsController extends Controller
     }
 
 
-    public function checkIfExistedSlug($slug, $id = null)
+    public function checkIfExistedSlug($slug, $id = null,$type)
     {
         if($id != null) {
-            $count = Services::where('id', '!=', $id)->where('slug', $slug)->count();
+            $count = Projects::where('id', '!=', $id)->where($type, $slug)->count();
             return $count > 0;
         }else{
-            $count = Services::where('slug', $slug)->count();
+            $count = Projects::where($type, $slug)->count();
             return $count > 0;
         }
     }
+
 }

@@ -5,230 +5,205 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     
     <style>
-      #map {
-  height: 100%;
+     #map {
+       width: 400px;
+       height: 400px;
+  /* height: 100%; */
 }
 
 /* Optional: Makes the sample page fill the window. */
-html,
+/* html,
 body {
   height: 100%;
   margin: 0;
   padding: 0;
 }
 
-#description {
-  font-family: Roboto;
-  font-size: 15px;
-  font-weight: 300;
-}
-
-#infowindow-content .title {
-  font-weight: bold;
-}
-
-#infowindow-content {
-  display: none;
-}
-
-#map #infowindow-content {
-  display: inline;
-}
-
-.pac-card {
-  margin: 10px 10px 0 0;
-  border-radius: 2px 0 0 2px;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  outline: none;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+input[type="text"] {
   background-color: #fff;
-  font-family: Roboto;
+  border: 0;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+  margin: 10px;
+  padding: 0 0.5em;
+  font: 400 18px Roboto, Arial, sans-serif;
+  overflow: hidden;
+  line-height: 40px;
+  margin-right: 0;
+  min-width: 25%;
 }
 
-#pac-container {
-  padding-bottom: 12px;
-  margin-right: 12px;
-}
-
-.pac-controls {
-  display: inline-block;
-  padding: 5px 11px;
-}
-
-.pac-controls label {
-  font-family: Roboto;
-  font-size: 13px;
-  font-weight: 300;
-}
-
-#pac-input {
+input[type="button"] {
   background-color: #fff;
-  font-family: Roboto;
-  font-size: 15px;
-  font-weight: 300;
-  margin-left: 12px;
-  padding: 0 11px 0 13px;
-  text-overflow: ellipsis;
-  width: 400px;
+  border: 0;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+  margin: 10px;
+  padding: 0 0.5em;
+  font: 400 18px Roboto, Arial, sans-serif;
+  overflow: hidden;
+  height: 40px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+input[type="button"]:hover {
+  background: #ebebeb;
+}
+input[type="button"].button-primary {
+  background-color: #1a73e8;
+  color: white;
+}
+input[type="button"].button-primary:hover {
+  background-color: #1765cc;
+}
+input[type="button"].button-secondary {
+  background-color: white;
+  color: #1a73e8;
+}
+input[type="button"].button-secondary:hover {
+  background-color: #d2e3fc;
 }
 
-#pac-input:focus {
-  border-color: #4d90fe;
+#response-container {
+  background-color: #fff;
+  border: 0;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+  margin: 10px;
+  padding: 0 0.5em;
+  font: 400 18px Roboto, Arial, sans-serif;
+  overflow: hidden;
+  overflow: auto;
+  max-height: 50%;
+  max-width: 90%;
+  background-color: rgba(255, 255, 255, 0.95);
+  font-size: small;
 }
 
-#title {
-  color: #fff;
-  background-color: #4d90fe;
-  font-size: 25px;
-  font-weight: 500;
-  padding: 6px 12px;
-}
+#instructions {
+  background-color: #fff;
+  border: 0;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+  margin: 10px;
+  padding: 0 0.5em;
+  font: 400 18px Roboto, Arial, sans-serif;
+  overflow: hidden;
+  padding: 1rem;
+  font-size: medium;
+} */
+
     </style>
    <script>
-     // This example requires the Places library. Include the libraries=places
-// parameter when you first load the API. For example:
-// <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-function initMap() {
-  const map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: 40.749933, lng: -73.98633 },
-    zoom: 13,
-  });
-  const card = document.getElementById("pac-card");
-  const input = document.getElementById("pac-input");
-  const biasInputElement = document.getElementById("use-location-bias");
-  const strictBoundsInputElement = document.getElementById("use-strict-bounds");
-  const options = {
-    fields: ["formatted_address", "geometry", "name"],
-    strictBounds: false,
-    types: ["establishment"],
-  };
-  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
-  const autocomplete = new google.maps.places.Autocomplete(input, options);
-  // Bind the map's bounds (viewport) property to the autocomplete object,
-  // so that the autocomplete requests use the current map bounds for the
-  // bounds option in the request.
-  autocomplete.bindTo("bounds", map);
-  const infowindow = new google.maps.InfoWindow();
-  const infowindowContent = document.getElementById("infowindow-content");
-  infowindow.setContent(infowindowContent);
-  const marker = new google.maps.Marker({
-    map,
-    anchorPoint: new google.maps.Point(0, -29),
-  });
-  autocomplete.addListener("place_changed", () => {
-    infowindow.close();
-    marker.setVisible(false);
-    const place = autocomplete.getPlace();
+    let map;
+    let marker;
+    let geocoder;
+    let responseDiv;
+    let response;
 
-    if (!place.geometry || !place.geometry.location) {
-      // User entered the name of a Place that was not suggested and
-      // pressed the Enter key, or the Place Details request failed.
-      window.alert("No details available for input: '" + place.name + "'");
-      return;
+    function initMap() {
+      map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 8,
+        center: { lat: 14.058324, lng: 108.277199 },
+        mapTypeControl: false,
+      });
+      geocoder = new google.maps.Geocoder();
+
+      // const inputText = document.createElement("input");
+
+      // inputText.type = "text";
+      // inputText.placeholder = "Enter a location";
+
+      // const submitButton = document.createElement("input");
+
+      // submitButton.type = "button";
+      // submitButton.value = "Geocode";
+      // submitButton.classList.add("button", "button-primary");
+
+      const clearButton = document.createElement("input");
+
+      clearButton.type = "button";
+      clearButton.value = "Clear";
+      clearButton.classList.add("button", "button-secondary");
+      response = document.createElement("pre");
+      response.id = "response";
+      response.innerText = "";
+      responseDiv = document.createElement("div");
+      responseDiv.id = "response-container";
+      responseDiv.appendChild(response);
+
+      const instructionsElement = document.createElement("p");
+
+      instructionsElement.id = "instructions";
+      instructionsElement.innerHTML =
+        "<strong>Instructions</strong>: Enter an address in the textbox to geocode or click on the map to reverse geocode.";
+      // map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputText);
+      // map.controls[google.maps.ControlPosition.TOP_LEFT].push(submitButton);
+      map.controls[google.maps.ControlPosition.TOP_LEFT].push(clearButton);
+      // map.controls[google.maps.ControlPosition.LEFT_TOP].push(instructionsElement);
+      map.controls[google.maps.ControlPosition.LEFT_TOP].push(responseDiv);
+      marker = new google.maps.Marker({
+        map,
+      });
+      map.addListener("click", (e) => {
+        geocode({ location: e.latLng });
+      });
+      // submitButton.addEventListener("click", () =>
+      //   geocode({ address: inputText.value })
+      // );
+      clearButton.addEventListener("click", () => {
+        clear();
+      });
+      clear();
     }
 
-    // If the place has a geometry, then present it on a map.
-    if (place.geometry.viewport) {
-      map.fitBounds(place.geometry.viewport);
-    } else {
-      map.setCenter(place.geometry.location);
-      map.setZoom(17);
+    function clear() {
+      marker.setMap(null);
+      responseDiv.style.display = "none";
     }
-    marker.setPosition(place.geometry.location);
-    marker.setVisible(true);
-    infowindowContent.children["place-name"].textContent = place.name;
-    infowindowContent.children["place-address"].textContent =
-      place.formatted_address;
-    infowindow.open(map, marker);
-  });
 
-  // Sets a listener on a radio button to change the filter type on Places
-  // Autocomplete.
-  function setupClickListener(id, types) {
-    const radioButton = document.getElementById(id);
-    radioButton.addEventListener("click", () => {
-      autocomplete.setTypes(types);
-      input.value = "";
-    });
-  }
-  setupClickListener("changetype-all", []);
-  setupClickListener("changetype-address", ["address"]);
-  setupClickListener("changetype-establishment", ["establishment"]);
-  setupClickListener("changetype-geocode", ["geocode"]);
-  biasInputElement.addEventListener("change", () => {
-    if (biasInputElement.checked) {
-      autocomplete.bindTo("bounds", map);
-    } else {
-      // User wants to turn off location bias, so three things need to happen:
-      // 1. Unbind from map
-      // 2. Reset the bounds to whole world
-      // 3. Uncheck the strict bounds checkbox UI (which also disables strict bounds)
-      autocomplete.unbind("bounds");
-      autocomplete.setBounds({ east: 180, west: -180, north: 90, south: -90 });
-      strictBoundsInputElement.checked = biasInputElement.checked;
-    }
-    input.value = "";
-  });
-  strictBoundsInputElement.addEventListener("change", () => {
-    autocomplete.setOptions({
-      strictBounds: strictBoundsInputElement.checked,
-    });
+    function geocode(request) {
+      clear();
+      geocoder
+        .geocode(request)
+        .then((result) => {
+          const { results } = result;
 
-    if (strictBoundsInputElement.checked) {
-      biasInputElement.checked = strictBoundsInputElement.checked;
-      autocomplete.bindTo("bounds", map);
+          map.setCenter(results[0].geometry.location);
+          marker.setPosition(results[0].geometry.location);
+          marker.setMap(map);
+          responseDiv.style.display = "block";
+          // response.innerText = JSON.stringify(result, null, 2);
+          // return results;
+        })
+        .catch((e) => {
+          alert("Geocode was not successful for the following reason: " + e);
+        });
     }
-    input.value = "";
-  });
-}
    </script>
   </head>
   <body>
-    <div class="pac-card" id="pac-card">
-      <div>
-        <div id="title">Autocomplete search</div>
-        <div id="type-selector" class="pac-controls">
-          <input
-            type="radio"
-            name="type"
-            id="changetype-all"
-            checked="checked"
-          />
-          <label for="changetype-all">All</label>
-
-          <input type="radio" name="type" id="changetype-establishment" />
-          <label for="changetype-establishment">Establishments</label>
-
-          <input type="radio" name="type" id="changetype-address" />
-          <label for="changetype-address">Addresses</label>
-
-          <input type="radio" name="type" id="changetype-geocode" />
-          <label for="changetype-geocode">Geocodes</label>
-        </div>
-        <br />
-        <div id="strict-bounds-selector" class="pac-controls">
-          <input type="checkbox" id="use-location-bias" value="" checked />
-          <label for="use-location-bias">Bias to map viewport</label>
-
-          <input type="checkbox" id="use-strict-bounds" value="" />
-          <label for="use-strict-bounds">Strict bounds</label>
-        </div>
-      </div>
-      <div id="pac-container">
-        <input id="pac-input" type="text" placeholder="Enter a location" />
-      </div>
-    </div>
-    <div id="map"></div>
-    <div id="infowindow-content">
-      <span id="place-name" class="title"></span><br />
-      <span id="place-address"></span>
-    </div>
+  <div id="map"></div>
+  <select name="city" id="type_housing">
+    <option value="Hà Nội">Hà Nội</option>
+    <option value="Thanh hóa">Thanh hóa</option>
+    <option value="Nghệ An">Nghệ An</option>
+  </select>
 
     <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
     <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfB9iLfU8hODNurpmiypnlB7NOh9RXbLA,&callback=initMap&libraries=places&v=weekly"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_3U8VFjgLoa20CoG7arHj1rXR9QFc3k4&callback=initMap&libraries=places&v=weekly"
       async
     ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      $(document).on('change','#type_housing',function(){
+    var id = $(this).children("option:selected").val();
+    geocode({ address: id })
+    console.log(id);
+
+   
+});
+    </script>
   </body>
 </html>

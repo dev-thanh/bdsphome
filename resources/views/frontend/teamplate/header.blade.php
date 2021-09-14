@@ -14,7 +14,7 @@
         <div class="container">
             <div class="header__banner">
                 <a href="index.html" class="logo" title="gco Group">
-                    <img src="https://tpl.gco.vn/bds/images/icons/icon__logo.png" alt="icon__logo.png" />
+                    <img src="{{url('/').$site_info->logo}}" alt="icon__logo.png" />
                 </a>
                 <div class="header__contact">
                     <a href="tel:+(84) 36 956 0246" title="+(84) 36 956 0246">
@@ -26,41 +26,15 @@
                 <div class="box__menu">
                     <div class="box__container">
                         <ul class="menu">
-                            <li class="menu__list active">
-                                <a href="index.html" class="menu__link" title="Trang chủ">
-                                    Trang chủ
+                            @foreach($menuHeader as $item)
+                            @if($item->parent_id==null)
+                            <li class="menu__list @if($item->url=='/'.$routename) active @elseif($item->url=='/' && $routename=='/') active @endif">
+                                <a href="{{url('/').$item->url}}" class="menu__link" title="Trang chủ">
+                                    {{$item->title}}
                                 </a>
                             </li>
-                            <li class="menu__list ">
-                                <a href="page__aboutUs.html" class="menu__link" title="Giới thiệu">
-                                    Giới thiệu
-                                </a>
-                            </li>
-                            <li class="menu__list ">
-                                <a href="page__realEstate.html" class="menu__link" title="Bất động sản">
-                                    Bất động sản
-                                </a>
-                            </li>
-                            <li class="menu__list ">
-                                <a href="page__service.html" class="menu__link" title="Dịch vụ">
-                                    Dịch vụ
-                                </a>
-                            </li>
-                            <li class="menu__list ">
-                                <a href="page__project.html" class="menu__link" title="Dự án">
-                                    Dự án
-                                </a>
-                            </li>
-                            <li class="menu__list ">
-                                <a href="page__news.html" class="menu__link" title="Tin tức">
-                                    Tin tức
-                                </a>
-                            </li>
-                            <li class="menu__list ">
-                                <a href="page__contact.html" class="menu__link" title="Liên hệ">
-                                    Liên hệ
-                                </a>
-                            </li>
+                            @endif
+                            @endforeach
                         </ul>
                     </div>
                 </div>
@@ -152,7 +126,7 @@
                         </div>
 
                         <div class="modal__action">
-                            <a href="#">
+                            <a href="{{url('/')}}/auth/redirect/facebook">
                                 <span class="icon">
                                     <img src="https://tpl.gco.vn/bds/images/icons/icon__facebook-modal.png" alt="icon__facebook-modal.png" />
                                 </span>
@@ -161,7 +135,7 @@
                                     <br />Facebook
                                 </span>
                             </a>
-                            <a href="#">
+                            <a href="{{url('/')}}/auth/redirect/google">
                                 <span class="icon">
                                     <img src="https://tpl.gco.vn/bds/images/icons/icon__google-modal.png" alt="icon__google-modal.png" />
                                 </span>

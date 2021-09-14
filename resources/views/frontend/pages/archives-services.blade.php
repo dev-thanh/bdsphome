@@ -11,11 +11,11 @@
 @extends('frontend.master')
 @section('main')
 	<main id="main">
-		<section class="page__banner" style="background-image:url('{{url('/').$dataSeo->banner}}')">
+		<section class="page__banner" style="background-image:url('{{url('/').@$dataSeo->banner}}')">
 			<div class="container">
 				<div class="header__global">
 					<div class="item__global">
-						<h1 class="title__global">{{$dataSeo->meta_title}}</h1>
+						<h1 class="title__global">{{@$dataSeo->meta_title}}</h1>
 					</div>
 					<ul class="breadcrumb">
 						<li>
@@ -25,8 +25,8 @@
 
 						</li>
 						<li>
-							<a href="{{route('home.news')}}" title="{{$dataSeo->meta_title}}">
-								{{$dataSeo->meta_title}}
+							<a href="{{route('home.news')}}" title="{{@$dataSeo->meta_title}}">
+								{{@$dataSeo->meta_title}}
 							</a>
 
 						</li>

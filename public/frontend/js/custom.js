@@ -81,9 +81,14 @@ $('.btn_send_register_account').click(function(e){
 
             console.log(data);
 
-            // if(data.success==true){
-            //     location.reload();
-            // }
+            if(data.success==true){
+
+                toastr["success"](data.message, "");
+
+                setTimeout(function(){ location.reload(); }, 2000);
+
+                
+            }
 
             if(data.success==false)
             {
@@ -130,8 +135,6 @@ $('.btn__aupdate__account').click(function(e){
 
         success:function(data){
 
-            console.log(data);
-
             if(data.success==true){
 
                 toastr["success"](data.message, "Thông báo");
@@ -151,6 +154,52 @@ $('.btn__aupdate__account').click(function(e){
                     
                 });
             }
+
+        }
+
+    });
+
+});
+
+$('.btn-send-sale').click(function(e){
+
+    e.preventDefault();
+
+    $('.loadingcover').show();
+
+    var UrlContact =$('#form-send-sale').attr('action');
+
+    var data = $("#form-send-sale").serialize();
+
+    $.ajax({
+
+        type: 'POST',
+
+        url: UrlContact,
+
+        dataType: "json",
+
+        data: data,
+
+        success:function(data){
+
+            console.log(data);
+
+            if(data.message_error){
+
+                toastr["error"](data.message_error, "Thông báo");
+
+            }
+
+            if (data.success) {
+
+                $('#form-send-sale')[0].reset();
+
+                toastr["success"](data.success, "Thông báo");
+
+            }
+
+            $('.loadingcover').hide();
 
         }
 

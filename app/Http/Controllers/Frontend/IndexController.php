@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Session;
 use Validator;
 use View;
@@ -14,21 +15,26 @@ use App\Models\Pages;
 use App\Models\Image;
 use App\Models\Categories;
 use App\Models\Products;
+use App\Models\PromotionalNews;
 use App\Repositories\Products\ProductRepository;
 use App\Repositories\Menu\MenuRepository;
 use App\Repositories\General\GeneralRepository;
 use App\Repositories\Customer\CustomerRepository;
 use App\Repositories\Categories\CategoriesRepository;
 use App\Repositories\Services\ServicesRepository;
+use App\Repositories\Projects\ProjectsRepository;
 use App\Repositories\Posts\PostsRepository;
+use App\Repositories\Contact\ContactRepository;
+use App\Repositories\Bds\BdsRepository;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\ContactRequest;
 
 class IndexController extends Controller
 {
-    public $config_info,$menu,$general,$customer,$categories,$posts,$services;
+    public $config_info,$menu,$general,$customer,$categories,$posts,$services,$contact, $projects,$bds;
 
-    public function __construct(MenuRepository $menu, GeneralRepository $general,CustomerRepository $customer, CategoriesRepository $categories, PostsRepository $posts,ServicesRepository $services)
+    public function __construct(MenuRepository $menu, GeneralRepository $general,CustomerRepository $customer, CategoriesRepository $categories, PostsRepository $posts,ServicesRepository $services, ContactRepository $contact, ProjectsRepository $projects,BdsRepository $bds)
     {
         $this->menu = $menu;
 
@@ -41,6 +47,11 @@ class IndexController extends Controller
         $this->posts = $posts;
 
         $this->services = $services;
+
+        $this->projects = $projects;
+
+        $this->contact = $contact;
+        $this->bds = $bds;
         
         $this->general->seoGeneral();
     }
@@ -57,7 +68,12 @@ class IndexController extends Controller
 
         $slider = $this->categories->getImageSlide();
 
-    	return view('frontend.pages.home', compact('contentHome','slider','cateServices','posts'));
+        $projectsHot = $this->projects->getProjectsHot();
+
+        $bds = $this->bds->getBdsHome();
+
+
+    	return view('frontend.pages.home', compact('contentHome','slider','cateServices','posts','projectsHot','bds'));
     }
 
     public function postLogin(LoginRequest $request){
@@ -199,7 +215,138 @@ class IndexController extends Controller
 
     public function getContact()
     {
-        return view('frontend.pages.contact');
+        $dataSeo = Pages::where('type', 'contact')->first();
+
+        return view('frontend.pages.contact',compact('dataSeo'));
+    }
+
+    public function postContact(ContactRequest $request)
+    {
+        $data = $this->contact->saveContact($request);
+
+        return $data;
+    }
+
+    public function getListProjects()
+    {
+        
+        $dataSeo = Pages::where('type', 'projects')->first();
+
+        $this->general->createSeo($dataSeo);
+
+        $posts = $this->projects->getProjectsPage();
+
+        $cate_post = $this->categories->getCate('project_category');
+
+        return view('frontend.pages.projects',compact('cate_post','posts', 'dataSeo'));
+    }
+
+    public function getSingleProject($slug)
+    {
+        $data = $this->projects->getProjectsBySlug($slug);
+
+        $new_same_category  = $this->projects->getProjectsSame($data);
+
+        $bds = $this->bds->where(['status' =>1,'projects_id' => $data->id])->get();
+
+        return view('frontend.pages.single-project',compact('data','new_same_category','bds'));
+    }
+
+    public function ajaxLoadMoreProjects()
+    {
+        try {
+
+            if($request->cate=='all')
+            {
+
+                $news = $this->projects->getProjectsPage();
+
+            }else{
+
+                $category = $this->categories->find($request->cate);
+    
+                $news = $category->Projects()->paginate(10);
+            }
+            
+
+            $view = (string) View::make('frontend.pages.ajax-load-projects',compact('news'));
+            
+            return response()->json(
+                [
+                    'status'=>'success',
+                    'html_response' => $view
+                ]
+            );
+        } catch (Exception $e) {
+
+            return response()->json(['status'=>'error']);
+
+        }
+    }
+
+    public function getListBds()
+    {
+        $listBds = $this->bds->getAllBds();
+
+        return view('frontend.pages.list-bds',compact('listBds'));
+    }
+
+    public function getSingleBdst($slug)
+    {
+        $bdsDetail = $this->bds->getBdsBySlug($slug);
+
+        $project = null;
+
+        if(!empty($bdsDetail->projects_id))
+        {
+            $project = $this->projects->find($bdsDetail->projects_id);
+        }
+
+        return view('frontend.pages.single-bds',compact('bdsDetail','project'));
+    }
+
+    public function sendSale(Request $request){
+        $result = [];
+        
+        if($request->email ==''){
+            $result['message_error'] = 'Bạn chưa nhập email';
+        }else{
+            if(filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
+            }else{
+                $result['message_error'] = 'Vui lòng nhập email hợp lệ';
+            }
+        }
+
+        if($result != []){
+            return json_encode($result);
+        }
+
+        $model = new PromotionalNews();
+
+        $model->email = $request->email;
+
+        $model->status = 0;
+
+        $model->save();
+
+        $content_email = [
+            'email' => $request->email,
+        ]; 
+
+        $email_admin = getOptions('general', 'email_admin');
+
+        Mail::send('frontend.mail.mail-sale', $content_email, function ($msg) use($email_admin) {
+
+            $msg->from(config('mail.mail_from'), 'Website - Bất động sản Phome');
+
+            $msg->to($email_admin, 'Website - Bất động sản Phome')->subject('Đăng ký nhận tin khuyến mại');
+
+        });
+
+        $result['success'] = 'Gửi đăng ký nhận tin khuyến mại thành công, chúng tôi sẽ liên lạc với bạn trong thời gian sớm nhất. Xin cảm ơn !';
+
+        return json_encode($result);
+
     }
 
 }

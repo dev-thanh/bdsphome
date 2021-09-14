@@ -14,6 +14,14 @@ Route::group(['namespace'=>'Frontend','middleware' => 'authMember'], function ()
 
     Route::get('/admin-post/quan-ly-tin-dang', 'ProfileController@adminPostManagement')->name('admin.post-management');
 
+    Route::get('/admin-post/quan-ly-tin-dang/tin-nhap', 'ProfileController@draftNews')->name('admin.draft-news');
+
+    Route::get('/admin-post/quan-ly-tin-dang/tin-bi-ha', 'ProfileController@newsDown')->name('admin.news-down');
+
+    Route::get('/admin-post/quan-ly-tin-dang/tin-dang-dang', 'ProfileController@newsPosting')->name('admin.news-posting');
+
+    Route::get('/admin-post/quan-ly-tin-dang/tin-het-han', 'ProfileController@newsExpired')->name('admin.news-expired');
+
     Route::get('/admin-post/quan-ly-tai-khoan', 'ProfileController@adminAccountManagement')->name('admin.account-management');
 
     Route::get('/quan-huyen/{id}', 'ProfileController@ajaxGetDistrict')->name('admin.ajax-district');
@@ -28,8 +36,11 @@ Route::group(['namespace'=>'Frontend','middleware' => 'authMember'], function ()
 
     Route::get('/admin-post/dang-tin', 'ProfileController@adminAddPost')->name('admin.add-post');
 
+    Route::post('/admin-post/dang-tin/save', 'ProfileController@adminSaveAddPost')->name('admin.add-post-save');
+
     Route::get('/admin-post/test', 'ProfileController@adminAddPostTest')->name('admin.add-post-test');
-    
+
+    Route::get('/get-teamplate-bds/{id}', 'ProfileController@getTeamplateBds')->name('home.get-teamplate');   
 
 });
 
@@ -51,6 +62,12 @@ Route::group(['namespace'=>'Frontend'], function () {
 
     Route::get('/gioi-thieu', 'IndexController@getAbout')->name('home.about');
 
+    Route::post('/nhan-tin-khuen-mai', 'IndexController@sendSale')->name('home.send-sale');
+
+    Route::get('/auth/redirect/{provider}', 'SocialController@redirect');
+
+    Route::get('/auth/{provider}/callback', 'SocialController@callback');
+
 
     Route::get('/verify-account/{code}', 'IndexController@verifyRegister')->name('home.verify-account');
 
@@ -70,9 +87,7 @@ Route::group(['namespace'=>'Frontend'], function () {
 
     Route::post('/new-password', 'IndexController@newPassword')->name('home.new-password');
 
-    Route::get('/auth/redirect/{provider}', 'SocialController@redirect');
-
-    Route::get('/auth/{provider}/callback', 'SocialController@callback');
+   
 
     /** Tin tức */
     Route::get('/tin-tuc', 'IndexController@getListNews')->name('home.news');
@@ -90,7 +105,19 @@ Route::group(['namespace'=>'Frontend'], function () {
 
     Route::get('/lien-he', 'IndexController@getContact')->name('home.contact');
 
-    // Route::post('/lien-he/gui', 'IndexController@postContact')->name('home.post-contact');
+    Route::post('/lien-he/gui', 'IndexController@postContact')->name('home.post-contact');
+
+    /** Dự án */
+    Route::get('/du-an', 'IndexController@getListProjects')->name('home.projects');
+
+    Route::get('/du-an/{slug}', 'IndexController@getSingleProject')->name('home.single-project');
+
+    Route::get('/ajax-load-projects', 'IndexController@ajaxLoadMoreProjects')->name('home.ajax-load-projects');
+
+    /** Dự án */
+    Route::get('/bat-dong-san', 'IndexController@getListBds')->name('home.bds');
+
+    Route::get('/bat-dong-san/{slug}', 'IndexController@getSingleBdst')->name('home.single-bds');
 });
 
 
@@ -104,42 +131,7 @@ Route::group(['namespace'=>'Frontend'], function () {
 Route::get('/search', 'IndexController@getSearch')->name('home.search');
 
 
-
-Route::get('filter-products', 'IndexController@getFilterProductsAjax')->name('home.filterProducts');
-
-
 Route::get('/chinh-sach/{slug}', 'IndexController@policy')->name('home.policy');
-
-Route::post('/nhan-tin-khuen-mai', 'IndexController@sendSale')->name('home.send-sale');
-
-Route::get('/cau-hoi-thuong-gap', 'IndexController@getFaq')->name('home.faq');
-
-Route::get('thanh-toan-b1', 'IndexController@getCheckOut1')->name('home.check-out1');
-
-
-
-
-
-Route::get('order/{id}', 'IndexController@getCheckOut3')->name('home.check-out3');
-
-Route::post('post-thanh-toan-b3', 'IndexController@postCheckOut3')->name('home.post-check-out3');
-
-Route::get('kiem-tra-diem', 'IndexController@checkPoint')->name('home.check-point');
-
-// Route::post('hoan-tat-thanh-toan', 'IndexController@postCheckOut')->name('home.check-out.post');
-
-
-
-
-Route::get('/danh-muc/{slug}', 'IndexController@categoryProduct')->name('home.category-product');
-
-Route::post('/filter-products', 'IndexController@getFilterProductsAjax')->name('home.filterProducts');
-
-/* Tỉnh thành quận huyện */
-
-Route::get('/quan-huyen/{id}', 'CheckoutController@getDistrict')->name('home.get-district');
-
-Route::get('/xa-phuong/{id}', 'CheckoutController@getWards')->name('home.get-wards');
 
 Route::group(['namespace' => 'Admin'], function () {
 
@@ -158,24 +150,11 @@ Route::group(['namespace' => 'Admin'], function () {
                 Route::post( $key.'/postMultiDel', ['as' => $key.'.postMultiDel', 'uses' => ucfirst($key).'Controller@deleteMuti']);
             }
         }
-
-        Route::get('products/get-slug', 'ProductsController@getAjaxSlug')->name('products.get-slug');
-
-        Route::get('products/get-all', 'ProductsController@getAllProducts')->name('products.get-all');
        
+        // Route::get('category-filter', 'FilterController@getListCategory')->name('list-category-filter');
 
-        Route::group(['prefix' => 'product-attributes'], function() {
-            Route::get('/', 'ProductAttributeTypesController@getList')->name('product-attributes.index');
-            Route::post('/store', 'ProductAttributeTypesController@postStore')->name('product-attributes.store');
-            Route::get('/{id}/edit', 'ProductAttributeTypesController@getEdit')->name('product-attributes.edit');
-            Route::post('/{id}/edit', 'ProductAttributeTypesController@postEdit')->name('product-attributes.post.edit');
-            Route::delete('/{id}/delete', 'ProductAttributeTypesController@delete')->name('product-attributes.destroy');
-        });
-
-        Route::get('category-filter', 'FilterController@getListCategory')->name('list-category-filter');
-
-        Route::get('sort-filter', 'FilterController@getSort')->name('sort-category-filter');
-        Route::post('sort-filter-update', 'FilterController@postSort')->name('sort.filter.update');
+        // Route::get('sort-filter', 'FilterController@getSort')->name('sort-category-filter');
+        // Route::post('sort-filter-update', 'FilterController@postSort')->name('sort.filter.update');
 
 
 
@@ -190,22 +169,22 @@ Route::group(['namespace' => 'Admin'], function () {
         Route::post('posts/postMultiDel', ['as' => 'posts.postMultiDel', 'uses' => 'PostController@deleteMuti']);
         Route::get('posts/get-slug', 'PostController@getAjaxSlug')->name('posts.get-slug');
 
-        Route::get('posts/promotion-news', 'PostController@promotionNews')->name('posts.promotion-news');
 
-        Route::get('posts/create-promotion-news', 'PostController@createPromotionNews')->name('posts.create-promotion-news');
-
-        Route::post('posts/posts-create-promotion-news', 'PostController@postCreatePromotionNews')->name('posts.posts-create-promotion-news');
-
-        Route::get('posts/edit-promotion-news/{id}', 'PostController@editPromotionNews')->name('posts.edit-promotion-news');
-
-        Route::post('posts/post-edit-promotion-news/{id}', 'PostController@postEditPromotionNews')->name('posts.post-edit-promotion-news');
-
+        // Bất động sản
+        Route::resource('categories-bds', 'CategoriesRealEstateController', ['except' => ['show']]);
+        Route::resource('categories-nd', 'CategoriesNdController', ['except' => ['show']]);
+        Route::resource('bds', 'BdsController', ['except' => ['show']]);
+        // Route::post('projects/postMultiDel', ['as' => 'projects.postMultiDel', 'uses' => 'ProjectsController@deleteMuti']);
+        Route::get('/bds/update-status', 'BdsController@updateStatus')->name('bds.update-status');
 
         // Dự án
         Route::resource('categories-projects', 'CategoriesProjectsController', ['except' => ['show']]);
         Route::resource('projects', 'ProjectsController', ['except' => ['show']]);
         Route::post('projects/postMultiDel', ['as' => 'projects.postMultiDel', 'uses' => 'ProjectsController@deleteMuti']);
         Route::get('projects/get-slug', 'ProjectsController@getAjaxSlug')->name('projects.get-slug');
+
+        // Công ty
+        Route::resource('company', 'CompanyController', ['except' => ['show']]);
 
         // Dịch vụ
         Route::resource('services', 'ServicesController', ['except' => ['show']]);

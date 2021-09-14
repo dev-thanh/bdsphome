@@ -25,6 +25,27 @@ class CategoriesRepositoryEloquent extends BaseRepository implements CategoriesR
         return Categories::class;
     }
 
+    public function getParentCate($type)
+    {
+        
+        $data  = $this->model->where([
+            'type' => $type,
+            'parent_id' => 0,
+        ])->get();
+
+        return $data;
+    }
+
+    public function getChildCate($type,$id)
+    {
+        $data  = $this->model->where([
+            'type' => $type,
+            'parent_id' => $id,
+        ])->get();
+
+        return $data;
+    }
+
     public function getCate($type)
     {
         $data  = $this->model->where([

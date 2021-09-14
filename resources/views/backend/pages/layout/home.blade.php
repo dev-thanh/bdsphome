@@ -39,6 +39,9 @@
 				            <li class="">
 				            	<a href="#content-3" data-toggle="tab" aria-expanded="true">Khối đối tác</a>
 				            </li>
+				            <li class="">
+				            	<a href="#content-4" data-toggle="tab" aria-expanded="true">Khối dự án nổi bật</a>
+				            </li>
 				           
 				        </ul>
 				    </div>
@@ -159,6 +162,24 @@
 										</div>
 									</div>
 									
+								</div>
+							</div>
+						</div>
+
+						<div class="tab-pane" id="content-4">
+							<div class="row">
+								<div class="col-sm-12">
+									<label>Hình ảnh background khối</label>
+									<div class="image">
+										<div class="image__thumbnail" style="max-width: 150px;max-height: 150px">
+											<img src="{{ @$content->hot->background ?  url('/').@$content->hot->background : __IMAGE_DEFAULT__ }}"  
+											data-init="{{ __IMAGE_DEFAULT__ }}">
+											<a href="javascript:void(0)" class="image__delete" onclick="urlFileDelete(this)">
+												<i class="fa fa-times"></i></a>
+											<input type="hidden" value="{{ @$content->hot->background }}" name="content[hot][background]"  />
+											<div class="image__button" onclick="fileSelect(this)"><i class="fa fa-upload"></i> Upload</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>

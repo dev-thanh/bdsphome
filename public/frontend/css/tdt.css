@@ -166,3 +166,14 @@
 .form-group .error{
    color:red
 }
+#selectedFilesD{
+   display: flex;
+}
+#selectedFilesD .image-item{
+   padding: 6px;
+}
+#selectedFilesD .image-item img{
+   width: 100px;
+   height: 100px;
+   object-fit: cover;
+}

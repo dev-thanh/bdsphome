@@ -70,7 +70,7 @@ class IndexController extends Controller
 
         $projectsHot = $this->projects->getProjectsHot();
 
-        $bds = $this->bds->getBdsHome();
+        $bds = $this->bds->getBdsHome(16);
 
 
     	return view('frontend.pages.home', compact('contentHome','slider','cateServices','posts','projectsHot','bds'));
@@ -286,7 +286,7 @@ class IndexController extends Controller
 
     public function getListBds()
     {
-        $listBds = $this->bds->getAllBds();
+        $listBds = $this->bds->getBdsHome(21);
 
         return view('frontend.pages.list-bds',compact('listBds'));
     }

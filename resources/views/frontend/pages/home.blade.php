@@ -324,61 +324,19 @@
 				</div>
 				<div class="module__content">
 					<div class="bsd__group">
+						@foreach(@$content->bds->content as $item)
 						<a href="#" class="bsd__item" title="">
 							<div class="frame">
-								<img src="https://tpl.gco.vn/bds/images/bsd__1.png" alt="bsd__1.png" />
+								<img src="{{url('/').$item->image}}" alt="bsd__1.png" />
 							</div>
 							<div class="bsd__content">
-								<h3 class="bsd__address">Hà nội</h3>
+								<h3 class="bsd__address">{{\App\Models\City::find($item->city_id)->city_name}}</h3>
 								<span class="bsd__total">
-									246 tin
+									{{\App\Models\Pages::getPostBds($item->city_id)}} tin
 								</span>
 							</div>
 						</a>
-						<a href="#" class="bsd__item" title="">
-							<div class="frame">
-								<img src="https://tpl.gco.vn/bds/images/bsd__1.png" alt="bsd__1.png" />
-							</div>
-							<div class="bsd__content">
-								<h3 class="bsd__address">Hà nội</h3>
-								<span class="bsd__total">
-									246 tin
-								</span>
-							</div>
-						</a>
-						<a href="#" class="bsd__item" title="">
-							<div class="frame">
-								<img src="https://tpl.gco.vn/bds/images/bsd__1.png" alt="bsd__1.png" />
-							</div>
-							<div class="bsd__content">
-								<h3 class="bsd__address">Hà nội</h3>
-								<span class="bsd__total">
-									246 tin
-								</span>
-							</div>
-						</a>
-						<a href="#" class="bsd__item" title="">
-							<div class="frame">
-								<img src="https://tpl.gco.vn/bds/images/bsd__1.png" alt="bsd__1.png" />
-							</div>
-							<div class="bsd__content">
-								<h3 class="bsd__address">Hà nội</h3>
-								<span class="bsd__total">
-									246 tin
-								</span>
-							</div>
-						</a>
-						<a href="#" class="bsd__item" title="">
-							<div class="frame">
-								<img src="https://tpl.gco.vn/bds/images/bsd__1.png" alt="bsd__1.png" />
-							</div>
-							<div class="bsd__content">
-								<h3 class="bsd__address">Hà nội</h3>
-								<span class="bsd__total">
-									246 tin
-								</span>
-							</div>
-						</a>
+						@endforeach
 					</div>
 				</div>
 			</div>

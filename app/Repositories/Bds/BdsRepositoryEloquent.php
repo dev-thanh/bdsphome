@@ -103,9 +103,9 @@ class BdsRepositoryEloquent extends BaseRepository implements BdsRepository
         ]);
     }
 
-    public function getBdsHome(){
+    public function getBdsHome($paginate){
 
-        $data = $this->model->where('status',1)->orderBy('created_at','desc')->take(16)->get();
+        $data = $this->model->where('status',1)->orderBy('created_at','desc')->take($paginate)->get();
 
         return $data;
 
@@ -122,6 +122,17 @@ class BdsRepositoryEloquent extends BaseRepository implements BdsRepository
         return $data;
 
     }
+
+    // public function getBdsHome()
+    // {
+    //     $data = $this->model->where(
+    //         [
+    //             'status' => 1
+    //         ]
+    //     )->orderBy('created_at','desc')->get();
+
+    //     return $data;
+    // }
     public function getBdsBySlug($slug){
 
         $data = $this->model->where(

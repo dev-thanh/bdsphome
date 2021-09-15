@@ -42,6 +42,9 @@
 				            <li class="">
 				            	<a href="#content-4" data-toggle="tab" aria-expanded="true">Khối dự án nổi bật</a>
 				            </li>
+				            <li class="">
+				            	<a href="#content-5" data-toggle="tab" aria-expanded="true">Khối bất động sản theo khu vực</a>
+				            </li>
 				           
 				        </ul>
 				    </div>
@@ -178,6 +181,36 @@
 												<i class="fa fa-times"></i></a>
 											<input type="hidden" value="{{ @$content->hot->background }}" name="content[hot][background]"  />
 											<div class="image__button" onclick="fileSelect(this)"><i class="fa fa-upload"></i> Upload</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="content-5">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="repeater" id="repeater">
+										<table class="table table-bordered table-hover bds">
+											
+											<?php if(!empty($data->content)){
+												$contents = json_decode($data->content);
+												//dd(@$contents);
+											} ?>
+											<tbody id="sortable">
+												@if(!empty(@$contents->bds->content))
+													@foreach (@$content->bds->content as $key => $value)
+														<?php $index = $loop->index + 1; ?>
+														@include('backend.repeater.row-bds')
+													@endforeach
+												@endif
+											</tbody>
+										</table>
+										<div class="text-right">
+											
+											<button class="btn btn-primary" 
+												onclick="repeater(event,this,'{{ route('get.layout') }}','.index', 'bds', '.bds')">Thêm
+											</button>
+											
 										</div>
 									</div>
 								</div>

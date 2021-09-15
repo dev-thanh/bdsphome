@@ -302,7 +302,14 @@ class IndexController extends Controller
             $project = $this->projects->find($bdsDetail->projects_id);
         }
 
-        return view('frontend.pages.single-bds',compact('bdsDetail','project'));
+        $cateBds = $bdsDetail->type_housing;
+
+        $bdsSame = $this->bds->where('id','!=',$bdsDetail->id)->where([
+            'type_housing' => $cateBds,
+            'status' => 1
+        ])->take(6)->get();
+
+        return view('frontend.pages.single-bds',compact('bdsDetail','project','bdsSame'));
     }
 
     public function sendSale(Request $request){

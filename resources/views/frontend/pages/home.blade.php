@@ -315,6 +315,7 @@
 				</div>
 			</div>
 		</section>
+		@if(!empty(@$content->bds->content))
 		<section class="home-bsd">
 			<div class="container">
 				<div class="header__global">
@@ -341,6 +342,7 @@
 				</div>
 			</div>
 		</section>
+		@endif
 		<section class="home-about" style="background-image: url('{{url('/').@$content->home->background}}')">
 			<div class="container">
 				<div class="header__global">

@@ -10,7 +10,12 @@
 @endsection
 @extends('frontend.master')
 @section('main')
-
+    <style>
+        .fb_iframe_widget_fluid_desktop, .fb_iframe_widget_fluid_desktop span, .fb_iframe_widget_fluid_desktop iframe {
+                max-width: 100% !important;
+                width: 100% !important;
+    }
+    </style>
     <main id="main">
         <section class="detail__real-estate">
             <div class="container">
@@ -196,7 +201,7 @@
 
                     <div class="facebook__comment">
                         <div class="fb-box">
-                            <div class="fb-comments" data-href="https://developers.facebook.com/docs/plugins/comments#configurator" data-width="100%" data-numposts="3"></div>
+                            <div class="fb-comments" data-href="{{url()->current()}}" data-width="100%" data-numposts="3"></div>
                         </div>
                     </div>
                     <ul class="tag">
@@ -230,6 +235,7 @@
                 </div>
                 <div class="module__content">
                     <div class="slide__product">
+                        @foreach($bdsSame as $item)
                         <div class="slide__item">
                             <div class="slide__box">
                                 <div class="product__global">
@@ -241,233 +247,49 @@
                                     </a>
                                     <div class="content__global">
                                         <a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
-                                            Quận Tân Bình, TP. Hồ Chí Minh
+                                            {{getAddress($item->city_id,$item->district_id,$item->ward_id)}}
                                         </a>
                                         <h3 class="title__global">
                                             <a href="detail__real-estate.html" title="Căn hộ Officetel Sky Center Phổ Quang">
-                                                Căn hộ Officetel Sky Center Phổ Quang
+                                                {{$item->title}}
                                             </a>
                                         </h3>
                                         <div class="tags__group">
-                                            <span class="tags__item"> 67 m² </span>
-                                            <span class="tags__item"> Ngõ 1 ô tô </span>
                                             <span class="tags__item">
-                                                2 Phòng ngủ
-                                            </span>
+                                                    {{$item->land_area}} m²
+                                                </span>
+                                                @if($item->frontispiece)
+                                                <span class="tags__item">
+                                                    {{$item->frontispiece}}
+                                                </span>
+                                                @endif
+                                                @if($item->bedroom)
+                                                <span class="tags__item">
+                                                    {{$item->bedroom}} Phòng ngủ
+                                                </span>
+                                                @endif
+                                                @if($item->number_floors)
+                                                <span class="tags__item">
+                                                    {{$item->number_floors}} tầng
+                                                </span>
+                                                @endif
                                         </div>
                                         <div class="tags__group">
-                                            <span class="tags__item">Đông nam </span>
-                                            <span class="tags__item">Chính chủ </span>
-                                            <span class="tags__item"> Đã có sổ </span>
+                                            @if(!empty($item->direction_house))
+                                            <span class="tags__item">
+                                                {{huongNha($item->direction_house)}}
+                                            </span>
+                                            @endif
+                                            @if(!empty($item->legal_papers))
+                                            <span class="tags__item">{{$item->legal_papers}}
+                                            </span>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="slide__item">
-                            <div class="slide__box">
-                                <div class="product__global">
-                                    <a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
-                                        <div class="frame">
-                                            <img src="images/product__1.jpg" alt="product__1.jpg" />
-                                        </div>
-                                        <span class="price__global"> 2.15 Tỷ </span>
-                                    </a>
-                                    <div class="content__global">
-                                        <a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
-                                            Quận Tân Bình, TP. Hồ Chí Minh
-                                        </a>
-                                        <h3 class="title__global">
-                                            <a href="detail__real-estate.html" title="Căn hộ Officetel Sky Center Phổ Quang">
-                                                Căn hộ Officetel Sky Center Phổ Quang
-                                            </a>
-                                        </h3>
-                                        <div class="tags__group">
-                                            <span class="tags__item"> 67 m² </span>
-                                            <span class="tags__item"> Ngõ 1 ô tô </span>
-                                            <span class="tags__item">
-                                                2 Phòng ngủ
-                                            </span>
-                                        </div>
-                                        <div class="tags__group">
-                                            <span class="tags__item">Đông nam </span>
-                                            <span class="tags__item">Chính chủ </span>
-                                            <span class="tags__item"> Đã có sổ </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="slide__item">
-                            <div class="slide__box">
-                                <div class="product__global">
-                                    <a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
-                                        <div class="frame">
-                                            <img src="images/product__1.jpg" alt="product__1.jpg" />
-                                        </div>
-                                        <span class="price__global"> 2.15 Tỷ </span>
-                                    </a>
-                                    <div class="content__global">
-                                        <a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
-                                            Quận Tân Bình, TP. Hồ Chí Minh
-                                        </a>
-                                        <h3 class="title__global">
-                                            <a href="detail__real-estate.html" title="Căn hộ Officetel Sky Center Phổ Quang">
-                                                Căn hộ Officetel Sky Center Phổ Quang
-                                            </a>
-                                        </h3>
-                                        <div class="tags__group">
-                                            <span class="tags__item"> 67 m² </span>
-                                            <span class="tags__item"> Ngõ 1 ô tô </span>
-                                            <span class="tags__item">
-                                                2 Phòng ngủ
-                                            </span>
-                                        </div>
-                                        <div class="tags__group">
-                                            <span class="tags__item">Đông nam </span>
-                                            <span class="tags__item">Chính chủ </span>
-                                            <span class="tags__item"> Đã có sổ </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="slide__item">
-                            <div class="slide__box">
-                                <div class="product__global">
-                                    <a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
-                                        <div class="frame">
-                                            <img src="images/product__1.jpg" alt="product__1.jpg" />
-                                        </div>
-                                        <span class="price__global"> 2.15 Tỷ </span>
-                                    </a>
-                                    <div class="content__global">
-                                        <a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
-                                            Quận Tân Bình, TP. Hồ Chí Minh
-                                        </a>
-                                        <h3 class="title__global">
-                                            <a href="detail__real-estate.html" title="Căn hộ Officetel Sky Center Phổ Quang">
-                                                Căn hộ Officetel Sky Center Phổ Quang
-                                            </a>
-                                        </h3>
-                                        <div class="tags__group">
-                                            <span class="tags__item"> 67 m² </span>
-                                            <span class="tags__item"> Ngõ 1 ô tô </span>
-                                            <span class="tags__item">
-                                                2 Phòng ngủ
-                                            </span>
-                                        </div>
-                                        <div class="tags__group">
-                                            <span class="tags__item">Đông nam </span>
-                                            <span class="tags__item">Chính chủ </span>
-                                            <span class="tags__item"> Đã có sổ </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="slide__item">
-                            <div class="slide__box">
-                                <div class="product__global">
-                                    <a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
-                                        <div class="frame">
-                                            <img src="images/product__1.jpg" alt="product__1.jpg" />
-                                        </div>
-                                        <span class="price__global"> 2.15 Tỷ </span>
-                                    </a>
-                                    <div class="content__global">
-                                        <a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
-                                            Quận Tân Bình, TP. Hồ Chí Minh
-                                        </a>
-                                        <h3 class="title__global">
-                                            <a href="detail__real-estate.html" title="Căn hộ Officetel Sky Center Phổ Quang">
-                                                Căn hộ Officetel Sky Center Phổ Quang
-                                            </a>
-                                        </h3>
-                                        <div class="tags__group">
-                                            <span class="tags__item"> 67 m² </span>
-                                            <span class="tags__item"> Ngõ 1 ô tô </span>
-                                            <span class="tags__item">
-                                                2 Phòng ngủ
-                                            </span>
-                                        </div>
-                                        <div class="tags__group">
-                                            <span class="tags__item">Đông nam </span>
-                                            <span class="tags__item">Chính chủ </span>
-                                            <span class="tags__item"> Đã có sổ </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="slide__item">
-                            <div class="slide__box">
-                                <div class="product__global">
-                                    <a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
-                                        <div class="frame">
-                                            <img src="images/product__1.jpg" alt="product__1.jpg" />
-                                        </div>
-                                        <span class="price__global"> 2.15 Tỷ </span>
-                                    </a>
-                                    <div class="content__global">
-                                        <a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
-                                            Quận Tân Bình, TP. Hồ Chí Minh
-                                        </a>
-                                        <h3 class="title__global">
-                                            <a href="detail__real-estate.html" title="Căn hộ Officetel Sky Center Phổ Quang">
-                                                Căn hộ Officetel Sky Center Phổ Quang
-                                            </a>
-                                        </h3>
-                                        <div class="tags__group">
-                                            <span class="tags__item"> 67 m² </span>
-                                            <span class="tags__item"> Ngõ 1 ô tô </span>
-                                            <span class="tags__item">
-                                                2 Phòng ngủ
-                                            </span>
-                                        </div>
-                                        <div class="tags__group">
-                                            <span class="tags__item">Đông nam </span>
-                                            <span class="tags__item">Chính chủ </span>
-                                            <span class="tags__item"> Đã có sổ </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="slide__item">
-                            <div class="slide__box">
-                                <div class="product__global">
-                                    <a href="detail__real-estate.html" class="avatar__global" title="Căn hộ Officetel Sky Center Phổ Quang">
-                                        <div class="frame">
-                                            <img src="images/product__1.jpg" alt="product__1.jpg" />
-                                        </div>
-                                        <span class="price__global"> 2.15 Tỷ </span>
-                                    </a>
-                                    <div class="content__global">
-                                        <a href="https://goo.gl/maps/aYsBuekuAGLvgvj76" target="_bank" class="address__global" title="click để xem google maps">
-                                            Quận Tân Bình, TP. Hồ Chí Minh
-                                        </a>
-                                        <h3 class="title__global">
-                                            <a href="detail__real-estate.html" title="Căn hộ Officetel Sky Center Phổ Quang">
-                                                Căn hộ Officetel Sky Center Phổ Quang
-                                            </a>
-                                        </h3>
-                                        <div class="tags__group">
-                                            <span class="tags__item"> 67 m² </span>
-                                            <span class="tags__item"> Ngõ 1 ô tô </span>
-                                            <span class="tags__item">
-                                                2 Phòng ngủ
-                                            </span>
-                                        </div>
-                                        <div class="tags__group">
-                                            <span class="tags__item">Đông nam </span>
-                                            <span class="tags__item">Chính chủ </span>
-                                            <span class="tags__item"> Đã có sổ </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>

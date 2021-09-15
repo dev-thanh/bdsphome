@@ -123,16 +123,6 @@ class BdsRepositoryEloquent extends BaseRepository implements BdsRepository
 
     }
 
-    // public function getBdsHome()
-    // {
-    //     $data = $this->model->where(
-    //         [
-    //             'status' => 1
-    //         ]
-    //     )->orderBy('created_at','desc')->get();
-
-    //     return $data;
-    // }
     public function getBdsBySlug($slug){
 
         $data = $this->model->where(

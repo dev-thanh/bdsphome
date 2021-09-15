@@ -265,7 +265,7 @@
 								<div class="tab__new page__news-group">
 									@foreach($posts as $item)
 									<div class="new">
-										<a href="{{route('home.services-single',['slug'=>$item->slug])}}" class="frame">
+										<a href="{{route('home.news-single',['slug'=>$item->slug])}}" class="frame">
 											<img src="{{url('/').$item->image}}" alt="{{$item->name}}" />
 										</a>
 										<div class="new__content">
@@ -273,14 +273,14 @@
 												{{format_datetime($item->created_at,'d/m/Y')}}
 											</time>
 											<h3 class="new__title">
-												<a href="{{route('home.services-single',['slug'=>$item->slug])}}" title="{{$item->name}}">
+												<a href="{{route('home.news-single',['slug'=>$item->slug])}}" title="{{$item->name}}">
 													{{$item->name}}
 												</a>
 											</h3>
 											<div class="new__desc">
 												{!! $item->desc !!}
 											</div>
-											<a href="{{route('home.services-single',['slug'=>$item->slug])}}" class="btn btn__global" title="Chi tiết">
+											<a href="{{route('home.news-single',['slug'=>$item->slug])}}" class="btn btn__global" title="Chi tiết">
 												Chi tiết
 											</a>
 										</div>

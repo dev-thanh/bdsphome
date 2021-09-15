@@ -38,6 +38,8 @@ Route::group(['namespace'=>'Frontend','middleware' => 'authMember'], function ()
 
     Route::post('/admin-post/dang-tin/save', 'ProfileController@adminSaveAddPost')->name('admin.add-post-save');
 
+    Route::post('/admin-post/dang-tin/luu-vao-nhap', 'ProfileController@adminSaveDraftPost')->name('admin.add-draft-post');
+
     Route::get('/admin-post/test', 'ProfileController@adminAddPostTest')->name('admin.add-post-test');
 
     Route::get('/get-teamplate-bds/{id}', 'ProfileController@getTeamplateBds')->name('home.get-teamplate');   

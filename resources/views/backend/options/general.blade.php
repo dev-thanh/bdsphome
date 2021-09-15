@@ -22,17 +22,13 @@
 			               	<li class="">
 			               		<a href="#activity4" data-toggle="tab" aria-expanded="true">Mạng xã hội</a>
 							</li>
+							<li class="">
+							   <a href="#activity7" data-toggle="tab" aria-expanded="true">Văn phòng đại diện</a>
+							</li>
 							
-						 	<li class="">
+						 	<!-- <li class="">
 								<a href="#activity8" data-toggle="tab" aria-expanded="true">Top footer</a>
-						 	</li>
-						 	<li class="">
-								<a href="#activity7" data-toggle="tab" aria-expanded="true">Phương thức thanh toán</a>
-						 	</li>
-
-							 <li class="">
-								<a href="#activity9" data-toggle="tab" aria-expanded="true">Điểm thưởng</a>
-						 	</li>
+						 	</li> -->
 
 			            </ul>
 				        <div class="tab-content">
@@ -197,8 +193,8 @@
 							                    <thead>
 								                    <tr>
 														<th style="width: 30px">STT</th>
+								                    	<th>Icon đại diện</th>
 								                    	<th style="max-width: 150px">Tên mạng xã hội</th>
-								                    	<th>Icon</th>
 								                    	<th>Liên kết</th>
 								                    	<th></th>
 								                    </tr>
@@ -206,21 +202,8 @@
 							                    <tbody id="sortable">
 							                    	@if (!empty($content->social))
 							                    		@foreach ($content->social as $id => $val)
-															<tr>
-																<td class="index">{{ $index = $loop->index + 1  }}</td>
-																<td><input type="text" class="form-control" name="content[social][{{$id}}][name]" value="{{ $val->name }}" ></td>
-																<td>
-																	<textarea class="form-control" name="content[social][{{$id}}][image]">{{ @$val->image }}</textarea>
-																</td>
-																<td>
-															        <input type="text" class="form-control" required="" name="content[social][{{$id}}][link]" value="{{ $val->link }}">
-															    </td>
-															    <td style="text-align: center;">
-															        <a href="javascript:void(0);" onclick="$(this).closest('tr').remove()" class="text-danger buttonremovetable" title="Xóa">
-															            <i class="fa fa-minus"></i>
-															        </a>
-															    </td>
-															</tr>
+															@php $index = $loop->index + 1; @endphp
+															@include('backend.repeater.row-social')
 							                    		@endforeach
 							                    	@endif
 												</tbody>
@@ -237,54 +220,28 @@
 							
 							<div class="tab-pane" id="activity7">
 								<div class="row">
-									
 									<div class="col-sm-12">
 										<div class="repeater" id="repeater">
-							                <table class="table table-bordered table-hover payment_methods">
+							                <table class="table table-bordered table-hover office">
 							                    <thead>
 								                    <tr>
 														<th style="width: 30px">STT</th>
-								                    	<th style="width: 200px">Hình ảnh</th>
-								                    	<th>Tiêu đề</th>
+								                    	<th>Nội dung</th>
 								                    	<th></th>
 								                    </tr>
 							                	</thead>
 							                    <tbody id="sortable">
-							                    	@if (!empty($content->payment_methods))
-							                    		@foreach ($content->payment_methods as $id => $val)
-															<tr>
-																<td class="index">{{ $index = $loop->index + 1  }}</td>
-																<td>
-																	<div class="image">
-																		<div class="image__thumbnail">
-																			<img src="{{ !empty($val->image) ? url('/').$val->image : __IMAGE_DEFAULT__ }}"  
-																			data-init="{{ __IMAGE_DEFAULT__ }}">
-																			<a href="javascript:void(0)" class="image__delete" onclick="urlFileDelete(this)">
-																			<i class="fa fa-times"></i></a>
-																			<input type="hidden" value="{{ @$val->image }}" name="content[payment_methods][{{ $id }}][image]"  />
-																			<div class="image__button" onclick="fileSelect(this)"><i class="fa fa-upload"></i> Upload</div>
-																		</div>
-																	</div>
-																</td>
-																<td>
-																	<div class="form-group">
-																        <input type="text" class="form-control" required="" name="content[payment_methods][{{$id}}][title]" value="{{ @$val->title }}">
-																    </div>
-																</td>
-																
-															    <td style="text-align: center;">
-															        <a href="javascript:void(0);" onclick="$(this).closest('tr').remove()" class="text-danger buttonremovetable" title="Xóa">
-															            <i class="fa fa-minus"></i>
-															        </a>
-															    </td>
-															</tr>
+							                    	@if (!empty($content->office))
+														@foreach ($content->office as $key => $val)
+															@php $index = $loop->index + 1; @endphp
+															@include('backend.repeater.row-office')
 							                    		@endforeach
 							                    	@endif
 												</tbody>
 							                </table>
 							                <div class="text-right">
 							                    <button class="btn btn-primary" 
-									            	onclick="repeater(event,this,'{{ route('get.layout') }}','.index', 'payment_methods', '.payment_methods')">Thêm
+									            	onclick="repeater(event,this,'{{ route('get.layout') }}','.index', 'office', '.office')">Thêm
 									            </button>
 							                </div>
 							            </div>
@@ -347,17 +304,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="tab-pane" id="activity9">
-								<div class="row">
-									<div class="col-sm-12">
-									<div class="form-group">
-											<label for="">Số tiền tương đương với 1 điểm thưởng</label>
-											<input type="number" class="form-control" name="content[poin_price]"
-											value="{{ @$content->poin_price }}">
-										</div>
-									</div>
-								</div>
-							</div>
+							
 			            </div>
 			        </div>
                		<div class="row">

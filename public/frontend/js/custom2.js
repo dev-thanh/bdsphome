@@ -169,7 +169,7 @@ $("#files").on("change", handleFileSelect);
 
 $("body").on("click", ".selFile", removeFile);
 
-$(document).on('click','.btn__save_draft_post',function(e){
+$(document).on('click','.btn__save_post',function(e){
 
     const url = $('#form__add__bds').attr('action');
 

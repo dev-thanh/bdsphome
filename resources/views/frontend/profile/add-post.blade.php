@@ -27,58 +27,7 @@
                         Đăng tin
                     </a>
 
-                    <ul class="post__menu">
-                        <li class="active">
-                            <a href="admin-post.html" title="Tất cả tin đăng">
-                                <span class="icon">
-                                    <img src="{{ __BASE_URL__ }}/images/admin/icon__1.png" alt="icon__1.png" />
-                                </span>
-                                <span class="name">
-                                    Tất cả tin đăng
-                                </span>
-                            </a>
-                        </li>
-                        <li class="">
-                            <a href="admin-post.html" title="Tin đang đăng">
-                                <span class="icon">
-                                    <img src="{{ __BASE_URL__ }}/images/admin/icon__2.png" alt="icon__2.png" />
-                                </span>
-                                <span class="name">
-                                    Tin đang đăng
-                                </span>
-                            </a>
-                        </li>
-                        <li class="">
-                            <a href="admin-post.html" title="Tin bị hạ">
-                                <span class="icon">
-                                    <img src="{{ __BASE_URL__ }}/images/admin/icon__3.png" alt="icon__3.png" />
-                                </span>
-                                <span class="name">
-                                    Tin bị hạ
-                                </span>
-                            </a>
-                        </li>
-                        <li class="">
-                            <a href="admin-post.html" title="Tin nháp">
-                                <span class="icon">
-                                    <img src="{{ __BASE_URL__ }}/images/admin/icon__4.png" alt="icon__4.png" />
-                                </span>
-                                <span class="name">
-                                    Tin nháp
-                                </span>
-                            </a>
-                        </li>
-                        <li class="">
-                            <a href="admin-post.html" title="Tin hết hạn">
-                                <span class="icon">
-                                    <img src="{{ __BASE_URL__ }}/images/admin/icon__5.png" alt="icon__5.png" />
-                                </span>
-                                <span class="name">
-                                    Tin hết hạn
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
+                    @include('frontend.profile.quanly-tindang')
                 </div>
             </div>
             <div class="post__main-form">

@@ -190,11 +190,18 @@ class ProfileController extends Controller
         return $data;
     }
 
-    public function adminAddPostTest()
+    public function adminSaveDraftPost(AddPost $request)
     {
-        $auth = Auth::guard('customer')->user();
-        return  view('frontend.profile.add-post-test',compact('auth'));
+        $data = $this->bds->saveDraftPost($request);
+
+        return $data;
     }
+
+    // public function adminAddPostTest()
+    // {
+    //     $auth = Auth::guard('customer')->user();
+    //     return  view('frontend.profile.add-post-test',compact('auth'));
+    // }
 
     public function getTeamplateBds($id)
     {

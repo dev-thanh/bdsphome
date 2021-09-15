@@ -17,6 +17,7 @@
     <link rel="icon" , href="{{ __BASE_URL__ }}/images/icons/favicon-16x16.png" , type="image/x-icon" , sizes="16x16" />
     <link rel="stylesheet" href="{{ __BASE_URL__ }}/css/admin-tool.css">
     <link rel="stylesheet" href="{{ __BASE_URL__ }}/css/admin-main.css" />
+    <link rel="stylesheet" type="text/css" href="{{ __BASE_URL__ }}/css/toastr.min.css" />
     @yield('admin-css')
 </head>
 
@@ -96,6 +97,31 @@
         @yield('main-admin')
         <script type="text/javascript" src="{{ __BASE_URL__ }}/js/admin-tool.js"></script>
         <script type="text/javascript" src="{{ __BASE_URL__ }}/js/admin-main.js"></script>
+        <script type="text/javascript" src="{{ __BASE_URL__ }}/js/toastr.min.js"></script>
+        <script type="text/javascript">
+			$(document).ready(function(){
+				toastr.options = {
+					"closeButton": false,
+					"debug": false,
+					"newestOnTop": false,
+					"progressBar": false,
+					"positionClass": "toast-top-right",
+					"preventDuplicates": false,
+					"onclick": null,
+					"showDuration": "300",
+					"hideDuration": "1000",
+					"timeOut": "5000",
+					"extendedTimeOut": "1000",
+					"showEasing": "swing",
+					"hideEasing": "linear",
+					"showMethod": "fadeIn",
+					"hideMethod": "fadeOut"
+				}
+				var url = '{{url()->current()}}';
+			    var parent_id = $('a[href="'+url+'"]').data('parent');
+			    $('li[data-id="'+parent_id+'"]').addClass('active');
+			});
+		</script>
         @yield('scrip-admin')
     </div>
 </body>

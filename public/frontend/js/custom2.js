@@ -169,9 +169,37 @@ $("#files").on("change", handleFileSelect);
 
 $("body").on("click", ".selFile", removeFile);
 
-$(document).on('click','.btn__save_post',function(e){
+$(document).on('click','.btn__save_draft_post',function(e){
 
     const url = $('#form__add__bds').attr('action');
+
+    CKEDITOR.instances['editor2'].updateElement();
+
+    const data = new FormData($('#form__add__bds')[0]);
+
+    const fileInput = $("#file").val();
+
+    if(fileInput){
+
+        data.append('file',$('#file')[0].files[0]);
+    }
+
+
+    data.append('count_file',storedFiles.length);
+
+    for (var i = 0, len = storedFiles.length; i < len; i++) {
+        data.append('files-'+i, storedFiles[i]);
+      }
+    
+    $('.fr-error').html('');
+
+    savePost(url,data);
+    
+});
+
+$(document).on('click','.btn__save_draft_post',function(e){
+
+    const url = $(this).data('url');
 
     CKEDITOR.instances['editor2'].updateElement();
 

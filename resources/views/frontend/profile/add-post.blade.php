@@ -331,7 +331,7 @@
                 <div class="control__view">
                     <button class="btn btn__save btn__save_post">Đăng tin</button>
                     <button class="btn btn__cancel">Hủy</button>
-                    <button class="btn btn__draft">Lưu vào tin nháp</button>
+                    <button class="btn btn__draft btn__save_draft_post" data-url="{{route('admin.add-draft-post')}}">Lưu vào tin nháp</button>
                 </div>
             </div>
         </section>
